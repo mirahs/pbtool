@@ -13,7 +13,6 @@ require "network/net"
 require "network/packet"
 
 require "socket"
-require "pack"
 
 
 local host	= "127.0.0.1"

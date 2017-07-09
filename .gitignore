@@ -65,3 +65,4 @@ examples/golang/bin
 examples/golang/pkg
 examples/java/*/*.class
 examples/java/*/*/*.class
+examples/php/*/vendor

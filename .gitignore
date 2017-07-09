@@ -59,4 +59,4 @@ target/
 
 # mirahs
 .idea
-examples/erlang/*/ebin
+examples/erlang/*/ebin/*.beam

@@ -61,3 +61,7 @@ target/
 .idea
 examples/erlang/*/ebin/*.beam
 examples/csharp/*/*.exe
+examples/golang/bin
+examples/golang/pkg
+examples/java/*/*.class
+examples/java/*/*/*.class

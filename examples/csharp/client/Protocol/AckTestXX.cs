@@ -7,7 +7,7 @@ public class AckTestXX
 	private byte _id_u8;
 	private ushort _id_u16;
 	private uint _id_u32;
-	private List<byte> _repeat_id_u8;
+	private List<byte> _repeat_id_u8 = new List<byte>();
 	private byte optional_id_u8_flag;
 	private byte _optional_id_u8;
 

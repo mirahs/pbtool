@@ -18,6 +18,10 @@ public class MsgSceneVector3
 		return packet;
 	}
 
+	public MsgSceneVector3()
+	{
+	}
+
 	public MsgSceneVector3(Packet packet)
 	{
 		this._x = packet.ReadShort();

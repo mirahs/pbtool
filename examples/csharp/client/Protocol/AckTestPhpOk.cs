@@ -9,7 +9,7 @@ public class AckTestPhpOk
 	private MsgTestPhp _msg_req;
 	private byte msg_opt_flag;
 	private MsgTestPhp _msg_opt;
-	private List<MsgTestPhp> _msg_rep;
+	private List<MsgTestPhp> _msg_rep = new List<MsgTestPhp>();
 
 
 	public AckTestPhpOk(Packet packet)

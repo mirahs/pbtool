@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class AckScenePlayers
 {
-	private List<MsgScenePlayer> _players;
+	private List<MsgScenePlayer> _players = new List<MsgScenePlayer>();
 
 
 	public AckScenePlayers(Packet packet)

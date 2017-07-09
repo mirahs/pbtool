@@ -60,3 +60,4 @@ target/
 # mirahs
 .idea
 examples/erlang/*/ebin/*.beam
+examples/csharp/*/*.exe

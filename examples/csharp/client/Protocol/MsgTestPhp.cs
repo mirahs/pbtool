@@ -14,6 +14,10 @@ public class MsgTestPhp
 		return packet;
 	}
 
+	public MsgTestPhp()
+	{
+	}
+
 	public MsgTestPhp(Packet packet)
 	{
 		this._u16 = packet.ReadUshort();

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class MsgTestXX
 {
 	private byte _id_u8;
-	private List<float> _id_f32;
+	private List<float> _id_f32 = new List<float>();
 	private byte id_op_u8_flag;
 	private byte _id_op_u8;
 
@@ -27,6 +27,10 @@ public class MsgTestXX
 			packet.WriteByte(this._id_op_u8);
 		}
 		return packet;
+	}
+
+	public MsgTestXX()
+	{
 	}
 
 	public MsgTestXX(Packet packet)

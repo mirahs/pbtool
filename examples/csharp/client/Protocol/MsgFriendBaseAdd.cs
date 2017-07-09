@@ -16,6 +16,10 @@ public class MsgFriendBaseAdd
 		return packet;
 	}
 
+	public MsgFriendBaseAdd()
+	{
+	}
+
 	public MsgFriendBaseAdd(Packet packet)
 	{
 		this._uid = packet.ReadUint();

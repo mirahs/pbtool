@@ -24,6 +24,10 @@ public class MsgSceneRotPos
 		return packet;
 	}
 
+	public MsgSceneRotPos()
+	{
+	}
+
 	public MsgSceneRotPos(Packet packet)
 	{
 		this._rot_x = packet.ReadShort();

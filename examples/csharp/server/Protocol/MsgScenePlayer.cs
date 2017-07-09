@@ -16,6 +16,10 @@ public class MsgScenePlayer
 		return packet;
 	}
 
+	public MsgScenePlayer()
+	{
+	}
+
 	public MsgScenePlayer(Packet packet)
 	{
 		this._uid = packet.ReadUint();

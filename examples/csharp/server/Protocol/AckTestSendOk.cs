@@ -6,7 +6,7 @@ public class AckTestSendOk
 {
 	private byte _id_u8;
 	private MsgRoleBase _role_base;
-	private List<float> _id_f32;
+	private List<float> _id_f32 = new List<float>();
 	private byte id_op_u8_flag;
 	private byte _id_op_u8;
 	private byte op_role_base_flag;

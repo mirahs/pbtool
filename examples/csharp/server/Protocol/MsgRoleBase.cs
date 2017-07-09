@@ -16,6 +16,10 @@ public class MsgRoleBase
 		return packet;
 	}
 
+	public MsgRoleBase()
+	{
+	}
+
 	public MsgRoleBase(Packet packet)
 	{
 		this._uid = packet.ReadUint();

@@ -30,6 +30,8 @@ data_xml			= data_dir + 'data.xml/'
     java_client
     lua_server
     lua_client
+    lua53_server
+    lua53_client
     python_server
     python_client
     php_server
@@ -91,6 +93,15 @@ langs_proto = [
     {
         'lang':     'lua_server',
         'code':     'data.code.lua.server',
+    },
+{
+        'lang':     'lua53_client',
+        'code':     'data.code.lua53.client',
+        'common':   '',
+    },
+    {
+        'lang':     'lua53_server',
+        'code':     'data.code.lua53.server',
     },
     {
         'lang':     'python_server',

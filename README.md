@@ -12,6 +12,7 @@
 * [c++](examples/cpp)
 * [java](examples/java)
 * [lua](examples/lua)
+* [lua53](examples/lua53)
 * [python](examples/python)
 * [php](examples/php)
 

@@ -127,7 +127,7 @@ class ProtoLua(object):
 					self._str_encode += '\t' + 'pack:write' + field_type + '(self.' + field_name + ')\n'
 			elif 'repeated' == field_op:
 				field_name_count = field_name + '_count'
-				self._str_encode += '\t' + field_name_count + ' = table.getn(self.' + field_name + ')\n'
+				self._str_encode += '\t' + field_name_count + ' = #self.' + field_name + '\n'
 				self._str_encode += '\t' + 'pack:writeU16(' + field_name_count + ')\n'
 				self._str_encode += '\tfor i = 1, ' + field_name_count + ' do\n'
 				if field_type.startswith('Msg'):

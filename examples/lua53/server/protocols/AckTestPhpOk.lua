@@ -31,7 +31,7 @@ function encode(self)
 	if self.msg_opt_flag then
 		pack:writeBytes(self.msg_opt:getBytes())
 	end
-	msg_rep_count = table.getn(self.msg_rep)
+	msg_rep_count = #self.msg_rep
 	pack:writeU16(msg_rep_count)
 	for i = 1, msg_rep_count do
 		pack:writeBytes(table.remove(self.msg_rep):getBytes())

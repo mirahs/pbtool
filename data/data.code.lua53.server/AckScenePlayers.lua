@@ -19,7 +19,7 @@ end
 
 function encode(self)
 	pack = packet.new()
-	players_count = table.getn(self.players)
+	players_count = #self.players
 	pack:writeU16(players_count)
 	for i = 1, players_count do
 		pack:writeBytes(table.remove(self.players):getBytes())

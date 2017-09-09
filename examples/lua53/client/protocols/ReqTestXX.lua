@@ -27,7 +27,7 @@ function encode(self)
 	pack:writeU8(self.id_u8)
 	pack:writeU16(self.id_u16)
 	pack:writeU32(self.id_u32)
-	repeat_id_u8_count = table.getn(self.repeat_id_u8)
+	repeat_id_u8_count = #self.repeat_id_u8
 	pack:writeU16(repeat_id_u8_count)
 	for i = 1, repeat_id_u8_count do
 		pack:writeU8(table.remove(self.repeat_id_u8))

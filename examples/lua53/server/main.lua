@@ -12,7 +12,7 @@ require "protocols/Msg"
 require "network/net"
 require "network/packet"
 
-require "socket"
+local socket = require "socket"
 
 
 local host	= "127.0.0.1"

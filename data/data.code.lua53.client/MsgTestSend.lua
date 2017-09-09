@@ -27,7 +27,7 @@ function encode(self)
 	pack = packet.new()
 	pack:writeU8(self.id_u8)
 	pack:writeBytes(self.role_base:getBytes())
-	id_f32_count = table.getn(self.id_f32)
+	id_f32_count = #self.id_f32
 	pack:writeU16(id_f32_count)
 	for i = 1, id_f32_count do
 		pack:writeF32(table.remove(self.id_f32))

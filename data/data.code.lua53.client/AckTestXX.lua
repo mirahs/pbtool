@@ -1,4 +1,4 @@
-local AckTestXX = {}
+AckTestXX = {}
 setmetatable(AckTestXX, {__index = _G})
 local _ENV = AckTestXX
 

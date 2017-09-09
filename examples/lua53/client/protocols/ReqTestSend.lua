@@ -1,4 +1,4 @@
-local ReqTestSend = {}
+ReqTestSend = {}
 setmetatable(ReqTestSend, {__index = _G})
 local _ENV = ReqTestSend
 

@@ -1,4 +1,4 @@
-local ReqTestXX = {}
+ReqTestXX = {}
 setmetatable(ReqTestXX, {__index = _G})
 local _ENV = ReqTestXX
 

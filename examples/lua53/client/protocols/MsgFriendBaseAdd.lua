@@ -1,4 +1,4 @@
-local MsgFriendBaseAdd = {}
+MsgFriendBaseAdd = {}
 setmetatable(MsgFriendBaseAdd, {__index = _G})
 local _ENV = MsgFriendBaseAdd
 

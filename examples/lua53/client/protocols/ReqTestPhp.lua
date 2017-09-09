@@ -1,4 +1,4 @@
-local ReqTestPhp = {}
+ReqTestPhp = {}
 setmetatable(ReqTestPhp, {__index = _G})
 local _ENV = ReqTestPhp
 

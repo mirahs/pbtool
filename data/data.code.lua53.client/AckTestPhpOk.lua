@@ -1,4 +1,4 @@
-local AckTestPhpOk = {}
+AckTestPhpOk = {}
 setmetatable(AckTestPhpOk, {__index = _G})
 local _ENV = AckTestPhpOk
 

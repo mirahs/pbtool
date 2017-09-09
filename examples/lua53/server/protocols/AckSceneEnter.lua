@@ -1,4 +1,4 @@
-local AckSceneEnter = {}
+AckSceneEnter = {}
 setmetatable(AckSceneEnter, {__index = _G})
 local _ENV = AckSceneEnter
 

@@ -1,4 +1,4 @@
-local MsgTestPhp = {}
+MsgTestPhp = {}
 setmetatable(MsgTestPhp, {__index = _G})
 local _ENV = MsgTestPhp
 

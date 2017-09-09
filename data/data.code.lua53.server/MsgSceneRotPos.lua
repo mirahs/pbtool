@@ -1,4 +1,4 @@
-local MsgSceneRotPos = {}
+MsgSceneRotPos = {}
 setmetatable(MsgSceneRotPos, {__index = _G})
 local _ENV = MsgSceneRotPos
 

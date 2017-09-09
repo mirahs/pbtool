@@ -1,4 +1,4 @@
-local MsgRoleBase = {}
+MsgRoleBase = {}
 setmetatable(MsgRoleBase, {__index = _G})
 local _ENV = MsgRoleBase
 

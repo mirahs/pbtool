@@ -1,4 +1,4 @@
-local AckChatSendOk = {}
+AckChatSendOk = {}
 setmetatable(AckChatSendOk, {__index = _G})
 local _ENV = AckChatSendOk
 

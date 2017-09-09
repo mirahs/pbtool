@@ -1,4 +1,4 @@
-local AckRoleLoginOkNoRole = {}
+AckRoleLoginOkNoRole = {}
 setmetatable(AckRoleLoginOkNoRole, {__index = _G})
 local _ENV = AckRoleLoginOkNoRole
 

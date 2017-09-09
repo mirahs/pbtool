@@ -1,4 +1,4 @@
-local ReqSceneEnter = {}
+ReqSceneEnter = {}
 setmetatable(ReqSceneEnter, {__index = _G})
 local _ENV = ReqSceneEnter
 

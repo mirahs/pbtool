@@ -1,4 +1,4 @@
-local ReqChatGm = {}
+ReqChatGm = {}
 setmetatable(ReqChatGm, {__index = _G})
 local _ENV = ReqChatGm
 

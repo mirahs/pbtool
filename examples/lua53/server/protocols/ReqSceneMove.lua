@@ -1,4 +1,4 @@
-local ReqSceneMove = {}
+ReqSceneMove = {}
 setmetatable(ReqSceneMove, {__index = _G})
 local _ENV = ReqSceneMove
 

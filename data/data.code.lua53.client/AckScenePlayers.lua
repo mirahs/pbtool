@@ -1,4 +1,4 @@
-local AckScenePlayers = {}
+AckScenePlayers = {}
 setmetatable(AckScenePlayers, {__index = _G})
 local _ENV = AckScenePlayers
 

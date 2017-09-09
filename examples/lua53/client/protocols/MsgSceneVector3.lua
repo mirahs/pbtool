@@ -1,4 +1,4 @@
-local MsgSceneVector3 = {}
+MsgSceneVector3 = {}
 setmetatable(MsgSceneVector3, {__index = _G})
 local _ENV = MsgSceneVector3
 

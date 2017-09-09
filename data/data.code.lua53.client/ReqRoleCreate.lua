@@ -1,4 +1,4 @@
-local ReqRoleCreate = {}
+ReqRoleCreate = {}
 setmetatable(ReqRoleCreate, {__index = _G})
 local _ENV = ReqRoleCreate
 

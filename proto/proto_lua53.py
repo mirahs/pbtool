@@ -42,7 +42,8 @@ def protocol_msg(code_path, mess_name_ids):
 	file_name		= code_path + 'Msg.lua'
 	file_protocols	= code_path + 'Protocols.lua'
 
-	_str_msg_head	= 'local M = {}\nlocal moduleName = ...\n_G[moduleName] = M\nsetmetatable(M, {__index = _G})\nlocal _ENV = M\n\n\n'
+	# _str_msg_head	= 'local M = {}\nlocal moduleName = ...\n_G[moduleName] = M\nsetmetatable(M, {__index = _G})\nlocal _ENV = M\n\n\n'
+	_str_msg_head	= 'Msg = {}\nsetmetatable(Msg, {__index = _G})\nlocal _ENV = Msg\n'
 	_str_msg		= ''
 	_str_protocols	= ''
 	for mess_name_id in mess_name_ids:
@@ -84,7 +85,7 @@ class ProtoLua(object):
 
 	def _set_head(self):
 		# self._str_head = 'local M = {}\nlocal moduleName = ...\n_G[moduleName] = M\nsetmetatable(M, {__index = _G})\nlocal _ENV = M\n'
-		self._str_head = 'local ' + self._str_class_name + ' = {}\nsetmetatable(' + self._str_class_name + ', {__index = _G})\nlocal _ENV = ' + self._str_class_name + '\n'
+		self._str_head = self._str_class_name + ' = {}\nsetmetatable(' + self._str_class_name + ', {__index = _G})\nlocal _ENV = ' + self._str_class_name + '\n'
 
 	def _set_new(self):
 		self._str_new = 'function new()\n\tlocal tab_obj = {}\n\tsetmetatable(tab_obj, {__index = ' + self._str_class_name + '})\n\ttab_obj:init()\n\treturn tab_obj\nend\n'

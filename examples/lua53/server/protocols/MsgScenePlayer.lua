@@ -1,4 +1,4 @@
-local MsgScenePlayer = {}
+MsgScenePlayer = {}
 setmetatable(MsgScenePlayer, {__index = _G})
 local _ENV = MsgScenePlayer
 

@@ -1,10 +1,6 @@
-local M = {}
-local moduleName = ...
-_G[moduleName] = M
-setmetatable(M, {__index = _G})
-local _ENV = M
-
-
+Msg = {}
+setmetatable(Msg, {__index = _G})
+local _ENV = Msg
 -- [1510]发送聊天信息
 P_REQ_CHAT_SEND                     = 1510
 

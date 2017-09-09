@@ -1,4 +1,4 @@
-local MsgTestSend = {}
+MsgTestSend = {}
 setmetatable(MsgTestSend, {__index = _G})
 local _ENV = MsgTestSend
 

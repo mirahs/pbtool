@@ -1,4 +1,4 @@
-local AckSceneMove = {}
+AckSceneMove = {}
 setmetatable(AckSceneMove, {__index = _G})
 local _ENV = AckSceneMove
 

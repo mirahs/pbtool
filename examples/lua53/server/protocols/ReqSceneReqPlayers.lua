@@ -1,4 +1,4 @@
-local ReqSceneReqPlayers = {}
+ReqSceneReqPlayers = {}
 setmetatable(ReqSceneReqPlayers, {__index = _G})
 local _ENV = ReqSceneReqPlayers
 

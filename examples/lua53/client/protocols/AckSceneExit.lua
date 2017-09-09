@@ -1,4 +1,4 @@
-local AckSceneExit = {}
+AckSceneExit = {}
 setmetatable(AckSceneExit, {__index = _G})
 local _ENV = AckSceneExit
 

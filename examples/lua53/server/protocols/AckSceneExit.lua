@@ -1,8 +1,6 @@
-local M = {}
-local moduleName = ...
-_G[moduleName] = M
-setmetatable(M, {__index = _G})
-local _ENV = M
+local AckSceneExit = {}
+setmetatable(AckSceneExit, {__index = _G})
+local _ENV = AckSceneExit
 
 
 function new()

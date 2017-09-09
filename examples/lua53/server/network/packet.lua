@@ -1,8 +1,11 @@
-local M = {}
-local moduleName = ...
-_G[moduleName] = M
-setmetatable(M, {__index = _G})
-local _ENV = M
+-- local M = {}
+-- local moduleName = ...
+-- _G[moduleName] = M
+-- setmetatable(M, {__index = _G})
+-- local _ENV = M
+packet = {}
+setmetatable(packet, {__index = _G})
+local _ENV = packet
 
 
 function new(buff)

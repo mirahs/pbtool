@@ -1,8 +1,6 @@
-local M = {}
-local moduleName = ...
-_G[moduleName] = M
-setmetatable(M, {__index = _G})
-local _ENV = M
+local MsgTestPhp = {}
+setmetatable(MsgTestPhp, {__index = _G})
+local _ENV = MsgTestPhp
 
 
 function new()

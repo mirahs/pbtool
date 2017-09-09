@@ -1,12 +1,15 @@
-require "socket"
+local socket = require "socket"
 require "pack"
 
 
-local M = {}
-local moduleName = ...
-_G[moduleName] = M
-setmetatable(M, {__index = _G})
-local _ENV = M
+-- local M = {}
+-- local moduleName = ...
+-- _G[moduleName] = M
+-- setmetatable(M, {__index = _G})
+-- local _ENV = M
+net = {}
+setmetatable(net, {__index = _G})
+local _ENV = net
 
 
 function new(ip, port)

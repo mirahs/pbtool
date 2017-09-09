@@ -1,8 +1,6 @@
-local M = {}
-local moduleName = ...
-_G[moduleName] = M
-setmetatable(M, {__index = _G})
-local _ENV = M
+local AckRoleLoginOk = {}
+setmetatable(AckRoleLoginOk, {__index = _G})
+local _ENV = AckRoleLoginOk
 
 
 function new()

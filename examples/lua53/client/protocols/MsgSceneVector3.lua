@@ -1,8 +1,6 @@
-local M = {}
-local moduleName = ...
-_G[moduleName] = M
-setmetatable(M, {__index = _G})
-local _ENV = M
+local MsgSceneVector3 = {}
+setmetatable(MsgSceneVector3, {__index = _G})
+local _ENV = MsgSceneVector3
 
 
 function new()

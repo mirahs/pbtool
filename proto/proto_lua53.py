@@ -83,7 +83,8 @@ class ProtoLua(object):
 		self._str_class_name= tool.lua_class_name(self._mess_name)
 
 	def _set_head(self):
-		self._str_head = 'local M = {}\nlocal moduleName = ...\n_G[moduleName] = M\nsetmetatable(M, {__index = _G})\nlocal _ENV = M\n'
+		# self._str_head = 'local M = {}\nlocal moduleName = ...\n_G[moduleName] = M\nsetmetatable(M, {__index = _G})\nlocal _ENV = M\n'
+		self._str_head = 'local ' + self._str_class_name + ' = {}\nsetmetatable(' + self._str_class_name + ', {__index = _G})\nlocal _ENV = ' + self._str_class_name + '\n'
 
 	def _set_new(self):
 		self._str_new = 'function new()\n\tlocal tab_obj = {}\n\tsetmetatable(tab_obj, {__index = ' + self._str_class_name + '})\n\ttab_obj:init()\n\treturn tab_obj\nend\n'

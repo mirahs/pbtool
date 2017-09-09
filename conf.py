@@ -94,7 +94,7 @@ langs_proto = [
         'lang':     'lua_server',
         'code':     'data.code.lua.server',
     },
-{
+    {
         'lang':     'lua53_client',
         'code':     'data.code.lua53.client',
         'common':   '',
@@ -102,6 +102,11 @@ langs_proto = [
     {
         'lang':     'lua53_server',
         'code':     'data.code.lua53.server',
+    },
+    {
+        'lang':     'xlua_client',
+        'code':     'data.code.xlua.client',
+        'common':   '',
     },
     {
         'lang':     'python_server',

@@ -24,12 +24,14 @@ packet.WriteDouble(1.22);
 packet.WriteUlong(4294967296666);
 packet.WriteLong(4294967298888);
 
-packet.OffsetReset();
+//packet.OffsetReset();
+var bf = packet.GetBuffer();
+var packet2 = new Packet(bf);
 
-console.log('packet.ReadUshort(): ' + packet.ReadUshort());
-console.log('packet.ReadUint(): ' + packet.ReadUint());
-console.log('packet.ReadString(): ' + packet.ReadString());
-console.log('packet.ReadFloat(): ' + packet.ReadFloat());
-console.log('packet.ReadDouble(): ' + packet.ReadDouble());
-console.log('packet.ReadUlong(): ' + packet.ReadUlong());
-console.log('packet.ReadLong(): ' + packet.ReadLong());
+console.log('packet.ReadUshort(): ' + packet2.ReadUshort());
+console.log('packet.ReadUint(): ' + packet2.ReadUint());
+console.log('packet.ReadString(): ' + packet2.ReadString());
+console.log('packet.ReadFloat(): ' + packet2.ReadFloat());
+console.log('packet.ReadDouble(): ' + packet2.ReadDouble());
+console.log('packet.ReadUlong(): ' + packet2.ReadUlong());
+console.log('packet.ReadLong(): ' + packet2.ReadLong());

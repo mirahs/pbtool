@@ -13,10 +13,10 @@ var packet = new Packet();
 
 packet.WriteUshort(10086);
 
-// packet.WriteUint(1008611);
-var b1 = new Buffer(4);
-b1.writeUInt32BE(1008611);
-packet.WriteBuffer(b1);
+packet.WriteUint(1008611);
+// var b1 = new Buffer(4);
+// b1.writeUInt32BE(1008611);
+// packet.WriteBuffer(b1);
 
 packet.WriteString('你好啊');
 packet.WriteFloat(1.1);

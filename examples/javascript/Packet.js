@@ -2,8 +2,24 @@ module.exports = Packet;
 
 
 function Packet(buffer) {
-	this._buffer = buffer ? buffer : new Buffer(100);
+	this.slice_size = 64;
+
+	this._len = 0;
+	this._cap = this.slice_size;
+
+	this._buffer = buffer ? buffer : new Buffer(this._cap);
 	this._offset = 0;
+
+
+	this.ReAllocate = function(size) {
+		var newSize = this._len + size;
+		this._len += size;
+		if (newSize <= this._cap) { return; }
+		this._cap = (Math.floor((newSize / this.slice_size)) + 1) * this.slice_size;
+		var newBuff = new Buffer(this._cap);
+		this._buffer.copy(newBuff, 0, 0, this._len);
+		this._buffer = newBuff;
+	}
 
 
 	this.Encode = function() {
@@ -24,31 +40,37 @@ function Packet(buffer) {
 
 
 	this.WriteByte = function(v) {
+		this.ReAllocate(1);
 		this._buffer.writeUInt8BE(v, this._offset);
 		this._offset += 1;
 	}
 
 	this.WriteSbyte = function(v) {
+		this.ReAllocate(1);
 		this._buffer.writeInt8BE(v, this._offset);
 		this._offset += 1;
 	}
 
 	this.WriteUshort = function(v) {
+		this.ReAllocate(2);
 		this._buffer.writeUInt16BE(v, this._offset);
 		this._offset += 2;
 	}
 
 	this.WriteShort = function(v) {
+		this.ReAllocate(2);
 		this._buffer.writeInt16BE(v, this._offset);
 		this._offset += 2;
 	}
 
 	this.WriteUint = function(v) {
+		this.ReAllocate(4);
 		this._buffer.writeUInt32BE(v, this._offset);
 		this._offset += 4;
 	}
 
 	this.WriteInt = function(v) {
+		this.ReAllocate(4);
 		this._buffer.writeInt32BE(v, this._offset);
 		this._offset += 4;
 	}
@@ -62,11 +84,13 @@ function Packet(buffer) {
 	}
 
 	this.WriteFloat = function(v) {
+		this.ReAllocate(4);
 		this._buffer.writeFloatBE(v, this._offset);
 		this._offset += 4;
 	}
 
 	this.WriteDouble = function(v) {
+		this.ReAllocate(8);
 		this._buffer.writeDoubleBE(v, this._offset);
 		this._offset += 8;
 	}
@@ -74,12 +98,14 @@ function Packet(buffer) {
 	this.WriteString = function(v) {
 		var len = Buffer.byteLength(v, 'utf8');
 		this.WriteUshort(len);
+		this.ReAllocate(len);
 		this._buffer.write(v, this._offset, 'utf8');
 		this._offset += len;
 	}
 
 	this.WriteBuffer = function(v) {
 		var len = v.length;
+		this.ReAllocate(len);
 		v.copy(this._buffer, this._offset, 0, len);
 		this._offset += len;
 	}

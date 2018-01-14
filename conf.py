@@ -124,6 +124,10 @@ langs_proto = [
         'lang':     'php_client',
         'code':     'data.code.php.client',
     },
+{
+        'lang':     'javascript_client',
+        'code':     'data.code.javascript.client',
+    },
 ]
 
 '''

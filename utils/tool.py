@@ -133,6 +133,25 @@ def python_class_name(mess_name):
 		return mess_name
 
 
+def javascript_proto_name_msg(mess_name):
+	under_upper_mess_name	= camel_to_underline(mess_name[1:]).upper()
+	if mess_name.startswith('C'):
+		return 'REQ_' + under_upper_mess_name
+	elif mess_name.startswith('S'):
+		return 'ACK_' + under_upper_mess_name
+	else:
+		return camel_to_underline(mess_name).upper()
+
+
+def javascript_class_name(mess_name):
+	if mess_name.startswith('C'):
+		return 'Req' + mess_name[1:]
+	elif mess_name.startswith('S'):
+		return 'Ack' + mess_name[1:]
+	else:
+		return mess_name
+
+
 def get_head(key, key_fileds):
 	str_head	= "-module(data_" + key + ").\n\n"
 	str_head	+= "-include(\"common.hrl\").\n\n"

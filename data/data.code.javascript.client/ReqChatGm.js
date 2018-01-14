@@ -16,9 +16,9 @@ var ReqChatGm = function() {
 
 
 	this.SetContent(content) {
-		this.content = content;
+		this._content = content;
 	}
 	this.GetContent() {
-		return this.content;
+		return this._content;
 	}
 }

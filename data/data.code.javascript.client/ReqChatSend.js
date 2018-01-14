@@ -20,23 +20,23 @@ var ReqChatSend = function() {
 
 
 	this.SetChannel(channel) {
-		this.channel = channel;
+		this._channel = channel;
 	}
 	this.GetChannel() {
-		return this.channel;
+		return this._channel;
 	}
 
 	this.SetDestUid(dest_uid) {
-		this.dest_uid = dest_uid;
+		this._dest_uid = dest_uid;
 	}
 	this.GetDestUid() {
-		return this.dest_uid;
+		return this._dest_uid;
 	}
 
 	this.SetContent(content) {
-		this.content = content;
+		this._content = content;
 	}
 	this.GetContent() {
-		return this.content;
+		return this._content;
 	}
 }

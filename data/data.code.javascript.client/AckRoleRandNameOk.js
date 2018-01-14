@@ -13,9 +13,9 @@ var AckRoleRandNameOk = function() {
 
 
 	this.SetUname(uname) {
-		this.uname = uname;
+		this._uname = uname;
 	}
 	this.GetUname() {
-		return this.uname;
+		return this._uname;
 	}
 }

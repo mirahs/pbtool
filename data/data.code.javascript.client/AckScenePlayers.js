@@ -18,9 +18,9 @@ var AckScenePlayers = function() {
 
 
 	this.SetPlayers(players) {
-		this.players = players;
+		this._players = players;
 	}
 	this.GetPlayers() {
-		return this.players;
+		return this._players;
 	}
 }

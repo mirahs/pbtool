@@ -23,9 +23,9 @@ var MsgTestPhp = function() {
 
 
 	this.SetU16(u16) {
-		this.u16 = u16;
+		this._u16 = u16;
 	}
 	this.GetU16() {
-		return this.u16;
+		return this._u16;
 	}
 }

@@ -19,30 +19,30 @@ var AckChatSendOk = function() {
 
 
 	this.SetChannel(channel) {
-		this.channel = channel;
+		this._channel = channel;
 	}
 	this.GetChannel() {
-		return this.channel;
+		return this._channel;
 	}
 
 	this.SetUid(uid) {
-		this.uid = uid;
+		this._uid = uid;
 	}
 	this.GetUid() {
-		return this.uid;
+		return this._uid;
 	}
 
 	this.SetUname(uname) {
-		this.uname = uname;
+		this._uname = uname;
 	}
 	this.GetUname() {
-		return this.uname;
+		return this._uname;
 	}
 
 	this.SetContent(content) {
-		this.content = content;
+		this._content = content;
 	}
 	this.GetContent() {
-		return this.content;
+		return this._content;
 	}
 }

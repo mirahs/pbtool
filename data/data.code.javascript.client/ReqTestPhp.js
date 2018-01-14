@@ -8,7 +8,7 @@ var ReqTestPhp = function() {
 	this._u64 = undefined;
 	this._strxx = undefined;
 	this._msg_req = undefined;
-	this.msg_opt_flag = 0;
+	this._msg_opt_flag = 0;
 	this._msg_opt = undefined;
 	this._msg_rep = new Array();
 
@@ -18,8 +18,8 @@ var ReqTestPhp = function() {
 		packet.WriteUlong(this._u64);
 		packet.WriteString(this._strxx);
 		packet.WriteBuffer(this._msg_req.GetBuffer());
-		packet.WriteByte(msg_opt_flag);
-		if (this.msg_opt_flag == 1)
+		packet.WriteByte(this._msg_opt_flag);
+		if (this._msg_opt_flag == 1)
 		{
 			packet.WriteBuffer(this._msg_opt.GetBuffer());
 		}
@@ -36,38 +36,38 @@ var ReqTestPhp = function() {
 
 
 	this.SetU64(u64) {
-		this.u64 = u64;
+		this._u64 = u64;
 	}
 	this.GetU64() {
-		return this.u64;
+		return this._u64;
 	}
 
 	this.SetStrxx(strxx) {
-		this.strxx = strxx;
+		this._strxx = strxx;
 	}
 	this.GetStrxx() {
-		return this.strxx;
+		return this._strxx;
 	}
 
 	this.SetMsgReq(msg_req) {
-		this.msg_req = msg_req;
+		this._msg_req = msg_req;
 	}
 	this.GetMsgReq() {
-		return this.msg_req;
+		return this._msg_req;
 	}
 
 	this.SetMsgOpt(msg_opt) {
-		this.msg_opt_flag = 1;
-		this.msg_opt = msg_opt;
+		this._msg_opt_flag = 1;
+		this._msg_opt = msg_opt;
 	}
 	this.GetMsgOpt() {
-		return this.msg_opt;
+		return this._msg_opt;
 	}
 
 	this.SetMsgRep(msg_rep) {
-		this.msg_rep = msg_rep;
+		this._msg_rep = msg_rep;
 	}
 	this.GetMsgRep() {
-		return this.msg_rep;
+		return this._msg_rep;
 	}
 }

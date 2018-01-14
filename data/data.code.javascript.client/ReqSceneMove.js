@@ -24,30 +24,30 @@ var ReqSceneMove = function() {
 
 
 	this.SetSceneRotPos(scene_rot_pos) {
-		this.scene_rot_pos = scene_rot_pos;
+		this._scene_rot_pos = scene_rot_pos;
 	}
 	this.GetSceneRotPos() {
-		return this.scene_rot_pos;
+		return this._scene_rot_pos;
 	}
 
 	this.SetForward(forward) {
-		this.forward = forward;
+		this._forward = forward;
 	}
 	this.GetForward() {
-		return this.forward;
+		return this._forward;
 	}
 
 	this.SetAniName(ani_name) {
-		this.ani_name = ani_name;
+		this._ani_name = ani_name;
 	}
 	this.GetAniName() {
-		return this.ani_name;
+		return this._ani_name;
 	}
 
 	this.SetXAxis(x_axis) {
-		this.x_axis = x_axis;
+		this._x_axis = x_axis;
 	}
 	this.GetXAxis() {
-		return this.x_axis;
+		return this._x_axis;
 	}
 }

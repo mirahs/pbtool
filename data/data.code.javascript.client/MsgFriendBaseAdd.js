@@ -26,16 +26,16 @@ var MsgFriendBaseAdd = function() {
 
 
 	this.SetUid(uid) {
-		this.uid = uid;
+		this._uid = uid;
 	}
 	this.GetUid() {
-		return this.uid;
+		return this._uid;
 	}
 
 	this.SetUname(uname) {
-		this.uname = uname;
+		this._uname = uname;
 	}
 	this.GetUname() {
-		return this.uname;
+		return this._uname;
 	}
 }

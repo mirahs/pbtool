@@ -106,7 +106,7 @@ class ProtoJavaScript(object):
 			field_op 		= mess_field['field_op']
 			field_type 		= mess_field['field_type']
 			field_name 		= mess_field['field_name']
-			field_name_flag = field_name + '_flag'
+			field_name_flag = '_' + field_name + '_flag'
 			field_name_m	= '_' + field_name
 			if field_op == 'repeated':
 				self._str_priv_var += '\tthis.' + field_name_m + ' = new Array()' + ';\n'
@@ -123,7 +123,7 @@ class ProtoJavaScript(object):
 			field_type 		= mess_field['field_type']
 			field_type_big	= field_type.capitalize()
 			field_name 		= mess_field['field_name']
-			field_name_flag	= field_name + '_flag'
+			field_name_flag	= 'this._' + field_name + '_flag'
 			field_name_m 	= 'this._' + field_name
 			field_name_count= field_name + '_count'
 			if field_op == 'repeated':
@@ -137,7 +137,7 @@ class ProtoJavaScript(object):
 					self._str_encode += '\t\t\tpacket.Write' + field_type_big + '(xxx);\n\t\t}\n'
 			elif field_op == 'optional':
 				self._str_encode += '\t\tpacket.WriteByte(' + field_name_flag + ');\n'
-				self._str_encode += '\t\tif (this.' + field_name_flag + ' == 1)\n\t\t{\n'
+				self._str_encode += '\t\tif (' + field_name_flag + ' == 1)\n\t\t{\n'
 				if field_type.startswith('M'):
 					self._str_encode += '\t\t\tpacket.WriteBuffer(' + field_name_m + '.GetBuffer());\n\t\t}\n'
 				else:
@@ -169,8 +169,8 @@ class ProtoJavaScript(object):
 				else:
 					self._str_decode += '\t\t\t' + field_name_m + '.push(packet.Read' + field_type.capitalize() + '());\n\t\t}\n'
 			elif field_op == 'optional':
-				self._str_decode += '\t\tthis. ' + field_name_flag + ' = packet.ReadByte();\n'
-				self._str_decode += '\t\tif (this.' + field_name_flag + ' == 1)\n'
+				self._str_decode += '\t\tthis._' + field_name_flag + ' = packet.ReadByte();\n'
+				self._str_decode += '\t\tif (this._' + field_name_flag + ' == 1)\n'
 				self._str_decode += '\t\t{\n'
 				if field_type.startswith('M'):
 					self._str_decode += '\t\t\t' + field_name_m + ' = new ' + field_type + '(packet);\n'
@@ -195,11 +195,11 @@ class ProtoJavaScript(object):
 			field_name_flag = field_name + '_flag'
 
 			str_set = '\tthis.Set' + field_name_func + '(' + field_name + ') {\n'
-			str_get = '\tthis.Get' + field_name_func + '() {\n\t\treturn this.' + field_name + ';\n'
+			str_get = '\tthis.Get' + field_name_func + '() {\n\t\treturn this._' + field_name + ';\n'
 
 			if field_op == 'optional':
-				str_set += '\t\tthis.' + field_name_flag + ' = 1;\n'
-			str_set += '\t\tthis.' + field_name + ' = ' + field_name + ';\n'
+				str_set += '\t\tthis._' + field_name_flag + ' = 1;\n'
+			str_set += '\t\tthis._' + field_name + ' = ' + field_name + ';\n'
 
 			str_set += '\t}'
 			str_get += '\t}'

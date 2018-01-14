@@ -16,9 +16,9 @@ var ReqSceneEnterFly = function() {
 
 
 	this.SetMapId(map_id) {
-		this.map_id = map_id;
+		this._map_id = map_id;
 	}
 	this.GetMapId() {
-		return this.map_id;
+		return this._map_id;
 	}
 }

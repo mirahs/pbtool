@@ -16,9 +16,9 @@ var ReqSceneEnter = function() {
 
 
 	this.SetDoorId(door_id) {
-		this.door_id = door_id;
+		this._door_id = door_id;
 	}
 	this.GetDoorId() {
-		return this.door_id;
+		return this._door_id;
 	}
 }

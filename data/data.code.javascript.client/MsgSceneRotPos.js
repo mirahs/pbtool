@@ -38,44 +38,44 @@ var MsgSceneRotPos = function() {
 
 
 	this.SetRotX(rot_x) {
-		this.rot_x = rot_x;
+		this._rot_x = rot_x;
 	}
 	this.GetRotX() {
-		return this.rot_x;
+		return this._rot_x;
 	}
 
 	this.SetRotY(rot_y) {
-		this.rot_y = rot_y;
+		this._rot_y = rot_y;
 	}
 	this.GetRotY() {
-		return this.rot_y;
+		return this._rot_y;
 	}
 
 	this.SetRotZ(rot_z) {
-		this.rot_z = rot_z;
+		this._rot_z = rot_z;
 	}
 	this.GetRotZ() {
-		return this.rot_z;
+		return this._rot_z;
 	}
 
 	this.SetPosX(pos_x) {
-		this.pos_x = pos_x;
+		this._pos_x = pos_x;
 	}
 	this.GetPosX() {
-		return this.pos_x;
+		return this._pos_x;
 	}
 
 	this.SetPosY(pos_y) {
-		this.pos_y = pos_y;
+		this._pos_y = pos_y;
 	}
 	this.GetPosY() {
-		return this.pos_y;
+		return this._pos_y;
 	}
 
 	this.SetPosZ(pos_z) {
-		this.pos_z = pos_z;
+		this._pos_z = pos_z;
 	}
 	this.GetPosZ() {
-		return this.pos_z;
+		return this._pos_z;
 	}
 }

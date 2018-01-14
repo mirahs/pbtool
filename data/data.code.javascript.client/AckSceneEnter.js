@@ -14,9 +14,9 @@ var AckSceneEnter = function() {
 
 
 	this.SetPlayer(player) {
-		this.player = player;
+		this._player = player;
 	}
 	this.GetPlayer() {
-		return this.player;
+		return this._player;
 	}
 }

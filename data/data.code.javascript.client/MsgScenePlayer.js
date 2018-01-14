@@ -27,16 +27,16 @@ var MsgScenePlayer = function() {
 
 
 	this.SetUid(uid) {
-		this.uid = uid;
+		this._uid = uid;
 	}
 	this.GetUid() {
-		return this.uid;
+		return this._uid;
 	}
 
 	this.SetSceneRotPos(scene_rot_pos) {
-		this.scene_rot_pos = scene_rot_pos;
+		this._scene_rot_pos = scene_rot_pos;
 	}
 	this.GetSceneRotPos() {
-		return this.scene_rot_pos;
+		return this._scene_rot_pos;
 	}
 }

@@ -29,23 +29,23 @@ var MsgSceneVector3 = function() {
 
 
 	this.SetX(x) {
-		this.x = x;
+		this._x = x;
 	}
 	this.GetX() {
-		return this.x;
+		return this._x;
 	}
 
 	this.SetY(y) {
-		this.y = y;
+		this._y = y;
 	}
 	this.GetY() {
-		return this.y;
+		return this._y;
 	}
 
 	this.SetZ(z) {
-		this.z = z;
+		this._z = z;
 	}
 	this.GetZ() {
-		return this.z;
+		return this._z;
 	}
 }

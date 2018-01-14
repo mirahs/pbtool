@@ -21,7 +21,8 @@ packet.WriteUint(1008611);
 packet.WriteString('你好啊');
 packet.WriteFloat(1.1);
 packet.WriteDouble(1.22);
-
+packet.WriteUlong(4294967296666);
+packet.WriteLong(4294967298888);
 
 packet.OffsetReset();
 
@@ -30,3 +31,5 @@ console.log('packet.ReadUint(): ' + packet.ReadUint());
 console.log('packet.ReadString(): ' + packet.ReadString());
 console.log('packet.ReadFloat(): ' + packet.ReadFloat());
 console.log('packet.ReadDouble(): ' + packet.ReadDouble());
+console.log('packet.ReadUlong(): ' + packet.ReadUlong());
+console.log('packet.ReadLong(): ' + packet.ReadLong());

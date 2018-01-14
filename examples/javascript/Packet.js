@@ -76,11 +76,17 @@ function Packet(buffer) {
 	}
 
 	this.WriteUlong = function(v) {
-
+		var big = ~~(v / 0xFFFFFFFF);
+		var low = (v % 0xFFFFFFFF) - big;
+		this.WriteUint(big);
+		this.WriteUint(low);
 	}
 
 	this.WriteLong = function(v) {
-
+		var big = ~~(v / 0xFFFFFFFF);
+		var low = (v % 0xFFFFFFFF) - big;
+		this.WriteInt(big);
+		this.WriteInt(low);
 	}
 
 	this.WriteFloat = function(v) {
@@ -148,11 +154,15 @@ function Packet(buffer) {
 	}
 
 	this.ReadUlong = function() {
-
+		var bf = this._buffer.slice(this._offset, 8);
+		this._offset += 8;
+		return parseInt(bf.toString('hex'), 16);
 	}
 
 	this.ReadLong = function() {
-
+		var bf = this._buffer.slice(this._offset, 8);
+		this._offset += 8;
+		return parseInt(bf.toString('hex'), 16);
 	}
 
 	this.ReadFloat = function() {

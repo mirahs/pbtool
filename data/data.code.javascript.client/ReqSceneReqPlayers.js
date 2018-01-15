@@ -3,10 +3,10 @@ module.exports = ReqSceneReqPlayers;
 var Packet = require('../net/Packet');
 
 
-var ReqSceneReqPlayers = function() {
+function ReqSceneReqPlayers() {
 
 
-	this.Encode() {
+	this.Encode = function() {
 		var packet = new Packet();
 		packet.Encode(Msg.REQ_SCENE_REQ_PLAYERS);
 		return packet;

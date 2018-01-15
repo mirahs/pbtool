@@ -3,11 +3,11 @@ module.exports = ReqChatGm;
 var Packet = require('../net/Packet');
 
 
-var ReqChatGm = function() {
+function ReqChatGm() {
 	this._content = undefined;
 
 
-	this.Encode() {
+	this.Encode = function() {
 		var packet = new Packet();
 		packet.WriteString(this._content);
 		packet.Encode(Msg.REQ_CHAT_GM);
@@ -15,10 +15,10 @@ var ReqChatGm = function() {
 	}
 
 
-	this.SetContent(content) {
+	this.SetContent = function(content) {
 		this._content = content;
 	}
-	this.GetContent() {
+	this.GetContent= function() {
 		return this._content;
 	}
 }

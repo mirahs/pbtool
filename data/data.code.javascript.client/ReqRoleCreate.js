@@ -3,7 +3,7 @@ module.exports = ReqRoleCreate;
 var Packet = require('../net/Packet');
 
 
-var ReqRoleCreate = function() {
+function ReqRoleCreate() {
 	this._uid = undefined;
 	this._uuid = undefined;
 	this._sid = undefined;
@@ -16,7 +16,7 @@ var ReqRoleCreate = function() {
 	this._login_time = undefined;
 
 
-	this.Encode() {
+	this.Encode = function() {
 		var packet = new Packet();
 		packet.WriteUint(this._uid);
 		packet.WriteUint(this._uuid);
@@ -33,73 +33,73 @@ var ReqRoleCreate = function() {
 	}
 
 
-	this.SetUid(uid) {
+	this.SetUid = function(uid) {
 		this._uid = uid;
 	}
-	this.GetUid() {
+	this.GetUid= function() {
 		return this._uid;
 	}
 
-	this.SetUuid(uuid) {
+	this.SetUuid = function(uuid) {
 		this._uuid = uuid;
 	}
-	this.GetUuid() {
+	this.GetUuid= function() {
 		return this._uuid;
 	}
 
-	this.SetSid(sid) {
+	this.SetSid = function(sid) {
 		this._sid = sid;
 	}
-	this.GetSid() {
+	this.GetSid= function() {
 		return this._sid;
 	}
 
-	this.SetCid(cid) {
+	this.SetCid = function(cid) {
 		this._cid = cid;
 	}
-	this.GetCid() {
+	this.GetCid= function() {
 		return this._cid;
 	}
 
-	this.SetOs(os) {
+	this.SetOs = function(os) {
 		this._os = os;
 	}
-	this.GetOs() {
+	this.GetOs= function() {
 		return this._os;
 	}
 
-	this.SetVersion(version) {
+	this.SetVersion = function(version) {
 		this._version = version;
 	}
-	this.GetVersion() {
+	this.GetVersion= function() {
 		return this._version;
 	}
 
-	this.SetUname(uname) {
+	this.SetUname = function(uname) {
 		this._uname = uname;
 	}
-	this.GetUname() {
+	this.GetUname= function() {
 		return this._uname;
 	}
 
-	this.SetSource(source) {
+	this.SetSource = function(source) {
 		this._source = source;
 	}
-	this.GetSource() {
+	this.GetSource= function() {
 		return this._source;
 	}
 
-	this.SetSourceSub(source_sub) {
+	this.SetSourceSub = function(source_sub) {
 		this._source_sub = source_sub;
 	}
-	this.GetSourceSub() {
+	this.GetSourceSub= function() {
 		return this._source_sub;
 	}
 
-	this.SetLoginTime(login_time) {
+	this.SetLoginTime = function(login_time) {
 		this._login_time = login_time;
 	}
-	this.GetLoginTime() {
+	this.GetLoginTime= function() {
 		return this._login_time;
 	}
 }

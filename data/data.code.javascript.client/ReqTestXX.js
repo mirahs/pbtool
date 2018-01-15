@@ -3,7 +3,7 @@ module.exports = ReqTestXX;
 var Packet = require('../net/Packet');
 
 
-var ReqTestXX = function() {
+function ReqTestXX() {
 	this._id_u8 = undefined;
 	this._id_u16 = undefined;
 	this._id_u32 = undefined;
@@ -12,7 +12,7 @@ var ReqTestXX = function() {
 	this._optional_id_u8 = undefined;
 
 
-	this.Encode() {
+	this.Encode = function() {
 		var packet = new Packet();
 		packet.WriteByte(this._id_u8);
 		packet.WriteUshort(this._id_u16);
@@ -34,39 +34,39 @@ var ReqTestXX = function() {
 	}
 
 
-	this.SetIdU8(id_u8) {
+	this.SetIdU8 = function(id_u8) {
 		this._id_u8 = id_u8;
 	}
-	this.GetIdU8() {
+	this.GetIdU8= function() {
 		return this._id_u8;
 	}
 
-	this.SetIdU16(id_u16) {
+	this.SetIdU16 = function(id_u16) {
 		this._id_u16 = id_u16;
 	}
-	this.GetIdU16() {
+	this.GetIdU16= function() {
 		return this._id_u16;
 	}
 
-	this.SetIdU32(id_u32) {
+	this.SetIdU32 = function(id_u32) {
 		this._id_u32 = id_u32;
 	}
-	this.GetIdU32() {
+	this.GetIdU32= function() {
 		return this._id_u32;
 	}
 
-	this.SetRepeatIdU8(repeat_id_u8) {
+	this.SetRepeatIdU8 = function(repeat_id_u8) {
 		this._repeat_id_u8 = repeat_id_u8;
 	}
-	this.GetRepeatIdU8() {
+	this.GetRepeatIdU8= function() {
 		return this._repeat_id_u8;
 	}
 
-	this.SetOptionalIdU8(optional_id_u8) {
+	this.SetOptionalIdU8 = function(optional_id_u8) {
 		this._optional_id_u8_flag = 1;
 		this._optional_id_u8 = optional_id_u8;
 	}
-	this.GetOptionalIdU8() {
+	this.GetOptionalIdU8= function() {
 		return this._optional_id_u8;
 	}
 }

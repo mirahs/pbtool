@@ -3,7 +3,7 @@ module.exports = MsgSceneRotPos;
 var Packet = require('../net/Packet');
 
 
-var MsgSceneRotPos = function() {
+function MsgSceneRotPos() {
 	this._rot_x = undefined;
 	this._rot_y = undefined;
 	this._rot_z = undefined;
@@ -12,7 +12,7 @@ var MsgSceneRotPos = function() {
 	this._pos_z = undefined;
 
 
-	this.Encode() {
+	this.Encode = function() {
 		var packet = new Packet();
 		packet.WriteShort(this._rot_x);
 		packet.WriteShort(this._rot_y);
@@ -23,7 +23,7 @@ var MsgSceneRotPos = function() {
 		return packet;
 	}
 
-	this.Decode(packet) {
+	this.Decode = function(packet) {
 		this._rot_x = packet.ReadShort();
 		this._rot_y = packet.ReadShort();
 		this._rot_z = packet.ReadShort();
@@ -32,50 +32,50 @@ var MsgSceneRotPos = function() {
 		this._pos_z = packet.ReadShort();
 	}
 
-	this.GetBuffer() {
+	this.GetBuffer = function() {
 		return this.Encode().GetBuffer();
 	}
 
 
-	this.SetRotX(rot_x) {
+	this.SetRotX = function(rot_x) {
 		this._rot_x = rot_x;
 	}
-	this.GetRotX() {
+	this.GetRotX= function() {
 		return this._rot_x;
 	}
 
-	this.SetRotY(rot_y) {
+	this.SetRotY = function(rot_y) {
 		this._rot_y = rot_y;
 	}
-	this.GetRotY() {
+	this.GetRotY= function() {
 		return this._rot_y;
 	}
 
-	this.SetRotZ(rot_z) {
+	this.SetRotZ = function(rot_z) {
 		this._rot_z = rot_z;
 	}
-	this.GetRotZ() {
+	this.GetRotZ= function() {
 		return this._rot_z;
 	}
 
-	this.SetPosX(pos_x) {
+	this.SetPosX = function(pos_x) {
 		this._pos_x = pos_x;
 	}
-	this.GetPosX() {
+	this.GetPosX= function() {
 		return this._pos_x;
 	}
 
-	this.SetPosY(pos_y) {
+	this.SetPosY = function(pos_y) {
 		this._pos_y = pos_y;
 	}
-	this.GetPosY() {
+	this.GetPosY= function() {
 		return this._pos_y;
 	}
 
-	this.SetPosZ(pos_z) {
+	this.SetPosZ = function(pos_z) {
 		this._pos_z = pos_z;
 	}
-	this.GetPosZ() {
+	this.GetPosZ= function() {
 		return this._pos_z;
 	}
 }

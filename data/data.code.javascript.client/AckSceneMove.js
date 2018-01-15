@@ -5,7 +5,7 @@ var MsgSceneRotPos = require('./MsgSceneRotPos');
 var MsgSceneVector3 = require('./MsgSceneVector3');
 
 
-var AckSceneMove = function() {
+function AckSceneMove() {
 	this._scene_rot_pos = undefined;
 	this._forward = undefined;
 	this._ani_name = undefined;
@@ -13,7 +13,7 @@ var AckSceneMove = function() {
 	this._uid = undefined;
 
 
-	this.Decode(packet) {
+	this.Decode = function(packet) {
 		this._scene_rot_pos = new MsgSceneRotPos(packet);
 		this._forward = new MsgSceneVector3(packet);
 		this._ani_name = packet.ReadString();
@@ -22,38 +22,38 @@ var AckSceneMove = function() {
 	}
 
 
-	this.SetSceneRotPos(scene_rot_pos) {
+	this.SetSceneRotPos = function(scene_rot_pos) {
 		this._scene_rot_pos = scene_rot_pos;
 	}
-	this.GetSceneRotPos() {
+	this.GetSceneRotPos= function() {
 		return this._scene_rot_pos;
 	}
 
-	this.SetForward(forward) {
+	this.SetForward = function(forward) {
 		this._forward = forward;
 	}
-	this.GetForward() {
+	this.GetForward= function() {
 		return this._forward;
 	}
 
-	this.SetAniName(ani_name) {
+	this.SetAniName = function(ani_name) {
 		this._ani_name = ani_name;
 	}
-	this.GetAniName() {
+	this.GetAniName= function() {
 		return this._ani_name;
 	}
 
-	this.SetXAxis(x_axis) {
+	this.SetXAxis = function(x_axis) {
 		this._x_axis = x_axis;
 	}
-	this.GetXAxis() {
+	this.GetXAxis= function() {
 		return this._x_axis;
 	}
 
-	this.SetUid(uid) {
+	this.SetUid = function(uid) {
 		this._uid = uid;
 	}
-	this.GetUid() {
+	this.GetUid= function() {
 		return this._uid;
 	}
 }

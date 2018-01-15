@@ -4,19 +4,19 @@ var Packet = require('../net/Packet');
 var MsgScenePlayer = require('./MsgScenePlayer');
 
 
-var AckSceneEnter = function() {
+function AckSceneEnter() {
 	this._player = undefined;
 
 
-	this.Decode(packet) {
+	this.Decode = function(packet) {
 		this._player = new MsgScenePlayer(packet);
 	}
 
 
-	this.SetPlayer(player) {
+	this.SetPlayer = function(player) {
 		this._player = player;
 	}
-	this.GetPlayer() {
+	this.GetPlayer= function() {
 		return this._player;
 	}
 }

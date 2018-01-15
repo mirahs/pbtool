@@ -3,7 +3,7 @@ module.exports = ReqRoleLogin;
 var Packet = require('../net/Packet');
 
 
-var ReqRoleLogin = function() {
+function ReqRoleLogin() {
 	this._uid = undefined;
 	this._uuid = undefined;
 	this._sid = undefined;
@@ -16,7 +16,7 @@ var ReqRoleLogin = function() {
 	this._version = undefined;
 
 
-	this.Encode() {
+	this.Encode = function() {
 		var packet = new Packet();
 		packet.WriteUint(this._uid);
 		packet.WriteUint(this._uuid);
@@ -33,73 +33,73 @@ var ReqRoleLogin = function() {
 	}
 
 
-	this.SetUid(uid) {
+	this.SetUid = function(uid) {
 		this._uid = uid;
 	}
-	this.GetUid() {
+	this.GetUid= function() {
 		return this._uid;
 	}
 
-	this.SetUuid(uuid) {
+	this.SetUuid = function(uuid) {
 		this._uuid = uuid;
 	}
-	this.GetUuid() {
+	this.GetUuid= function() {
 		return this._uuid;
 	}
 
-	this.SetSid(sid) {
+	this.SetSid = function(sid) {
 		this._sid = sid;
 	}
-	this.GetSid() {
+	this.GetSid= function() {
 		return this._sid;
 	}
 
-	this.SetCid(cid) {
+	this.SetCid = function(cid) {
 		this._cid = cid;
 	}
-	this.GetCid() {
+	this.GetCid= function() {
 		return this._cid;
 	}
 
-	this.SetLoginTime(login_time) {
+	this.SetLoginTime = function(login_time) {
 		this._login_time = login_time;
 	}
-	this.GetLoginTime() {
+	this.GetLoginTime= function() {
 		return this._login_time;
 	}
 
-	this.SetPwd(pwd) {
+	this.SetPwd = function(pwd) {
 		this._pwd = pwd;
 	}
-	this.GetPwd() {
+	this.GetPwd= function() {
 		return this._pwd;
 	}
 
-	this.SetRelink(relink) {
+	this.SetRelink = function(relink) {
 		this._relink = relink;
 	}
-	this.GetRelink() {
+	this.GetRelink= function() {
 		return this._relink;
 	}
 
-	this.SetDebug(debug) {
+	this.SetDebug = function(debug) {
 		this._debug = debug;
 	}
-	this.GetDebug() {
+	this.GetDebug= function() {
 		return this._debug;
 	}
 
-	this.SetOs(os) {
+	this.SetOs = function(os) {
 		this._os = os;
 	}
-	this.GetOs() {
+	this.GetOs= function() {
 		return this._os;
 	}
 
-	this.SetVersion(version) {
+	this.SetVersion = function(version) {
 		this._version = version;
 	}
-	this.GetVersion() {
+	this.GetVersion= function() {
 		return this._version;
 	}
 }

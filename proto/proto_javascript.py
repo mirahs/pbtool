@@ -101,7 +101,7 @@ class ProtoJavaScript(object):
 		self._str_end = '}\n'
 
 	def _set_priv_var(self):
-		self._str_priv_var = 'var ' + self._str_class_name + ' = function() {\n'
+		self._str_priv_var = 'function ' + self._str_class_name + '() {\n'
 		for mess_field in self._proto['mess_fields']:
 			field_op 		= mess_field['field_op']
 			field_type 		= mess_field['field_type']
@@ -117,7 +117,7 @@ class ProtoJavaScript(object):
 				self._str_priv_var += '\tthis.' + field_name_m + ' = undefined;\n'
 
 	def _set_encode(self):
-		self._str_encode = '\tthis.Encode() {\n\t\tvar packet = new Packet();\n'
+		self._str_encode = '\tthis.Encode = function() {\n\t\tvar packet = new Packet();\n'
 		for mess_field in self._proto['mess_fields']:
 			field_op 		= mess_field['field_op']
 			field_type 		= mess_field['field_type']
@@ -152,7 +152,7 @@ class ProtoJavaScript(object):
 		self._str_encode += '\t\treturn packet;\n\t}\n'
 
 	def _set_decode(self):
-		self._str_decode = '\tthis.Decode(packet) {\n'
+		self._str_decode = '\tthis.Decode = function(packet) {\n'
 		for mess_field in self._proto['mess_fields']:
 			field_op 		= mess_field['field_op']
 			field_type 		= mess_field['field_type']
@@ -194,8 +194,8 @@ class ProtoJavaScript(object):
 			field_name_func	= tool.underline_to_camel(field_name)
 			field_name_flag = field_name + '_flag'
 
-			str_set = '\tthis.Set' + field_name_func + '(' + field_name + ') {\n'
-			str_get = '\tthis.Get' + field_name_func + '() {\n\t\treturn this._' + field_name + ';\n'
+			str_set = '\tthis.Set' + field_name_func + ' = function(' + field_name + ') {\n'
+			str_get = '\tthis.Get' + field_name_func + '= function() {\n\t\treturn this._' + field_name + ';\n'
 
 			if field_op == 'optional':
 				str_set += '\t\tthis._' + field_name_flag + ' = 1;\n'
@@ -209,7 +209,7 @@ class ProtoJavaScript(object):
 			self._str_set_get += str_set + '\n' + str_get + '\n\n'
 
 	def _set_get_buffer(self):
-		self._str_get_buffer = '\tthis.GetBuffer() {\n\t\treturn this.Encode().GetBuffer();\n\t}\n'
+		self._str_get_buffer = '\tthis.GetBuffer = function() {\n\t\treturn this.Encode().GetBuffer();\n\t}\n'
 
 	def _do_msg(self):
 		content = self._str_head + '\n' + self._str_head_require + '\n\n' + self._str_priv_var + '\n\n' + self._str_encode + '\n' + self._str_decode + '\n' + self._str_get_buffer + '\n\n' + self._str_set_get[:-1] + self._str_end

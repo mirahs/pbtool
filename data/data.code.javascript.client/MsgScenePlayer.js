@@ -4,39 +4,39 @@ var Packet = require('../net/Packet');
 var MsgSceneRotPos = require('./MsgSceneRotPos');
 
 
-var MsgScenePlayer = function() {
+function MsgScenePlayer() {
 	this._uid = undefined;
 	this._scene_rot_pos = undefined;
 
 
-	this.Encode() {
+	this.Encode = function() {
 		var packet = new Packet();
 		packet.WriteUint(this._uid);
 		packet.WriteBuffer(this._scene_rot_pos.GetBuffer());
 		return packet;
 	}
 
-	this.Decode(packet) {
+	this.Decode = function(packet) {
 		this._uid = packet.ReadUint();
 		this._scene_rot_pos = new MsgSceneRotPos(packet);
 	}
 
-	this.GetBuffer() {
+	this.GetBuffer = function() {
 		return this.Encode().GetBuffer();
 	}
 
 
-	this.SetUid(uid) {
+	this.SetUid = function(uid) {
 		this._uid = uid;
 	}
-	this.GetUid() {
+	this.GetUid= function() {
 		return this._uid;
 	}
 
-	this.SetSceneRotPos(scene_rot_pos) {
+	this.SetSceneRotPos = function(scene_rot_pos) {
 		this._scene_rot_pos = scene_rot_pos;
 	}
-	this.GetSceneRotPos() {
+	this.GetSceneRotPos= function() {
 		return this._scene_rot_pos;
 	}
 }

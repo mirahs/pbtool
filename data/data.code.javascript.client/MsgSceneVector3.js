@@ -3,13 +3,13 @@ module.exports = MsgSceneVector3;
 var Packet = require('../net/Packet');
 
 
-var MsgSceneVector3 = function() {
+function MsgSceneVector3() {
 	this._x = undefined;
 	this._y = undefined;
 	this._z = undefined;
 
 
-	this.Encode() {
+	this.Encode = function() {
 		var packet = new Packet();
 		packet.WriteShort(this._x);
 		packet.WriteShort(this._y);
@@ -17,35 +17,35 @@ var MsgSceneVector3 = function() {
 		return packet;
 	}
 
-	this.Decode(packet) {
+	this.Decode = function(packet) {
 		this._x = packet.ReadShort();
 		this._y = packet.ReadShort();
 		this._z = packet.ReadShort();
 	}
 
-	this.GetBuffer() {
+	this.GetBuffer = function() {
 		return this.Encode().GetBuffer();
 	}
 
 
-	this.SetX(x) {
+	this.SetX = function(x) {
 		this._x = x;
 	}
-	this.GetX() {
+	this.GetX= function() {
 		return this._x;
 	}
 
-	this.SetY(y) {
+	this.SetY = function(y) {
 		this._y = y;
 	}
-	this.GetY() {
+	this.GetY= function() {
 		return this._y;
 	}
 
-	this.SetZ(z) {
+	this.SetZ = function(z) {
 		this._z = z;
 	}
-	this.GetZ() {
+	this.GetZ= function() {
 		return this._z;
 	}
 }

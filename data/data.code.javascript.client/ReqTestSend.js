@@ -4,7 +4,7 @@ var Packet = require('../net/Packet');
 var MsgRoleBase = require('./MsgRoleBase');
 
 
-var ReqTestSend = function() {
+function ReqTestSend() {
 	this._id_u8 = undefined;
 	this._role_base = undefined;
 	this._id_f32 = new Array();
@@ -14,7 +14,7 @@ var ReqTestSend = function() {
 	this._op_role_base = undefined;
 
 
-	this.Encode() {
+	this.Encode = function() {
 		var packet = new Packet();
 		packet.WriteByte(this._id_u8);
 		packet.WriteBuffer(this._role_base.GetBuffer());
@@ -40,40 +40,40 @@ var ReqTestSend = function() {
 	}
 
 
-	this.SetIdU8(id_u8) {
+	this.SetIdU8 = function(id_u8) {
 		this._id_u8 = id_u8;
 	}
-	this.GetIdU8() {
+	this.GetIdU8= function() {
 		return this._id_u8;
 	}
 
-	this.SetRoleBase(role_base) {
+	this.SetRoleBase = function(role_base) {
 		this._role_base = role_base;
 	}
-	this.GetRoleBase() {
+	this.GetRoleBase= function() {
 		return this._role_base;
 	}
 
-	this.SetIdF32(id_f32) {
+	this.SetIdF32 = function(id_f32) {
 		this._id_f32 = id_f32;
 	}
-	this.GetIdF32() {
+	this.GetIdF32= function() {
 		return this._id_f32;
 	}
 
-	this.SetIdOpU8(id_op_u8) {
+	this.SetIdOpU8 = function(id_op_u8) {
 		this._id_op_u8_flag = 1;
 		this._id_op_u8 = id_op_u8;
 	}
-	this.GetIdOpU8() {
+	this.GetIdOpU8= function() {
 		return this._id_op_u8;
 	}
 
-	this.SetOpRoleBase(op_role_base) {
+	this.SetOpRoleBase = function(op_role_base) {
 		this._op_role_base_flag = 1;
 		this._op_role_base = op_role_base;
 	}
-	this.GetOpRoleBase() {
+	this.GetOpRoleBase= function() {
 		return this._op_role_base;
 	}
 }

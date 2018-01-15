@@ -3,19 +3,19 @@ module.exports = AckSceneExit;
 var Packet = require('../net/Packet');
 
 
-var AckSceneExit = function() {
+function AckSceneExit() {
 	this._uid = undefined;
 
 
-	this.Decode(packet) {
+	this.Decode = function(packet) {
 		this._uid = packet.ReadUint();
 	}
 
 
-	this.SetUid(uid) {
+	this.SetUid = function(uid) {
 		this._uid = uid;
 	}
-	this.GetUid() {
+	this.GetUid= function() {
 		return this._uid;
 	}
 }

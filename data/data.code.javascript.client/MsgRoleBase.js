@@ -3,39 +3,39 @@ module.exports = MsgRoleBase;
 var Packet = require('../net/Packet');
 
 
-var MsgRoleBase = function() {
+function MsgRoleBase() {
 	this._uid = undefined;
 	this._uname = undefined;
 
 
-	this.Encode() {
+	this.Encode = function() {
 		var packet = new Packet();
 		packet.WriteUint(this._uid);
 		packet.WriteString(this._uname);
 		return packet;
 	}
 
-	this.Decode(packet) {
+	this.Decode = function(packet) {
 		this._uid = packet.ReadUint();
 		this._uname = packet.ReadString();
 	}
 
-	this.GetBuffer() {
+	this.GetBuffer = function() {
 		return this.Encode().GetBuffer();
 	}
 
 
-	this.SetUid(uid) {
+	this.SetUid = function(uid) {
 		this._uid = uid;
 	}
-	this.GetUid() {
+	this.GetUid= function() {
 		return this._uid;
 	}
 
-	this.SetUname(uname) {
+	this.SetUname = function(uname) {
 		this._uname = uname;
 	}
-	this.GetUname() {
+	this.GetUname= function() {
 		return this._uname;
 	}
 }

@@ -4,11 +4,11 @@ var Packet = require('../net/Packet');
 var MsgScenePlayer = require('./MsgScenePlayer');
 
 
-var AckScenePlayers = function() {
+function AckScenePlayers() {
 	this._players = new Array();
 
 
-	this.Decode(packet) {
+	this.Decode = function(packet) {
 		var players_count = packet.ReadUshort();
 		for (var i = 0; i < players_count; i++)
 		{
@@ -17,10 +17,10 @@ var AckScenePlayers = function() {
 	}
 
 
-	this.SetPlayers(players) {
+	this.SetPlayers = function(players) {
 		this._players = players;
 	}
-	this.GetPlayers() {
+	this.GetPlayers= function() {
 		return this._players;
 	}
 }

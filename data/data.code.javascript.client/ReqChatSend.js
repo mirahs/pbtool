@@ -3,13 +3,13 @@ module.exports = ReqChatSend;
 var Packet = require('../net/Packet');
 
 
-var ReqChatSend = function() {
+function ReqChatSend() {
 	this._channel = undefined;
 	this._dest_uid = undefined;
 	this._content = undefined;
 
 
-	this.Encode() {
+	this.Encode = function() {
 		var packet = new Packet();
 		packet.WriteByte(this._channel);
 		packet.WriteUint(this._dest_uid);
@@ -19,24 +19,24 @@ var ReqChatSend = function() {
 	}
 
 
-	this.SetChannel(channel) {
+	this.SetChannel = function(channel) {
 		this._channel = channel;
 	}
-	this.GetChannel() {
+	this.GetChannel= function() {
 		return this._channel;
 	}
 
-	this.SetDestUid(dest_uid) {
+	this.SetDestUid = function(dest_uid) {
 		this._dest_uid = dest_uid;
 	}
-	this.GetDestUid() {
+	this.GetDestUid= function() {
 		return this._dest_uid;
 	}
 
-	this.SetContent(content) {
+	this.SetContent = function(content) {
 		this._content = content;
 	}
-	this.GetContent() {
+	this.GetContent= function() {
 		return this._content;
 	}
 }

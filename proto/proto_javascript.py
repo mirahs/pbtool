@@ -44,7 +44,7 @@ def protocol_const(code_path, mess_name_ids):
 	file_name		= code_path + 'Msg.js'
 
 	_str_msg_head	= 'module.exports = Object.freeze({\n'
-	_str_msg_end	= ')};\n'
+	_str_msg_end	= '});\n'
 	_str_msg		= ''
 	for mess_name_id in mess_name_ids:
 		mess_name 	= mess_name_id['mess_name']

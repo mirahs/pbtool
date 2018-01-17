@@ -4,7 +4,7 @@ var Packet = require('../net/Packet');
 
 
 function AckSceneExit() {
-	this._uid = undefined;
+	this._uid = 0;
 
 
 	this.Decode = function(packet) {

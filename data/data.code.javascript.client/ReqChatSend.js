@@ -4,9 +4,9 @@ var Packet = require('../net/Packet');
 
 
 function ReqChatSend() {
-	this._channel = undefined;
-	this._dest_uid = undefined;
-	this._content = undefined;
+	this._channel = 0;
+	this._dest_uid = 0;
+	this._content = "";
 
 
 	this.Encode = function() {

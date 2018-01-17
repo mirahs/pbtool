@@ -4,7 +4,7 @@ var Packet = require('../net/Packet');
 
 
 function AckRoleRandNameOk() {
-	this._uname = undefined;
+	this._uname = "";
 
 
 	this.Decode = function(packet) {

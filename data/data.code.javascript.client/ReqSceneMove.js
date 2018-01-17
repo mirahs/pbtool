@@ -6,10 +6,10 @@ var MsgSceneVector3 = require('./MsgSceneVector3');
 
 
 function ReqSceneMove() {
-	this._scene_rot_pos = undefined;
-	this._forward = undefined;
-	this._ani_name = undefined;
-	this._x_axis = undefined;
+	this._scene_rot_pos = 0;
+	this._forward = 0;
+	this._ani_name = "";
+	this._x_axis = 0;
 
 
 	this.Encode = function() {

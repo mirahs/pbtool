@@ -4,10 +4,10 @@ var Packet = require('../net/Packet');
 
 
 function AckChatSendOk() {
-	this._channel = undefined;
-	this._uid = undefined;
-	this._uname = undefined;
-	this._content = undefined;
+	this._channel = 0;
+	this._uid = 0;
+	this._uname = "";
+	this._content = "";
 
 
 	this.Decode = function(packet) {

@@ -4,7 +4,7 @@ var Packet = require('../net/Packet');
 
 
 function ReqSceneEnter() {
-	this._door_id = undefined;
+	this._door_id = 0;
 
 
 	this.Encode = function() {

@@ -40,6 +40,18 @@ def trans_mess_type(mess_body):
 	return mess_body
 
 
+def field_default_value(field_op, field_type):
+	if field_op == 'optional':
+		return 'undefined'
+	elif field_op == 'repeated':
+		return 'new Array()'
+	else:
+		if field_type == 'string':
+			return '""'
+		else:
+			return '0'
+
+
 def protocol_const(code_path, mess_name_ids):
 	file_name		= code_path + 'Msg.js'
 
@@ -108,13 +120,19 @@ class ProtoJavaScript(object):
 			field_name 		= mess_field['field_name']
 			field_name_flag = '_' + field_name + '_flag'
 			field_name_m	= '_' + field_name
-			if field_op == 'repeated':
-				self._str_priv_var += '\tthis.' + field_name_m + ' = new Array()' + ';\n'
-			elif field_op == 'optional':
+
+			default_val		= field_default_value(field_op, field_type)
+			if field_op == 'optional':
 				self._str_priv_var += '\tthis.' + field_name_flag + ' = 0;\n'
-				self._str_priv_var += '\tthis.' + field_name_m + ' = undefined;\n'
-			else:
-				self._str_priv_var += '\tthis.' + field_name_m + ' = undefined;\n'
+			self._str_priv_var += '\tthis.' + field_name_m + ' = ' + default_val + ';\n'
+
+			# if field_op == 'repeated':
+			# 	self._str_priv_var += '\tthis.' + field_name_m + ' = new Array()' + ';\n'
+			# elif field_op == 'optional':
+			# 	self._str_priv_var += '\tthis.' + field_name_flag + ' = 0;\n'
+			# 	self._str_priv_var += '\tthis.' + field_name_m + ' = undefined;\n'
+			# else:
+			# 	self._str_priv_var += '\tthis.' + field_name_m + ' = undefined;\n'
 
 	def _set_encode(self):
 		self._str_encode = '\tthis.Encode = function() {\n\t\tvar packet = new Packet();\n'

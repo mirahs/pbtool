@@ -4,8 +4,8 @@ var Packet = require('../net/Packet');
 
 
 function MsgRoleBase() {
-	this._uid = undefined;
-	this._uname = undefined;
+	this._uid = 0;
+	this._uname = "";
 
 
 	this.Encode = function() {

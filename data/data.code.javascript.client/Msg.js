@@ -34,4 +34,4 @@ module.exports = Object.freeze({
 
 	//
 	REQ_TEST_PHP                  : 40060,
-)};
+});

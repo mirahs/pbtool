@@ -5,8 +5,8 @@ var MsgSceneRotPos = require('./MsgSceneRotPos');
 
 
 function MsgScenePlayer() {
-	this._uid = undefined;
-	this._scene_rot_pos = undefined;
+	this._uid = 0;
+	this._scene_rot_pos = 0;
 
 
 	this.Encode = function() {

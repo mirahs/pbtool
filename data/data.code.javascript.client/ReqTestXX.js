@@ -4,9 +4,9 @@ var Packet = require('../net/Packet');
 
 
 function ReqTestXX() {
-	this._id_u8 = undefined;
-	this._id_u16 = undefined;
-	this._id_u32 = undefined;
+	this._id_u8 = 0;
+	this._id_u16 = 0;
+	this._id_u32 = 0;
 	this._repeat_id_u8 = new Array();
 	this._optional_id_u8_flag = 0;
 	this._optional_id_u8 = undefined;

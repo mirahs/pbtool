@@ -5,8 +5,8 @@ var MsgRoleBase = require('./MsgRoleBase');
 
 
 function ReqTestSend() {
-	this._id_u8 = undefined;
-	this._role_base = undefined;
+	this._id_u8 = 0;
+	this._role_base = 0;
 	this._id_f32 = new Array();
 	this._id_op_u8_flag = 0;
 	this._id_op_u8 = undefined;

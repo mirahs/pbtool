@@ -4,9 +4,9 @@ var Packet = require('../net/Packet');
 
 
 function MsgSceneVector3() {
-	this._x = undefined;
-	this._y = undefined;
-	this._z = undefined;
+	this._x = 0;
+	this._y = 0;
+	this._z = 0;
 
 
 	this.Encode = function() {

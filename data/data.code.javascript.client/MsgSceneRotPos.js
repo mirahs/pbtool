@@ -4,12 +4,12 @@ var Packet = require('../net/Packet');
 
 
 function MsgSceneRotPos() {
-	this._rot_x = undefined;
-	this._rot_y = undefined;
-	this._rot_z = undefined;
-	this._pos_x = undefined;
-	this._pos_y = undefined;
-	this._pos_z = undefined;
+	this._rot_x = 0;
+	this._rot_y = 0;
+	this._rot_z = 0;
+	this._pos_x = 0;
+	this._pos_y = 0;
+	this._pos_z = 0;
 
 
 	this.Encode = function() {

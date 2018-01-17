@@ -5,9 +5,9 @@ var MsgTestPhp = require('./MsgTestPhp');
 
 
 function AckTestPhpOk() {
-	this._u64 = undefined;
-	this._strxx = undefined;
-	this._msg_req = undefined;
+	this._u64 = 0;
+	this._strxx = "";
+	this._msg_req = 0;
 	this._msg_opt_flag = 0;
 	this._msg_opt = undefined;
 	this._msg_rep = new Array();

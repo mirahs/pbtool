@@ -4,7 +4,7 @@ var Packet = require('../net/Packet');
 
 
 function ReqSceneEnterFly() {
-	this._map_id = undefined;
+	this._map_id = 0;
 
 
 	this.Encode = function() {

@@ -5,7 +5,7 @@ var MsgScenePlayer = require('./MsgScenePlayer');
 
 
 function AckSceneEnter() {
-	this._player = undefined;
+	this._player = 0;
 
 
 	this.Decode = function(packet) {

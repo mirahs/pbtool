@@ -4,16 +4,16 @@ var Packet = require('../net/Packet');
 
 
 function ReqRoleCreate() {
-	this._uid = undefined;
-	this._uuid = undefined;
-	this._sid = undefined;
-	this._cid = undefined;
-	this._os = undefined;
-	this._version = undefined;
-	this._uname = undefined;
-	this._source = undefined;
-	this._source_sub = undefined;
-	this._login_time = undefined;
+	this._uid = 0;
+	this._uuid = 0;
+	this._sid = 0;
+	this._cid = 0;
+	this._os = "";
+	this._version = "";
+	this._uname = "";
+	this._source = "";
+	this._source_sub = "";
+	this._login_time = 0;
 
 
 	this.Encode = function() {

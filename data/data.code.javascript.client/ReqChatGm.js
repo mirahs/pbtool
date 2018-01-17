@@ -4,7 +4,7 @@ var Packet = require('../net/Packet');
 
 
 function ReqChatGm() {
-	this._content = undefined;
+	this._content = "";
 
 
 	this.Encode = function() {

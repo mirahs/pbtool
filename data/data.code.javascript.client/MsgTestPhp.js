@@ -4,7 +4,7 @@ var Packet = require('../net/Packet');
 
 
 function MsgTestPhp() {
-	this._u16 = undefined;
+	this._u16 = 0;
 
 
 	this.Encode = function() {

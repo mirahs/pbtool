@@ -8,17 +8,15 @@ function Packet(buffer) {
 
 
 	this.Encode = function(packetId) {
-		var all = new ByteBuffer(4 + this._buffer.limit);
-		all.writeUint16(this._buffer.limit);
+		var all = new ByteBuffer(4 + this._buffer.offset);
+		all.writeUint16(this._buffer.offset);
 		all.writeUint16(packetId);
-		this._buffer.reset();
-		all.append(this._buffer);
+		all.append(this._buffer.slice(0, this._buffer.offset));
 		this._buffer = all;
 	}
 
 	this.GetBuffer = function() {
-		this.Reset();
-		return this._buffer.buffer;
+		return this._buffer.slice(0, this._buffer.offset).buffer
 	}
 
 	this.WriteBuffer = function(v) {

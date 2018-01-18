@@ -1,186 +1,126 @@
 module.exports = Packet;
 
+var ByteBuffer = require('bytebuffer');
+
 
 function Packet(buffer) {
-	this.slice_size = 64;
-
-	this._len = 0;
-	this._cap = this.slice_size;
-
-	this._buffer = buffer ? buffer : new Buffer(this._cap);
-	this._offset = 0;
+	this._buffer = buffer ? buffer : new ByteBuffer();
 
 
-	this.ReAllocate = function(size) {
-		var newSize = this._len + size;
-		this._len += size;
-		if (newSize <= this._cap) { return; }
-		this._cap = (Math.floor((newSize / this.slice_size)) + 1) * this.slice_size;
-		var newBuff = new Buffer(this._cap);
-		this._buffer.copy(newBuff, 0, 0, this._len);
-		this._buffer = newBuff;
-	}
-
-
-	this.Encode = function() {
-		var head = new Buffer(4);
-		head.writeUInt16BE(this._buffer.length, 0);
-		head.writeUInt16BE(packetId, 2);
-		var all = Buffer.concat([head, this._buffer]);
+	this.Encode = function(packetId) {
+		var all = new ByteBuffer(4 + this._buffer.limit);
+		all.writeUint16(this._buffer.limit);
+		all.writeUint16(packetId);
+		this._buffer.reset();
+		all.append(this._buffer);
 		this._buffer = all;
 	}
 
 	this.GetBuffer = function() {
-		return this._buffer.slice(0, this._offset);
+		this.Reset();
+		return this._buffer.buffer;
 	}
 
-	this.OffsetReset = function() {
-		this._offset = 0;
+	this.WriteBuffer = function(v) {
+		//v.copyTo(this._buffer);
+		//v.appendTo(this._buffer);
+		this._buffer.append(v);	
+	}
+
+	this.Reset = function() {
+		this._buffer.reset();
 	}
 
 
 	this.WriteByte = function(v) {
-		this.ReAllocate(1);
-		this._buffer.writeUInt8BE(v, this._offset);
-		this._offset += 1;
+		this._buffer.writeUint8(v);
 	}
 
 	this.WriteSbyte = function(v) {
-		this.ReAllocate(1);
-		this._buffer.writeInt8BE(v, this._offset);
-		this._offset += 1;
+		this._buffer.writeInt8(v);
 	}
 
 	this.WriteUshort = function(v) {
-		this.ReAllocate(2);
-		this._buffer.writeUInt16BE(v, this._offset);
-		this._offset += 2;
+		this._buffer.writeUint16(v);
 	}
 
 	this.WriteShort = function(v) {
-		this.ReAllocate(2);
-		this._buffer.writeInt16BE(v, this._offset);
-		this._offset += 2;
+		this._buffer.writeInt16(v);
 	}
 
 	this.WriteUint = function(v) {
-		this.ReAllocate(4);
-		this._buffer.writeUInt32BE(v, this._offset);
-		this._offset += 4;
+		this._buffer.writeUint32(v);
 	}
 
 	this.WriteInt = function(v) {
-		this.ReAllocate(4);
-		this._buffer.writeInt32BE(v, this._offset);
-		this._offset += 4;
+		this._buffer.writeInt32(v);
 	}
 
 	this.WriteUlong = function(v) {
-		var big = ~~(v / 0xFFFFFFFF);
-		var low = (v % 0xFFFFFFFF) - big;
-		this.WriteUint(big);
-		this.WriteUint(low);
+		this._buffer.writeUint64(v);
 	}
 
 	this.WriteLong = function(v) {
-		var big = ~~(v / 0xFFFFFFFF);
-		var low = (v % 0xFFFFFFFF) - big;
-		this.WriteInt(big);
-		this.WriteInt(low);
+		this._buffer.writeInt64(v);
 	}
 
 	this.WriteFloat = function(v) {
-		this.ReAllocate(4);
-		this._buffer.writeFloatBE(v, this._offset);
-		this._offset += 4;
+		this._buffer.writeFloat32(v);
 	}
 
 	this.WriteDouble = function(v) {
-		this.ReAllocate(8);
-		this._buffer.writeDoubleBE(v, this._offset);
-		this._offset += 8;
+		this._buffer.writeFloat64(v);
 	}
 
 	this.WriteString = function(v) {
-		var len = Buffer.byteLength(v, 'utf8');
+		var len = ByteBuffer.calculateUTF8Bytes(v);
 		this.WriteUshort(len);
-		this.ReAllocate(len);
-		this._buffer.write(v, this._offset, 'utf8');
-		this._offset += len;
-	}
-
-	this.WriteBuffer = function(v) {
-		var len = v.length;
-		this.ReAllocate(len);
-		v.copy(this._buffer, this._offset, 0, len);
-		this._offset += len;
+		this._buffer.writeString(v);
 	}
 
 
 	this.ReadByte = function() {
-		var v = this._buffer.readUInt8BE(this._offset);
-		this._offset += 1;
-		return v;
+		return this._buffer.readUint8();
 	}
 
 	this.ReadSbyte = function() {
-		var v = this._buffer.readInt8BE(this._offset);
-		this._offset += 1;
-		return v;
+		return this._buffer.readInt8();
 	}
 
 	this.ReadUshort = function() {
-		var v = this._buffer.readUInt16BE(this._offset);
-		this._offset += 2;
-		return v;
+		return this._buffer.readUint16();
 	}
 
 	this.ReadShort = function() {
-		var v = this._buffer.readInt16BE(this._offset);
-		this._offset += 2;
-		return v;
+		return this._buffer.readInt16();
 	}
 
 	this.ReadUint = function() {
-		var v = this._buffer.readUInt32BE(this._offset);
-		this._offset += 4;
-		return v;
+		return this._buffer.readUint32();
 	}
 
 	this.ReadInt = function() {
-		var v = this._buffer.readInt32BE(this._offset);
-		this._offset += 4;
-		return v;
+		return this._buffer.readInt32();
 	}
 
 	this.ReadUlong = function() {
-		var bf = this._buffer.slice(this._offset, 8);
-		this._offset += 8;
-		return parseInt(bf.toString('hex'), 16);
+		return this._buffer.readUint64();
 	}
 
 	this.ReadLong = function() {
-		var bf = this._buffer.slice(this._offset, 8);
-		this._offset += 8;
-		return parseInt(bf.toString('hex'), 16);
+		return this._buffer.readInt64();
 	}
 
 	this.ReadFloat = function() {
-		var v = this._buffer.readFloatBE(this._offset)
-		this._offset += 4;
-		return v;
+		return this._buffer.readFloat32();
 	}
 
 	this.ReadDouble = function() {
-		var v = this._buffer.readDoubleBE(this._offset)
-		this._offset += 8;
-		return v;
+		return this._buffer.readFloat64();
 	}
 
 	this.ReadString = function() {
 		var len = this.ReadUshort();
-		var v = this._buffer.toString('utf8', this._offset, this._offset + len);
-		this._offset += len;
-		return v;
+		return this._buffer.readString(len, ByteBuffer.METRICS_BYTES);
 	}
 }

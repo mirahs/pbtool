@@ -1,17 +1,3 @@
-// function say(name = 'abc') {
-// 	var name = name ? name : 'World';
-// 	console.log('Hello, ' + name + '!');
-// }
-
-// say()
-// say('mirahs')
-
-var ReqTestSend = require('./proto/ReqTestSend');
-var reqTestSend = new ReqTestSend();
-reqTestSend.SetIdU8(110);
-console.log(reqTestSend.GetIdU8());
-
-
 // var Packet = require('./Packet');
 
 // var packet = new Packet();
@@ -40,3 +26,12 @@ console.log(reqTestSend.GetIdU8());
 // console.log('packet.ReadDouble(): ' + packet2.ReadDouble());
 // console.log('packet.ReadUlong(): ' + packet2.ReadUlong());
 // console.log('packet.ReadLong(): ' + packet2.ReadLong());
+
+
+var ByteBuffer = require('bytebuffer');
+var buffer = new ByteBuffer();
+buffer.writeUint16(10086);
+buffer.writeUint32(1008611111);
+buffer.reset();
+console.log(buffer.readUint16());
+console.log(buffer.readUint32());

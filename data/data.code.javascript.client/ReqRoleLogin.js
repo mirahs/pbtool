@@ -28,7 +28,7 @@ function ReqRoleLogin() {
 		packet.WriteByte(this._debug);
 		packet.WriteString(this._os);
 		packet.WriteString(this._version);
-		packet.Encode(Msg.REQ_ROLE_LOGIN);
+		packet.Encode(1010);
 		return packet;
 	}
 

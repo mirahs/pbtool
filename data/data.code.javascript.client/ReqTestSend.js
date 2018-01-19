@@ -35,7 +35,7 @@ function ReqTestSend() {
 		{
 			packet.WriteBuffer(this._op_role_base.GetBuffer());
 		}
-		packet.Encode(Msg.REQ_TEST_SEND);
+		packet.Encode(40010);
 		return packet;
 	}
 

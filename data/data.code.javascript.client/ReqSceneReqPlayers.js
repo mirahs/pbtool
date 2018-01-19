@@ -8,7 +8,7 @@ function ReqSceneReqPlayers() {
 
 	this.Encode = function() {
 		var packet = new Packet();
-		packet.Encode(Msg.REQ_SCENE_REQ_PLAYERS);
+		packet.Encode(2070);
 		return packet;
 	}
 

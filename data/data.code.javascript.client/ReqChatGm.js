@@ -10,7 +10,7 @@ function ReqChatGm() {
 	this.Encode = function() {
 		var packet = new Packet();
 		packet.WriteString(this._content);
-		packet.Encode(Msg.REQ_CHAT_GM);
+		packet.Encode(1530);
 		return packet;
 	}
 

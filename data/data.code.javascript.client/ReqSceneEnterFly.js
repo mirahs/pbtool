@@ -10,7 +10,7 @@ function ReqSceneEnterFly() {
 	this.Encode = function() {
 		var packet = new Packet();
 		packet.WriteUint(this._map_id);
-		packet.Encode(Msg.REQ_SCENE_ENTER_FLY);
+		packet.Encode(2010);
 		return packet;
 	}
 

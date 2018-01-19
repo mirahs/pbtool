@@ -28,7 +28,7 @@ function ReqRoleCreate() {
 		packet.WriteString(this._source);
 		packet.WriteString(this._source_sub);
 		packet.WriteUint(this._login_time);
-		packet.Encode(Msg.REQ_ROLE_CREATE);
+		packet.Encode(1020);
 		return packet;
 	}
 

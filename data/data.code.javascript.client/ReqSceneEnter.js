@@ -10,7 +10,7 @@ function ReqSceneEnter() {
 	this.Encode = function() {
 		var packet = new Packet();
 		packet.WriteUint(this._door_id);
-		packet.Encode(Msg.REQ_SCENE_ENTER);
+		packet.Encode(2020);
 		return packet;
 	}
 

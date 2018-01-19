@@ -30,7 +30,7 @@ function ReqTestPhp() {
 			var xxx = this._msg_rep[i];
 			packet.WriteBuffer(xxx.GetBuffer());
 		}
-		packet.Encode(Msg.REQ_TEST_PHP);
+		packet.Encode(40060);
 		return packet;
 	}
 

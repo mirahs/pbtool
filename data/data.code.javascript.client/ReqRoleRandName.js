@@ -8,7 +8,7 @@ function ReqRoleRandName() {
 
 	this.Encode = function() {
 		var packet = new Packet();
-		packet.Encode(Msg.REQ_ROLE_RAND_NAME);
+		packet.Encode(1030);
 		return packet;
 	}
 

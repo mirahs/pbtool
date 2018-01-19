@@ -18,7 +18,7 @@ function ReqSceneMove() {
 		packet.WriteBuffer(this._forward.GetBuffer());
 		packet.WriteString(this._ani_name);
 		packet.WriteShort(this._x_axis);
-		packet.Encode(Msg.REQ_SCENE_MOVE);
+		packet.Encode(2030);
 		return packet;
 	}
 

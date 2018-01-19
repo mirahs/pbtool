@@ -14,7 +14,7 @@ function ReqChatSend() {
 		packet.WriteByte(this._channel);
 		packet.WriteUint(this._dest_uid);
 		packet.WriteString(this._content);
-		packet.Encode(Msg.REQ_CHAT_SEND);
+		packet.Encode(1510);
 		return packet;
 	}
 

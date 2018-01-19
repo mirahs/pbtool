@@ -29,7 +29,7 @@ function ReqTestXX() {
 		{
 			packet.WriteByte(this._optional_id_u8);
 		}
-		packet.Encode(Msg.REQ_TEST_X_X);
+		packet.Encode(40040);
 		return packet;
 	}
 

@@ -80,6 +80,7 @@ class ProtoJavaScript(object):
 		self._mess_name 		= self._proto['mess_name']
 
 		self._set_class_name()
+		self._set_packet_id()
 		self._set_filename()
 		self._set_head()
 		self._set_head_require()
@@ -93,6 +94,9 @@ class ProtoJavaScript(object):
 	def _set_class_name(self):
 		self._str_msg_name 	= tool.javascript_proto_name_msg(self._mess_name)
 		self._str_class_name= tool.javascript_class_name(self._mess_name)
+
+	def _set_packet_id(self):
+		self._packet_id = self._proto['mess_id']
 
 	def _set_filename(self):
 		self._filename = self._code_path + self._str_class_name + '.js'
@@ -166,7 +170,7 @@ class ProtoJavaScript(object):
 				else:
 					self._str_encode += '\t\tpacket.Write' + field_type_big + '(' + field_name_m + ');\n'
 		if not self._str_class_name.startswith('Msg'):
-			self._str_encode += '\t\tpacket.Encode(Msg.' + self._str_msg_name + ');\n'
+			self._str_encode += '\t\tpacket.Encode(' + self._packet_id + ');\n'
 		self._str_encode += '\t\treturn packet;\n\t}\n'
 
 	def _set_decode(self):

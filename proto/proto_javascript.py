@@ -209,22 +209,22 @@ class ProtoJavaScript(object):
 	def _set_set_get(self):
 		self._str_set = ''
 		self._str_get = ''
-		self._str_set_get = ''
+		self._str_set_get = self._str_class_name + '.prototype = {\n'
 		for mess_field in self._proto['mess_fields']:
 			field_op 		= mess_field['field_op']
 			field_name 		= mess_field['field_name']
 			field_name_func	= tool.underline_to_camel(field_name)
 			field_name_flag = field_name + '_flag'
 
-			str_set = '\tthis.Set' + field_name_func + ' = function(' + field_name + ') {\n'
-			str_get = '\tthis.Get' + field_name_func + '= function() {\n\t\treturn this._' + field_name + ';\n'
+			str_set = '\tset ' + field_name_func + '(val) {\n'
+			str_get = '\tget ' + field_name_func + '() {\n\t\treturn this._' + field_name + ';\n'
 
 			if field_op == 'optional':
 				str_set += '\t\tthis._' + field_name_flag + ' = 1;\n'
-			str_set += '\t\tthis._' + field_name + ' = ' + field_name + ';\n'
+			str_set += '\t\tthis._' + field_name + ' = val;\n'
 
-			str_set += '\t}'
-			str_get += '\t}'
+			str_set += '\t},'
+			str_get += '\t},'
 
 			self._str_set += str_set + '\n\n'
 			self._str_get += str_get + '\n\n'
@@ -234,19 +234,19 @@ class ProtoJavaScript(object):
 		self._str_get_buffer = '\tthis.GetBuffer = function() {\n\t\treturn this.Encode().GetBuffer();\n\t}\n'
 
 	def _do_msg(self):
-		content = self._str_head + '\n' + self._str_head_require + '\n\n' + self._str_priv_var + '\n\n' + self._str_encode + '\n' + self._str_decode + '\n' + self._str_get_buffer + '\n\n' + self._str_set_get[:-1] + self._str_end
+		content = self._str_head + '\n' + self._str_head_require + '\n\n' + self._str_priv_var + '\n\n' + self._str_encode + '\n' + self._str_decode + '\n' + self._str_get_buffer + self._str_end + '\n' + self._str_set_get[:-1] + self._str_end
 
 		with open(self._filename, 'w+') as fd:
 			fd.write(content)
 
 	def do_client(self):
 		if self._mess_name.startswith('C'):
-			content = self._str_head + '\n' + self._str_head_require + '\n\n' + self._str_priv_var + '\n\n' + self._str_encode + '\n\n' + self._str_set_get[:-1] + self._str_end
+			content = self._str_head + '\n' + self._str_head_require + '\n\n' + self._str_priv_var + '\n\n' + self._str_encode + self._str_end + '\n' + self._str_set_get[:-1] + self._str_end
 
 			with open(self._filename, 'w+') as fd:
 				fd.write(content)
 		elif self._mess_name.startswith('S'):
-			content = self._str_head + '\n' + self._str_head_require + '\n\n' + self._str_priv_var + '\n\n' + self._str_decode + '\n\n' + self._str_set_get[:-1] + self._str_end
+			content = self._str_head + '\n' + self._str_head_require + '\n\n' + self._str_priv_var + '\n\n' + self._str_decode + self._str_end + '\n' + self._str_set_get[:-1] + self._str_end
 
 			with open(self._filename, 'w+') as fd:
 				fd.write(content)

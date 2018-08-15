@@ -36,6 +36,7 @@ data_xml			= data_dir + 'data.xml/'
     python_client
     php_server
     php_client
+    javascript_client
 
 配置格式:
     lang:       需要导出的语言
@@ -124,7 +125,7 @@ langs_proto = [
         'lang':     'php_client',
         'code':     'data.code.php.client',
     },
-{
+    {
         'lang':     'javascript_client',
         'code':     'data.code.javascript.client',
     },

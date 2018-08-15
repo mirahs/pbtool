@@ -23,19 +23,20 @@ function MsgRoleBase() {
 	this.GetBuffer = function() {
 		return this.Encode().GetBuffer();
 	}
+}
 
-
-	this.SetUid = function(uid) {
-		this._uid = uid;
-	}
-	this.GetUid= function() {
+MsgRoleBase.prototype = {
+	set Uid(val) {
+		this._uid = val;
+	},
+	get Uid() {
 		return this._uid;
-	}
+	},
 
-	this.SetUname = function(uname) {
-		this._uname = uname;
-	}
-	this.GetUname= function() {
+	set Uname(val) {
+		this._uname = val;
+	},
+	get Uname() {
 		return this._uname;
-	}
+	},
 }

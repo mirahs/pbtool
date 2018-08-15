@@ -32,41 +32,42 @@ function ReqTestXX() {
 		packet.Encode(40040);
 		return packet;
 	}
+}
 
-
-	this.SetIdU8 = function(id_u8) {
-		this._id_u8 = id_u8;
-	}
-	this.GetIdU8= function() {
+ReqTestXX.prototype = {
+	set IdU8(val) {
+		this._id_u8 = val;
+	},
+	get IdU8() {
 		return this._id_u8;
-	}
+	},
 
-	this.SetIdU16 = function(id_u16) {
-		this._id_u16 = id_u16;
-	}
-	this.GetIdU16= function() {
+	set IdU16(val) {
+		this._id_u16 = val;
+	},
+	get IdU16() {
 		return this._id_u16;
-	}
+	},
 
-	this.SetIdU32 = function(id_u32) {
-		this._id_u32 = id_u32;
-	}
-	this.GetIdU32= function() {
+	set IdU32(val) {
+		this._id_u32 = val;
+	},
+	get IdU32() {
 		return this._id_u32;
-	}
+	},
 
-	this.SetRepeatIdU8 = function(repeat_id_u8) {
-		this._repeat_id_u8 = repeat_id_u8;
-	}
-	this.GetRepeatIdU8= function() {
+	set RepeatIdU8(val) {
+		this._repeat_id_u8 = val;
+	},
+	get RepeatIdU8() {
 		return this._repeat_id_u8;
-	}
+	},
 
-	this.SetOptionalIdU8 = function(optional_id_u8) {
+	set OptionalIdU8(val) {
 		this._optional_id_u8_flag = 1;
-		this._optional_id_u8 = optional_id_u8;
-	}
-	this.GetOptionalIdU8= function() {
+		this._optional_id_u8 = val;
+	},
+	get OptionalIdU8() {
 		return this._optional_id_u8;
-	}
+	},
 }

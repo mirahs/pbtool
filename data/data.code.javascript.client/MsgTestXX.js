@@ -45,27 +45,28 @@ function MsgTestXX() {
 	this.GetBuffer = function() {
 		return this.Encode().GetBuffer();
 	}
+}
 
-
-	this.SetIdU8 = function(id_u8) {
-		this._id_u8 = id_u8;
-	}
-	this.GetIdU8= function() {
+MsgTestXX.prototype = {
+	set IdU8(val) {
+		this._id_u8 = val;
+	},
+	get IdU8() {
 		return this._id_u8;
-	}
+	},
 
-	this.SetIdF32 = function(id_f32) {
-		this._id_f32 = id_f32;
-	}
-	this.GetIdF32= function() {
+	set IdF32(val) {
+		this._id_f32 = val;
+	},
+	get IdF32() {
 		return this._id_f32;
-	}
+	},
 
-	this.SetIdOpU8 = function(id_op_u8) {
+	set IdOpU8(val) {
 		this._id_op_u8_flag = 1;
-		this._id_op_u8 = id_op_u8;
-	}
-	this.GetIdOpU8= function() {
+		this._id_op_u8 = val;
+	},
+	get IdOpU8() {
 		return this._id_op_u8;
-	}
+	},
 }

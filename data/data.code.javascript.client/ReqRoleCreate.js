@@ -31,75 +31,76 @@ function ReqRoleCreate() {
 		packet.Encode(1020);
 		return packet;
 	}
+}
 
-
-	this.SetUid = function(uid) {
-		this._uid = uid;
-	}
-	this.GetUid= function() {
+ReqRoleCreate.prototype = {
+	set Uid(val) {
+		this._uid = val;
+	},
+	get Uid() {
 		return this._uid;
-	}
+	},
 
-	this.SetUuid = function(uuid) {
-		this._uuid = uuid;
-	}
-	this.GetUuid= function() {
+	set Uuid(val) {
+		this._uuid = val;
+	},
+	get Uuid() {
 		return this._uuid;
-	}
+	},
 
-	this.SetSid = function(sid) {
-		this._sid = sid;
-	}
-	this.GetSid= function() {
+	set Sid(val) {
+		this._sid = val;
+	},
+	get Sid() {
 		return this._sid;
-	}
+	},
 
-	this.SetCid = function(cid) {
-		this._cid = cid;
-	}
-	this.GetCid= function() {
+	set Cid(val) {
+		this._cid = val;
+	},
+	get Cid() {
 		return this._cid;
-	}
+	},
 
-	this.SetOs = function(os) {
-		this._os = os;
-	}
-	this.GetOs= function() {
+	set Os(val) {
+		this._os = val;
+	},
+	get Os() {
 		return this._os;
-	}
+	},
 
-	this.SetVersion = function(version) {
-		this._version = version;
-	}
-	this.GetVersion= function() {
+	set Version(val) {
+		this._version = val;
+	},
+	get Version() {
 		return this._version;
-	}
+	},
 
-	this.SetUname = function(uname) {
-		this._uname = uname;
-	}
-	this.GetUname= function() {
+	set Uname(val) {
+		this._uname = val;
+	},
+	get Uname() {
 		return this._uname;
-	}
+	},
 
-	this.SetSource = function(source) {
-		this._source = source;
-	}
-	this.GetSource= function() {
+	set Source(val) {
+		this._source = val;
+	},
+	get Source() {
 		return this._source;
-	}
+	},
 
-	this.SetSourceSub = function(source_sub) {
-		this._source_sub = source_sub;
-	}
-	this.GetSourceSub= function() {
+	set SourceSub(val) {
+		this._source_sub = val;
+	},
+	get SourceSub() {
 		return this._source_sub;
-	}
+	},
 
-	this.SetLoginTime = function(login_time) {
-		this._login_time = login_time;
-	}
-	this.GetLoginTime= function() {
+	set LoginTime(val) {
+		this._login_time = val;
+	},
+	get LoginTime() {
 		return this._login_time;
-	}
+	},
 }

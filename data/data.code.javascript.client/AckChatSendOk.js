@@ -16,33 +16,34 @@ function AckChatSendOk() {
 		this._uname = packet.ReadString();
 		this._content = packet.ReadString();
 	}
+}
 
-
-	this.SetChannel = function(channel) {
-		this._channel = channel;
-	}
-	this.GetChannel= function() {
+AckChatSendOk.prototype = {
+	set Channel(val) {
+		this._channel = val;
+	},
+	get Channel() {
 		return this._channel;
-	}
+	},
 
-	this.SetUid = function(uid) {
-		this._uid = uid;
-	}
-	this.GetUid= function() {
+	set Uid(val) {
+		this._uid = val;
+	},
+	get Uid() {
 		return this._uid;
-	}
+	},
 
-	this.SetUname = function(uname) {
-		this._uname = uname;
-	}
-	this.GetUname= function() {
+	set Uname(val) {
+		this._uname = val;
+	},
+	get Uname() {
 		return this._uname;
-	}
+	},
 
-	this.SetContent = function(content) {
-		this._content = content;
-	}
-	this.GetContent= function() {
+	set Content(val) {
+		this._content = val;
+	},
+	get Content() {
 		return this._content;
-	}
+	},
 }

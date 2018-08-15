@@ -11,6 +11,6 @@ function ReqSceneReqPlayers() {
 		packet.Encode(2070);
 		return packet;
 	}
-
-
 }
+
+ReqSceneReqPlayers.prototype = {}

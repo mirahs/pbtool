@@ -13,12 +13,13 @@ function ReqChatGm() {
 		packet.Encode(1530);
 		return packet;
 	}
+}
 
-
-	this.SetContent = function(content) {
-		this._content = content;
-	}
-	this.GetContent= function() {
+ReqChatGm.prototype = {
+	set Content(val) {
+		this._content = val;
+	},
+	get Content() {
 		return this._content;
-	}
+	},
 }

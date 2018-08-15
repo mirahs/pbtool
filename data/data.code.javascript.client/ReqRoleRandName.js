@@ -11,6 +11,6 @@ function ReqRoleRandName() {
 		packet.Encode(1030);
 		return packet;
 	}
-
-
 }
+
+ReqRoleRandName.prototype = {}

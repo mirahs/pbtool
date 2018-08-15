@@ -20,12 +20,13 @@ function MsgTestPhp() {
 	this.GetBuffer = function() {
 		return this.Encode().GetBuffer();
 	}
+}
 
-
-	this.SetU16 = function(u16) {
-		this._u16 = u16;
-	}
-	this.GetU16= function() {
+MsgTestPhp.prototype = {
+	set U16(val) {
+		this._u16 = val;
+	},
+	get U16() {
 		return this._u16;
-	}
+	},
 }

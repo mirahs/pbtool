@@ -26,26 +26,27 @@ function MsgSceneVector3() {
 	this.GetBuffer = function() {
 		return this.Encode().GetBuffer();
 	}
+}
 
-
-	this.SetX = function(x) {
-		this._x = x;
-	}
-	this.GetX= function() {
+MsgSceneVector3.prototype = {
+	set X(val) {
+		this._x = val;
+	},
+	get X() {
 		return this._x;
-	}
+	},
 
-	this.SetY = function(y) {
-		this._y = y;
-	}
-	this.GetY= function() {
+	set Y(val) {
+		this._y = val;
+	},
+	get Y() {
 		return this._y;
-	}
+	},
 
-	this.SetZ = function(z) {
-		this._z = z;
-	}
-	this.GetZ= function() {
+	set Z(val) {
+		this._z = val;
+	},
+	get Z() {
 		return this._z;
-	}
+	},
 }

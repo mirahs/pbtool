@@ -10,12 +10,13 @@ function AckRoleRandNameOk() {
 	this.Decode = function(packet) {
 		this._uname = packet.ReadString();
 	}
+}
 
-
-	this.SetUname = function(uname) {
-		this._uname = uname;
-	}
-	this.GetUname= function() {
+AckRoleRandNameOk.prototype = {
+	set Uname(val) {
+		this._uname = val;
+	},
+	get Uname() {
 		return this._uname;
-	}
+	},
 }

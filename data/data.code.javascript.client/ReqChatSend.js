@@ -17,26 +17,27 @@ function ReqChatSend() {
 		packet.Encode(1510);
 		return packet;
 	}
+}
 
-
-	this.SetChannel = function(channel) {
-		this._channel = channel;
-	}
-	this.GetChannel= function() {
+ReqChatSend.prototype = {
+	set Channel(val) {
+		this._channel = val;
+	},
+	get Channel() {
 		return this._channel;
-	}
+	},
 
-	this.SetDestUid = function(dest_uid) {
-		this._dest_uid = dest_uid;
-	}
-	this.GetDestUid= function() {
+	set DestUid(val) {
+		this._dest_uid = val;
+	},
+	get DestUid() {
 		return this._dest_uid;
-	}
+	},
 
-	this.SetContent = function(content) {
-		this._content = content;
-	}
-	this.GetContent= function() {
+	set Content(val) {
+		this._content = val;
+	},
+	get Content() {
 		return this._content;
-	}
+	},
 }

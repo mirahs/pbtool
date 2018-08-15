@@ -11,12 +11,13 @@ function AckSceneEnter() {
 	this.Decode = function(packet) {
 		this._player = new MsgScenePlayer(packet);
 	}
+}
 
-
-	this.SetPlayer = function(player) {
-		this._player = player;
-	}
-	this.GetPlayer= function() {
+AckSceneEnter.prototype = {
+	set Player(val) {
+		this._player = val;
+	},
+	get Player() {
 		return this._player;
-	}
+	},
 }

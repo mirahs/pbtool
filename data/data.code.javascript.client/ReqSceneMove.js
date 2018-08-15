@@ -21,33 +21,34 @@ function ReqSceneMove() {
 		packet.Encode(2030);
 		return packet;
 	}
+}
 
-
-	this.SetSceneRotPos = function(scene_rot_pos) {
-		this._scene_rot_pos = scene_rot_pos;
-	}
-	this.GetSceneRotPos= function() {
+ReqSceneMove.prototype = {
+	set SceneRotPos(val) {
+		this._scene_rot_pos = val;
+	},
+	get SceneRotPos() {
 		return this._scene_rot_pos;
-	}
+	},
 
-	this.SetForward = function(forward) {
-		this._forward = forward;
-	}
-	this.GetForward= function() {
+	set Forward(val) {
+		this._forward = val;
+	},
+	get Forward() {
 		return this._forward;
-	}
+	},
 
-	this.SetAniName = function(ani_name) {
-		this._ani_name = ani_name;
-	}
-	this.GetAniName= function() {
+	set AniName(val) {
+		this._ani_name = val;
+	},
+	get AniName() {
 		return this._ani_name;
-	}
+	},
 
-	this.SetXAxis = function(x_axis) {
-		this._x_axis = x_axis;
-	}
-	this.GetXAxis= function() {
+	set XAxis(val) {
+		this._x_axis = val;
+	},
+	get XAxis() {
 		return this._x_axis;
-	}
+	},
 }

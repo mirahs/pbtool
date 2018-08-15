@@ -8,6 +8,6 @@ function AckRoleLoginOkNoRole() {
 
 	this.Decode = function(packet) {
 	}
-
-
 }
+
+AckRoleLoginOkNoRole.prototype = {}

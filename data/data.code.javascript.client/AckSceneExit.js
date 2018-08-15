@@ -10,12 +10,13 @@ function AckSceneExit() {
 	this.Decode = function(packet) {
 		this._uid = packet.ReadUint();
 	}
+}
 
-
-	this.SetUid = function(uid) {
-		this._uid = uid;
-	}
-	this.GetUid= function() {
+AckSceneExit.prototype = {
+	set Uid(val) {
+		this._uid = val;
+	},
+	get Uid() {
 		return this._uid;
-	}
+	},
 }

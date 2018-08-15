@@ -10,12 +10,13 @@ function AckRoleLoginOk() {
 	this.Decode = function(packet) {
 		this._uname = packet.ReadString();
 	}
+}
 
-
-	this.SetUname = function(uname) {
-		this._uname = uname;
-	}
-	this.GetUname= function() {
+AckRoleLoginOk.prototype = {
+	set Uname(val) {
+		this._uname = val;
+	},
+	get Uname() {
 		return this._uname;
-	}
+	},
 }

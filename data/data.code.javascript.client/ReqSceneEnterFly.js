@@ -13,12 +13,13 @@ function ReqSceneEnterFly() {
 		packet.Encode(2010);
 		return packet;
 	}
+}
 
-
-	this.SetMapId = function(map_id) {
-		this._map_id = map_id;
-	}
-	this.GetMapId= function() {
+ReqSceneEnterFly.prototype = {
+	set MapId(val) {
+		this._map_id = val;
+	},
+	get MapId() {
 		return this._map_id;
-	}
+	},
 }

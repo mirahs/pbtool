@@ -15,12 +15,13 @@ function AckScenePlayers() {
 			this._players.push(new MsgScenePlayer(packet));
 		}
 	}
+}
 
-
-	this.SetPlayers = function(players) {
-		this._players = players;
-	}
-	this.GetPlayers= function() {
+AckScenePlayers.prototype = {
+	set Players(val) {
+		this._players = val;
+	},
+	get Players() {
 		return this._players;
-	}
+	},
 }

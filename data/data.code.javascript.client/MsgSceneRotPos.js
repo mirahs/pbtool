@@ -35,47 +35,48 @@ function MsgSceneRotPos() {
 	this.GetBuffer = function() {
 		return this.Encode().GetBuffer();
 	}
+}
 
-
-	this.SetRotX = function(rot_x) {
-		this._rot_x = rot_x;
-	}
-	this.GetRotX= function() {
+MsgSceneRotPos.prototype = {
+	set RotX(val) {
+		this._rot_x = val;
+	},
+	get RotX() {
 		return this._rot_x;
-	}
+	},
 
-	this.SetRotY = function(rot_y) {
-		this._rot_y = rot_y;
-	}
-	this.GetRotY= function() {
+	set RotY(val) {
+		this._rot_y = val;
+	},
+	get RotY() {
 		return this._rot_y;
-	}
+	},
 
-	this.SetRotZ = function(rot_z) {
-		this._rot_z = rot_z;
-	}
-	this.GetRotZ= function() {
+	set RotZ(val) {
+		this._rot_z = val;
+	},
+	get RotZ() {
 		return this._rot_z;
-	}
+	},
 
-	this.SetPosX = function(pos_x) {
-		this._pos_x = pos_x;
-	}
-	this.GetPosX= function() {
+	set PosX(val) {
+		this._pos_x = val;
+	},
+	get PosX() {
 		return this._pos_x;
-	}
+	},
 
-	this.SetPosY = function(pos_y) {
-		this._pos_y = pos_y;
-	}
-	this.GetPosY= function() {
+	set PosY(val) {
+		this._pos_y = val;
+	},
+	get PosY() {
 		return this._pos_y;
-	}
+	},
 
-	this.SetPosZ = function(pos_z) {
-		this._pos_z = pos_z;
-	}
-	this.GetPosZ= function() {
+	set PosZ(val) {
+		this._pos_z = val;
+	},
+	get PosZ() {
 		return this._pos_z;
-	}
+	},
 }

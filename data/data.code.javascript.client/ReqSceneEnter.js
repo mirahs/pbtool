@@ -13,12 +13,13 @@ function ReqSceneEnter() {
 		packet.Encode(2020);
 		return packet;
 	}
+}
 
-
-	this.SetDoorId = function(door_id) {
-		this._door_id = door_id;
-	}
-	this.GetDoorId= function() {
+ReqSceneEnter.prototype = {
+	set DoorId(val) {
+		this._door_id = val;
+	},
+	get DoorId() {
 		return this._door_id;
-	}
+	},
 }

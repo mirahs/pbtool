@@ -31,75 +31,76 @@ function ReqRoleLogin() {
 		packet.Encode(1010);
 		return packet;
 	}
+}
 
-
-	this.SetUid = function(uid) {
-		this._uid = uid;
-	}
-	this.GetUid= function() {
+ReqRoleLogin.prototype = {
+	set Uid(val) {
+		this._uid = val;
+	},
+	get Uid() {
 		return this._uid;
-	}
+	},
 
-	this.SetUuid = function(uuid) {
-		this._uuid = uuid;
-	}
-	this.GetUuid= function() {
+	set Uuid(val) {
+		this._uuid = val;
+	},
+	get Uuid() {
 		return this._uuid;
-	}
+	},
 
-	this.SetSid = function(sid) {
-		this._sid = sid;
-	}
-	this.GetSid= function() {
+	set Sid(val) {
+		this._sid = val;
+	},
+	get Sid() {
 		return this._sid;
-	}
+	},
 
-	this.SetCid = function(cid) {
-		this._cid = cid;
-	}
-	this.GetCid= function() {
+	set Cid(val) {
+		this._cid = val;
+	},
+	get Cid() {
 		return this._cid;
-	}
+	},
 
-	this.SetLoginTime = function(login_time) {
-		this._login_time = login_time;
-	}
-	this.GetLoginTime= function() {
+	set LoginTime(val) {
+		this._login_time = val;
+	},
+	get LoginTime() {
 		return this._login_time;
-	}
+	},
 
-	this.SetPwd = function(pwd) {
-		this._pwd = pwd;
-	}
-	this.GetPwd= function() {
+	set Pwd(val) {
+		this._pwd = val;
+	},
+	get Pwd() {
 		return this._pwd;
-	}
+	},
 
-	this.SetRelink = function(relink) {
-		this._relink = relink;
-	}
-	this.GetRelink= function() {
+	set Relink(val) {
+		this._relink = val;
+	},
+	get Relink() {
 		return this._relink;
-	}
+	},
 
-	this.SetDebug = function(debug) {
-		this._debug = debug;
-	}
-	this.GetDebug= function() {
+	set Debug(val) {
+		this._debug = val;
+	},
+	get Debug() {
 		return this._debug;
-	}
+	},
 
-	this.SetOs = function(os) {
-		this._os = os;
-	}
-	this.GetOs= function() {
+	set Os(val) {
+		this._os = val;
+	},
+	get Os() {
 		return this._os;
-	}
+	},
 
-	this.SetVersion = function(version) {
-		this._version = version;
-	}
-	this.GetVersion= function() {
+	set Version(val) {
+		this._version = val;
+	},
+	get Version() {
 		return this._version;
-	}
+	},
 }

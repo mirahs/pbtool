@@ -24,19 +24,20 @@ function MsgScenePlayer() {
 	this.GetBuffer = function() {
 		return this.Encode().GetBuffer();
 	}
+}
 
-
-	this.SetUid = function(uid) {
-		this._uid = uid;
-	}
-	this.GetUid= function() {
+MsgScenePlayer.prototype = {
+	set Uid(val) {
+		this._uid = val;
+	},
+	get Uid() {
 		return this._uid;
-	}
+	},
 
-	this.SetSceneRotPos = function(scene_rot_pos) {
-		this._scene_rot_pos = scene_rot_pos;
-	}
-	this.GetSceneRotPos= function() {
+	set SceneRotPos(val) {
+		this._scene_rot_pos = val;
+	},
+	get SceneRotPos() {
 		return this._scene_rot_pos;
-	}
+	},
 }

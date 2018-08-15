@@ -33,41 +33,42 @@ function ReqTestPhp() {
 		packet.Encode(40060);
 		return packet;
 	}
+}
 
-
-	this.SetU64 = function(u64) {
-		this._u64 = u64;
-	}
-	this.GetU64= function() {
+ReqTestPhp.prototype = {
+	set U64(val) {
+		this._u64 = val;
+	},
+	get U64() {
 		return this._u64;
-	}
+	},
 
-	this.SetStrxx = function(strxx) {
-		this._strxx = strxx;
-	}
-	this.GetStrxx= function() {
+	set Strxx(val) {
+		this._strxx = val;
+	},
+	get Strxx() {
 		return this._strxx;
-	}
+	},
 
-	this.SetMsgReq = function(msg_req) {
-		this._msg_req = msg_req;
-	}
-	this.GetMsgReq= function() {
+	set MsgReq(val) {
+		this._msg_req = val;
+	},
+	get MsgReq() {
 		return this._msg_req;
-	}
+	},
 
-	this.SetMsgOpt = function(msg_opt) {
+	set MsgOpt(val) {
 		this._msg_opt_flag = 1;
-		this._msg_opt = msg_opt;
-	}
-	this.GetMsgOpt= function() {
+		this._msg_opt = val;
+	},
+	get MsgOpt() {
 		return this._msg_opt;
-	}
+	},
 
-	this.SetMsgRep = function(msg_rep) {
-		this._msg_rep = msg_rep;
-	}
-	this.GetMsgRep= function() {
+	set MsgRep(val) {
+		this._msg_rep = val;
+	},
+	get MsgRep() {
 		return this._msg_rep;
-	}
+	},
 }

@@ -4,8 +4,11 @@ var Packet = require('../net/Packet');
 
 
 function ReqChatSend() {
+	// 聊天频道(世界|国家|军团|私聊|系统)
 	this._channel = 0;
+	// 私聊玩家uid
 	this._dest_uid = 0;
+	// 聊天内容
 	this._content = "";
 
 

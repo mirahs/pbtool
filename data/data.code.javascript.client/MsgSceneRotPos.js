@@ -4,11 +4,17 @@ var Packet = require('../net/Packet');
 
 
 function MsgSceneRotPos() {
+	// 旋转x
 	this._rot_x = 0;
+	// 旋转y
 	this._rot_y = 0;
+	// 旋转z
 	this._rot_z = 0;
+	// 位置x
 	this._pos_x = 0;
+	// 位置y
 	this._pos_y = 0;
+	// 位置z
 	this._pos_z = 0;
 
 

@@ -4,6 +4,7 @@ var Packet = require('../net/Packet');
 
 
 function ReqSceneEnter() {
+	// 传送门ID
 	this._door_id = 0;
 
 

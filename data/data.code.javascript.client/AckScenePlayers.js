@@ -5,6 +5,7 @@ var MsgScenePlayer = require('./MsgScenePlayer');
 
 
 function AckScenePlayers() {
+	// 玩家列表
 	this._players = new Array();
 
 
@@ -12,7 +13,9 @@ function AckScenePlayers() {
 		var players_count = packet.ReadUshort();
 		for (var i = 0; i < players_count; i++)
 		{
-			this._players.push(new MsgScenePlayer(packet));
+			 var xx = new MsgScenePlayer();
+			 xx.Decode(packet);
+			this._players.push(xx);
 		}
 	}
 }

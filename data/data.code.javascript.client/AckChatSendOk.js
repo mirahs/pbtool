@@ -4,9 +4,13 @@ var Packet = require('../net/Packet');
 
 
 function AckChatSendOk() {
+	// 聊天频道(世界|国家|军团|私聊|系统)
 	this._channel = 0;
+	// 玩家uid
 	this._uid = 0;
+	// 玩家昵称
 	this._uname = "";
+	// 聊天内容
 	this._content = "";
 
 

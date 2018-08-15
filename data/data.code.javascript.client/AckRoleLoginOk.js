@@ -4,6 +4,7 @@ var Packet = require('../net/Packet');
 
 
 function AckRoleLoginOk() {
+	// 玩家名字
 	this._uname = "";
 
 

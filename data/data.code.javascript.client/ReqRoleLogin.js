@@ -4,15 +4,25 @@ var Packet = require('../net/Packet');
 
 
 function ReqRoleLogin() {
+	// 玩家uid
 	this._uid = 0;
+	// 账号uuid
 	this._uuid = 0;
+	// 服务器id
 	this._sid = 0;
+	// 平台id
 	this._cid = 0;
+	// 登录时间
 	this._login_time = 0;
+	// 校验码
 	this._pwd = "";
+	// 是否重连
 	this._relink = 0;
+	// 是否调试
 	this._debug = 0;
+	// 操作系统
 	this._os = "";
+	// 版本号
 	this._version = "";
 
 

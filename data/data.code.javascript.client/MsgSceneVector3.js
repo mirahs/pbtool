@@ -4,8 +4,11 @@ var Packet = require('../net/Packet');
 
 
 function MsgSceneVector3() {
+	// x
 	this._x = 0;
+	// y
 	this._y = 0;
+	// z
 	this._z = 0;
 
 

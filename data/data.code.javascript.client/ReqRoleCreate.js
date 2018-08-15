@@ -4,15 +4,25 @@ var Packet = require('../net/Packet');
 
 
 function ReqRoleCreate() {
+	// 玩家uid
 	this._uid = 0;
+	// 账号uuid
 	this._uuid = 0;
+	// 服务器id
 	this._sid = 0;
+	// 平台id
 	this._cid = 0;
+	// 操作系统
 	this._os = "";
+	// 版本号
 	this._version = "";
+	// 玩家昵称
 	this._uname = "";
+	// 来源
 	this._source = "";
+	// 子来源
 	this._source_sub = "";
+	// 登录时间
 	this._login_time = 0;
 
 

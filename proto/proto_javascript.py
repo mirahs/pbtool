@@ -60,7 +60,7 @@ def protocol_const(code_path, mess_name_ids):
 	_str_msg		= ''
 	for mess_name_id in mess_name_ids:
 		mess_name 	= mess_name_id['mess_name']
-		if mess_name.startswith('C') or mess_name.startswith('C'):
+		if mess_name.startswith('C') or mess_name.startswith('S'):
 			mess_id 	= mess_name_id['mess_id']
 			mess_note	= mess_name_id['mess_note']
 			_str_msg += '\t//' + mess_note + '\n\t' + (tool.javascript_proto_name_msg(mess_name)).ljust(30, chr(32)) + ': ' + str(mess_id) + ',\n\n'
@@ -122,21 +122,16 @@ class ProtoJavaScript(object):
 			field_op 		= mess_field['field_op']
 			field_type 		= mess_field['field_type']
 			field_name 		= mess_field['field_name']
+			field_note		= mess_field['field_note']
 			field_name_flag = '_' + field_name + '_flag'
 			field_name_m	= '_' + field_name
 
 			default_val		= field_default_value(field_op, field_type)
 			if field_op == 'optional':
 				self._str_priv_var += '\tthis.' + field_name_flag + ' = 0;\n'
+			if field_note:
+				self._str_priv_var += '\t// ' + field_note + '\n'
 			self._str_priv_var += '\tthis.' + field_name_m + ' = ' + default_val + ';\n'
-
-			# if field_op == 'repeated':
-			# 	self._str_priv_var += '\tthis.' + field_name_m + ' = new Array()' + ';\n'
-			# elif field_op == 'optional':
-			# 	self._str_priv_var += '\tthis.' + field_name_flag + ' = 0;\n'
-			# 	self._str_priv_var += '\tthis.' + field_name_m + ' = undefined;\n'
-			# else:
-			# 	self._str_priv_var += '\tthis.' + field_name_m + ' = undefined;\n'
 
 	def _set_encode(self):
 		self._str_encode = '\tthis.Encode = function() {\n\t\tvar packet = new Packet();\n'
@@ -187,7 +182,9 @@ class ProtoJavaScript(object):
 				self._str_decode += '\t\tvar ' + field_name_count + ' = packet.ReadUshort();\n'
 				self._str_decode += '\t\tfor (var i = 0; i < ' + field_name_count + '; i++)\n\t\t{\n'
 				if field_type.startswith('Msg'):
-					self._str_decode += '\t\t\t' + field_name_m + '.push(new ' + field_type + '(packet));\n\t\t}\n'
+					self._str_decode += '\t\t\t var xx = new ' + field_type + '();\n'
+					self._str_decode += '\t\t\t xx.Decode(packet);\n'
+					self._str_decode += '\t\t\t' + field_name_m + '.push(xx);\n\t\t}\n'
 				else:
 					self._str_decode += '\t\t\t' + field_name_m + '.push(packet.Read' + field_type.capitalize() + '());\n\t\t}\n'
 			elif field_op == 'optional':
@@ -195,13 +192,16 @@ class ProtoJavaScript(object):
 				self._str_decode += '\t\tif (this._' + field_name_flag + ' == 1)\n'
 				self._str_decode += '\t\t{\n'
 				if field_type.startswith('M'):
-					self._str_decode += '\t\t\t' + field_name_m + ' = new ' + field_type + '(packet);\n'
+					self._str_decode += '\t\t\t' + field_name_m + ' = new ' + field_type + '();\n'
+					self._str_decode += '\t\t\t' + field_name_m + '.Decode(packet);\n'
 				else:
 					self._str_decode += '\t\t\t' + field_name_m + ' = ' + 'packet.Read' + field_type_big + '();\n'
 				self._str_decode += '\t\t}\n'
 			else:
-				if field_type.startswith('M'):
-					self._str_decode += '\t\t' + field_name_m + ' = new ' + field_type + '(packet);\n'
+				if field_type.startswith('Msg'):
+					self._str_decode += '\t\tvar xx = new ' + field_type + '();\n'
+					self._str_decode += '\t\txx.Decode(packet);\n'
+					self._str_decode += '\t\t' + field_name_m + ' = xx;\n'
 				else:
 					self._str_decode += '\t\t' + field_name_m + ' = packet.Read' + field_type_big + '();\n'
 		self._str_decode += '\t}\n'

@@ -4,6 +4,7 @@ var Packet = require('../net/Packet');
 
 
 function AckSceneExit() {
+	// 玩家ID
 	this._uid = 0;
 
 

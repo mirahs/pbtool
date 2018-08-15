@@ -4,7 +4,9 @@ var Packet = require('../net/Packet');
 
 
 function MsgFriendBaseAdd() {
+	// 玩家uid
 	this._uid = 0;
+	// 玩家昵称
 	this._uname = "";
 
 

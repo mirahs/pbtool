@@ -5,7 +5,9 @@ var MsgSceneRotPos = require('./MsgSceneRotPos');
 
 
 function MsgScenePlayer() {
+	// 玩家ID
 	this._uid = 0;
+	// 旋转和位置信息
 	this._scene_rot_pos = 0;
 
 
@@ -18,7 +20,9 @@ function MsgScenePlayer() {
 
 	this.Decode = function(packet) {
 		this._uid = packet.ReadUint();
-		this._scene_rot_pos = new MsgSceneRotPos(packet);
+		var xx = new MsgSceneRotPos();
+		xx.Decode(packet);
+		this._scene_rot_pos = xx;
 	}
 
 	this.GetBuffer = function() {

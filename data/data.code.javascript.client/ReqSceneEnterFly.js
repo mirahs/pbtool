@@ -4,6 +4,7 @@ var Packet = require('../net/Packet');
 
 
 function ReqSceneEnterFly() {
+	// 地图ID
 	this._map_id = 0;
 
 

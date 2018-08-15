@@ -4,6 +4,7 @@ var Packet = require('../net/Packet');
 
 
 function ReqChatGm() {
+	// GM内容
 	this._content = "";
 
 

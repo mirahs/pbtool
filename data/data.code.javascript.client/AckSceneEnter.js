@@ -5,11 +5,14 @@ var MsgScenePlayer = require('./MsgScenePlayer');
 
 
 function AckSceneEnter() {
+	// 玩家信息
 	this._player = 0;
 
 
 	this.Decode = function(packet) {
-		this._player = new MsgScenePlayer(packet);
+		var xx = new MsgScenePlayer();
+		xx.Decode(packet);
+		this._player = xx;
 	}
 }
 

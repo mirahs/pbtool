@@ -16,7 +16,9 @@ function AckTestSendOk() {
 
 	this.Decode = function(packet) {
 		this._id_u8 = packet.ReadByte();
-		this._role_base = new MsgRoleBase(packet);
+		var xx = new MsgRoleBase();
+		xx.Decode(packet);
+		this._role_base = xx;
 		var id_f32_count = packet.ReadUshort();
 		for (var i = 0; i < id_f32_count; i++)
 		{
@@ -30,7 +32,8 @@ function AckTestSendOk() {
 		this._op_role_base_flag = packet.ReadByte();
 		if (this._op_role_base_flag == 1)
 		{
-			this._op_role_base = new MsgRoleBase(packet);
+			this._op_role_base = new MsgRoleBase();
+			this._op_role_base.Decode(packet);
 		}
 	}
 }

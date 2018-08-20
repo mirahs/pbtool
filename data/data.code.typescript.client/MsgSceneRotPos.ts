@@ -1,20 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class MsgSceneRotPos
+namespace proto {
+export class MsgSceneRotPos
 {
-	private short _rot_x;
-	private short _rot_y;
-	private short _rot_z;
-	private short _pos_x;
-	private short _pos_y;
-	private short _pos_z;
+	private _rot_x: number;
+	private _rot_y: number;
+	private _rot_z: number;
+	private _pos_x: number;
+	private _pos_y: number;
+	private _pos_z: number;
 
 
-	public Packet Encode()
-	{
-		Packet packet = new Packet();
+	public Encode(): net.Packet {
+		let packet: net.Packet = new net.Packet();
 		packet.WriteShort(this._rot_x);
 		packet.WriteShort(this._rot_y);
 		packet.WriteShort(this._rot_z);
@@ -24,12 +20,8 @@ public class MsgSceneRotPos
 		return packet;
 	}
 
-	public MsgSceneRotPos()
-	{
-	}
 
-	public MsgSceneRotPos(Packet packet)
-	{
+	constructor(packet: net.Packet) {
 		this._rot_x = packet.ReadShort();
 		this._rot_y = packet.ReadShort();
 		this._rot_z = packet.ReadShort();
@@ -38,46 +30,23 @@ public class MsgSceneRotPos
 		this._pos_z = packet.ReadShort();
 	}
 
-	public List<byte> GetBuffer()
+	public GetBuffer(): ByteBuffer
 	{
 		return this.Encode().GetBuffer();
 	}
 
 
-	public short rot_x
-	{
-		get { return this._rot_x; }
-		set { this._rot_x = value; }
-	}
-
-	public short rot_y
-	{
-		get { return this._rot_y; }
-		set { this._rot_y = value; }
-	}
-
-	public short rot_z
-	{
-		get { return this._rot_z; }
-		set { this._rot_z = value; }
-	}
-
-	public short pos_x
-	{
-		get { return this._pos_x; }
-		set { this._pos_x = value; }
-	}
-
-	public short pos_y
-	{
-		get { return this._pos_y; }
-		set { this._pos_y = value; }
-	}
-
-	public short pos_z
-	{
-		get { return this._pos_z; }
-		set { this._pos_z = value; }
-	}
-
+	public get rot_x(): number { return this._rot_x; }
+	public set rot_x(value: number) { this._rot_x = value; }
+	public get rot_y(): number { return this._rot_y; }
+	public set rot_y(value: number) { this._rot_y = value; }
+	public get rot_z(): number { return this._rot_z; }
+	public set rot_z(value: number) { this._rot_z = value; }
+	public get pos_x(): number { return this._pos_x; }
+	public set pos_x(value: number) { this._pos_x = value; }
+	public get pos_y(): number { return this._pos_y; }
+	public set pos_y(value: number) { this._pos_y = value; }
+	public get pos_z(): number { return this._pos_z; }
+	public set pos_z(value: number) { this._pos_z = value; }
+}
 }

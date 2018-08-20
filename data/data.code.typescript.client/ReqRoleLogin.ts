@@ -1,24 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class ReqRoleLogin
+namespace proto {
+export class ReqRoleLogin
 {
-	private uint _uid;
-	private uint _uuid;
-	private ushort _sid;
-	private ushort _cid;
-	private uint _login_time;
-	private string _pwd;
-	private byte _relink;
-	private byte _debug;
-	private string _os;
-	private string _version;
+	private _uid: number;
+	private _uuid: number;
+	private _sid: number;
+	private _cid: number;
+	private _login_time: number;
+	private _pwd: string;
+	private _relink: number;
+	private _debug: number;
+	private _os: string;
+	private _version: string;
 
 
-	public Packet Encode()
-	{
-		Packet packet = new Packet();
+	public Encode(): net.Packet {
+		let packet: net.Packet = new net.Packet();
 		packet.WriteUint(this._uid);
 		packet.WriteUint(this._uuid);
 		packet.WriteUshort(this._sid);
@@ -29,69 +25,30 @@ public class ReqRoleLogin
 		packet.WriteByte(this._debug);
 		packet.WriteString(this._os);
 		packet.WriteString(this._version);
-		packet.Encode(Msg.P_REQ_ROLE_LOGIN);
+		packet.Encode(1010);
 		return packet;
 	}
 
 
-	public uint uid
-	{
-		get { return this._uid; }
-		set { this._uid = value; }
-	}
-
-	public uint uuid
-	{
-		get { return this._uuid; }
-		set { this._uuid = value; }
-	}
-
-	public ushort sid
-	{
-		get { return this._sid; }
-		set { this._sid = value; }
-	}
-
-	public ushort cid
-	{
-		get { return this._cid; }
-		set { this._cid = value; }
-	}
-
-	public uint login_time
-	{
-		get { return this._login_time; }
-		set { this._login_time = value; }
-	}
-
-	public string pwd
-	{
-		get { return this._pwd; }
-		set { this._pwd = value; }
-	}
-
-	public byte relink
-	{
-		get { return this._relink; }
-		set { this._relink = value; }
-	}
-
-	public byte debug
-	{
-		get { return this._debug; }
-		set { this._debug = value; }
-	}
-
-	public string os
-	{
-		get { return this._os; }
-		set { this._os = value; }
-	}
-
-	public string version
-	{
-		get { return this._version; }
-		set { this._version = value; }
-	}
-
+	public get uid(): number { return this._uid; }
+	public set uid(value: number) { this._uid = value; }
+	public get uuid(): number { return this._uuid; }
+	public set uuid(value: number) { this._uuid = value; }
+	public get sid(): number { return this._sid; }
+	public set sid(value: number) { this._sid = value; }
+	public get cid(): number { return this._cid; }
+	public set cid(value: number) { this._cid = value; }
+	public get login_time(): number { return this._login_time; }
+	public set login_time(value: number) { this._login_time = value; }
+	public get pwd(): string { return this._pwd; }
+	public set pwd(value: string) { this._pwd = value; }
+	public get relink(): number { return this._relink; }
+	public set relink(value: number) { this._relink = value; }
+	public get debug(): number { return this._debug; }
+	public set debug(value: number) { this._debug = value; }
+	public get os(): string { return this._os; }
+	public set os(value: string) { this._os = value; }
+	public get version(): string { return this._version; }
+	public set version(value: string) { this._version = value; }
+}
 }

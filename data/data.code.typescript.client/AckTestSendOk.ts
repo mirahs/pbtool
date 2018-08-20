@@ -1,27 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class AckTestSendOk
+namespace proto {
+export class AckTestSendOk
 {
-	private byte _id_u8;
-	private MsgRoleBase _role_base;
-	private List<float> _id_f32 = new List<float>();
-	private byte id_op_u8_flag;
-	private byte _id_op_u8;
-	private byte op_role_base_flag;
-	private MsgRoleBase _op_role_base;
+	private _id_u8: number;
+	private _role_base: MsgRoleBase;
+	private _id_f32: number[] = [];
+	private id_op_u8_flag: number = 0;
+	private _id_op_u8: number;
+	private op_role_base_flag: number = 0;
+	private _op_role_base: MsgRoleBase;
 
 
-	public AckTestSendOk(Packet packet)
-	{
+	constructor(packet: net.Packet) {
 		this._id_u8 = packet.ReadByte();
 		this._role_base = new MsgRoleBase(packet);
-		this._id_f32 = new List<float>();
-		ushort id_f32_count = packet.ReadUshort();
-		for (ushort i = 0; i < id_f32_count; i++)
+		this._id_f32 = [];
+		let id_f32_count: number = packet.ReadUshort();
+		for (var i: number = 0; i < id_f32_count; i++)
 		{
-			this._id_f32.Add(packet.ReadFloat());
+			this._id_f32.push(packet.ReadFloat());
 		}
 		this. id_op_u8_flag = packet.ReadByte();
 		if (this.id_op_u8_flag == 1)
@@ -36,34 +32,15 @@ public class AckTestSendOk
 	}
 
 
-	public byte id_u8
-	{
-		get { return this._id_u8; }
-		set { this._id_u8 = value; }
-	}
-
-	public MsgRoleBase role_base
-	{
-		get { return this._role_base; }
-		set { this._role_base = value; }
-	}
-
-	public List<float> id_f32
-	{
-		get { return this._id_f32; }
-		set { this._id_f32 = value; }
-	}
-
-	public byte id_op_u8
-	{
-		get { return this._id_op_u8; }
-		set { this.id_op_u8_flag = 1; this._id_op_u8 = value; }
-	}
-
-	public MsgRoleBase op_role_base
-	{
-		get { return this._op_role_base; }
-		set { this.op_role_base_flag = 1; this._op_role_base = value; }
-	}
-
+	public get id_u8(): number { return this._id_u8; }
+	public set id_u8(value: number) { this._id_u8 = value; }
+	public get role_base(): MsgRoleBase { return this._role_base; }
+	public set role_base(value: MsgRoleBase) { this._role_base = value; }
+	public get id_f32(): number[] {return this._id_f32; }
+	public set id_f32(value: number[]) { this._id_f32 = value; }
+	public get id_op_u8(): number { return this._id_op_u8; }
+	public set id_op_u8(value: number) { this.id_op_u8_flag = 1; this._id_op_u8 = value; }
+	public get op_role_base(): MsgRoleBase { return this._op_role_base; }
+	public set op_role_base(value: MsgRoleBase) { this.op_role_base_flag = 1; this._op_role_base = value; }
+}
 }

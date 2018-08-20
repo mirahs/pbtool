@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class ReqRoleRandName
+namespace proto {
+export class ReqRoleRandName
 {
 
 
-	public Packet Encode()
-	{
-		Packet packet = new Packet();
-		packet.Encode(Msg.P_REQ_ROLE_RAND_NAME);
+	public Encode(): net.Packet {
+		let packet: net.Packet = new net.Packet();
+		packet.Encode(1030);
 		return packet;
 	}
 
 
 
+}
 }

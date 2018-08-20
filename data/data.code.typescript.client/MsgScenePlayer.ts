@@ -1,47 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class MsgScenePlayer
+namespace proto {
+export class MsgScenePlayer
 {
-	private uint _uid;
-	private MsgSceneRotPos _scene_rot_pos;
+	private _uid: number;
+	private _scene_rot_pos: MsgSceneRotPos;
 
 
-	public Packet Encode()
-	{
-		Packet packet = new Packet();
+	public Encode(): net.Packet {
+		let packet: net.Packet = new net.Packet();
 		packet.WriteUint(this._uid);
 		packet.WriteBuffer(this._scene_rot_pos.GetBuffer());
 		return packet;
 	}
 
-	public MsgScenePlayer()
-	{
-	}
 
-	public MsgScenePlayer(Packet packet)
-	{
+	constructor(packet: net.Packet) {
 		this._uid = packet.ReadUint();
 		this._scene_rot_pos = new MsgSceneRotPos(packet);
 	}
 
-	public List<byte> GetBuffer()
+	public GetBuffer(): ByteBuffer
 	{
 		return this.Encode().GetBuffer();
 	}
 
 
-	public uint uid
-	{
-		get { return this._uid; }
-		set { this._uid = value; }
-	}
-
-	public MsgSceneRotPos scene_rot_pos
-	{
-		get { return this._scene_rot_pos; }
-		set { this._scene_rot_pos = value; }
-	}
-
+	public get uid(): number { return this._uid; }
+	public set uid(value: number) { this._uid = value; }
+	public get scene_rot_pos(): MsgSceneRotPos { return this._scene_rot_pos; }
+	public set scene_rot_pos(value: MsgSceneRotPos) { this._scene_rot_pos = value; }
+}
 }

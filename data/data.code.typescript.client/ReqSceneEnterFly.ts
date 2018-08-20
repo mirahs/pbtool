@@ -1,25 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class ReqSceneEnterFly
+namespace proto {
+export class ReqSceneEnterFly
 {
-	private uint _map_id;
+	private _map_id: number;
 
 
-	public Packet Encode()
-	{
-		Packet packet = new Packet();
+	public Encode(): net.Packet {
+		let packet: net.Packet = new net.Packet();
 		packet.WriteUint(this._map_id);
-		packet.Encode(Msg.P_REQ_SCENE_ENTER_FLY);
+		packet.Encode(2010);
 		return packet;
 	}
 
 
-	public uint map_id
-	{
-		get { return this._map_id; }
-		set { this._map_id = value; }
-	}
-
+	public get map_id(): number { return this._map_id; }
+	public set map_id(value: number) { this._map_id = value; }
+}
 }

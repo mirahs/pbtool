@@ -1,22 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class AckSceneEnter
+namespace proto {
+export class AckSceneEnter
 {
-	private MsgScenePlayer _player;
+	private _player: MsgScenePlayer;
 
 
-	public AckSceneEnter(Packet packet)
-	{
+	constructor(packet: net.Packet) {
 		this._player = new MsgScenePlayer(packet);
 	}
 
 
-	public MsgScenePlayer player
-	{
-		get { return this._player; }
-		set { this._player = value; }
-	}
-
+	public get player(): MsgScenePlayer { return this._player; }
+	public set player(value: MsgScenePlayer) { this._player = value; }
+}
 }

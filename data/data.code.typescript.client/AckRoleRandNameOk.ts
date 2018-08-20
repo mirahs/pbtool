@@ -1,22 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class AckRoleRandNameOk
+namespace proto {
+export class AckRoleRandNameOk
 {
-	private string _uname;
+	private _uname: string;
 
 
-	public AckRoleRandNameOk(Packet packet)
-	{
+	constructor(packet: net.Packet) {
 		this._uname = packet.ReadString();
 	}
 
 
-	public string uname
-	{
-		get { return this._uname; }
-		set { this._uname = value; }
-	}
-
+	public get uname(): string { return this._uname; }
+	public set uname(value: string) { this._uname = value; }
+}
 }

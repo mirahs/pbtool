@@ -1,68 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class ReqTestPhp
+namespace proto {
+export class ReqTestPhp
 {
-	private ulong _u64;
-	private string _strxx;
-	private MsgTestPhp _msg_req;
-	private byte msg_opt_flag;
-	private MsgTestPhp _msg_opt;
-	private List<MsgTestPhp> _msg_rep = new List<MsgTestPhp>();
+	private _u64: Long;
+	private _strxx: string;
+	private _msg_req: MsgTestPhp;
+	private msg_opt_flag: number = 0;
+	private _msg_opt: MsgTestPhp;
+	private _msg_rep: MsgTestPhp[] = [];
 
 
-	public Packet Encode()
-	{
-		Packet packet = new Packet();
+	public Encode(): net.Packet {
+		let packet: net.Packet = new net.Packet();
 		packet.WriteUlong(this._u64);
 		packet.WriteString(this._strxx);
 		packet.WriteBuffer(this._msg_req.GetBuffer());
-		packet.WriteByte(msg_opt_flag);
+		packet.WriteByte(this.msg_opt_flag);
 		if (this.msg_opt_flag == 1)
 		{
 			packet.WriteBuffer(this._msg_opt.GetBuffer());
 		}
-		ushort msg_rep_count = (ushort)this._msg_rep.Count;
+		let msg_rep_count: number = this._msg_rep.length;
 		packet.WriteUshort(msg_rep_count);
-		for (ushort i = 0; i < msg_rep_count; i++)
+		for (var i: number = 0; i < msg_rep_count; i++)
 		{
-			MsgTestPhp xxx = this._msg_rep[i];
+			let xxx: MsgTestPhp = this._msg_rep[i];
 			packet.WriteBuffer(xxx.GetBuffer());
 		}
-		packet.Encode(Msg.P_REQ_TEST_PHP);
+		packet.Encode(40060);
 		return packet;
 	}
 
 
-	public ulong u64
-	{
-		get { return this._u64; }
-		set { this._u64 = value; }
-	}
-
-	public string strxx
-	{
-		get { return this._strxx; }
-		set { this._strxx = value; }
-	}
-
-	public MsgTestPhp msg_req
-	{
-		get { return this._msg_req; }
-		set { this._msg_req = value; }
-	}
-
-	public MsgTestPhp msg_opt
-	{
-		get { return this._msg_opt; }
-		set { this.msg_opt_flag = 1; this._msg_opt = value; }
-	}
-
-	public List<MsgTestPhp> msg_rep
-	{
-		get { return this._msg_rep; }
-		set { this._msg_rep = value; }
-	}
-
+	public get u64(): Long { return this._u64; }
+	public set u64(value: Long) { this._u64 = value; }
+	public get strxx(): string { return this._strxx; }
+	public set strxx(value: string) { this._strxx = value; }
+	public get msg_req(): MsgTestPhp { return this._msg_req; }
+	public set msg_req(value: MsgTestPhp) { this._msg_req = value; }
+	public get msg_opt(): MsgTestPhp { return this._msg_opt; }
+	public set msg_opt(value: MsgTestPhp) { this.msg_opt_flag = 1; this._msg_opt = value; }
+	public get msg_rep(): MsgTestPhp[] {return this._msg_rep; }
+	public set msg_rep(value: MsgTestPhp[]) { this._msg_rep = value; }
+}
 }

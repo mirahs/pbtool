@@ -1,17 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class AckChatSendOk
+namespace proto {
+export class AckChatSendOk
 {
-	private byte _channel;
-	private uint _uid;
-	private string _uname;
-	private string _content;
+	private _channel: number;
+	private _uid: number;
+	private _uname: string;
+	private _content: string;
 
 
-	public AckChatSendOk(Packet packet)
-	{
+	constructor(packet: net.Packet) {
 		this._channel = packet.ReadByte();
 		this._uid = packet.ReadUint();
 		this._uname = packet.ReadString();
@@ -19,28 +15,13 @@ public class AckChatSendOk
 	}
 
 
-	public byte channel
-	{
-		get { return this._channel; }
-		set { this._channel = value; }
-	}
-
-	public uint uid
-	{
-		get { return this._uid; }
-		set { this._uid = value; }
-	}
-
-	public string uname
-	{
-		get { return this._uname; }
-		set { this._uname = value; }
-	}
-
-	public string content
-	{
-		get { return this._content; }
-		set { this._content = value; }
-	}
-
+	public get channel(): number { return this._channel; }
+	public set channel(value: number) { this._channel = value; }
+	public get uid(): number { return this._uid; }
+	public set uid(value: number) { this._uid = value; }
+	public get uname(): string { return this._uname; }
+	public set uname(value: string) { this._uname = value; }
+	public get content(): string { return this._content; }
+	public set content(value: string) { this._content = value; }
+}
 }

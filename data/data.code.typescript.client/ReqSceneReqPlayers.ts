@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class ReqSceneReqPlayers
+namespace proto {
+export class ReqSceneReqPlayers
 {
 
 
-	public Packet Encode()
-	{
-		Packet packet = new Packet();
-		packet.Encode(Msg.P_REQ_SCENE_REQ_PLAYERS);
+	public Encode(): net.Packet {
+		let packet: net.Packet = new net.Packet();
+		packet.Encode(2070);
 		return packet;
 	}
 
 
 
+}
 }

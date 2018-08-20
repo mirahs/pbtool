@@ -1,25 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class ReqSceneEnter
+namespace proto {
+export class ReqSceneEnter
 {
-	private uint _door_id;
+	private _door_id: number;
 
 
-	public Packet Encode()
-	{
-		Packet packet = new Packet();
+	public Encode(): net.Packet {
+		let packet: net.Packet = new net.Packet();
 		packet.WriteUint(this._door_id);
-		packet.Encode(Msg.P_REQ_SCENE_ENTER);
+		packet.Encode(2020);
 		return packet;
 	}
 
 
-	public uint door_id
-	{
-		get { return this._door_id; }
-		set { this._door_id = value; }
-	}
-
+	public get door_id(): number { return this._door_id; }
+	public set door_id(value: number) { this._door_id = value; }
+}
 }

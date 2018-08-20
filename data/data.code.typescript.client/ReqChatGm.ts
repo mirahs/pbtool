@@ -1,25 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class ReqChatGm
+namespace proto {
+export class ReqChatGm
 {
-	private string _content;
+	private _content: string;
 
 
-	public Packet Encode()
-	{
-		Packet packet = new Packet();
+	public Encode(): net.Packet {
+		let packet: net.Packet = new net.Packet();
 		packet.WriteString(this._content);
-		packet.Encode(Msg.P_REQ_CHAT_GM);
+		packet.Encode(1530);
 		return packet;
 	}
 
 
-	public string content
-	{
-		get { return this._content; }
-		set { this._content = value; }
-	}
-
+	public get content(): string { return this._content; }
+	public set content(value: string) { this._content = value; }
+}
 }

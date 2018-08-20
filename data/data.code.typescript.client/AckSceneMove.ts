@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class AckSceneMove
+namespace proto {
+export class AckSceneMove
 {
-	private MsgSceneRotPos _scene_rot_pos;
-	private MsgSceneVector3 _forward;
-	private string _ani_name;
-	private short _x_axis;
-	private uint _uid;
+	private _scene_rot_pos: MsgSceneRotPos;
+	private _forward: MsgSceneVector3;
+	private _ani_name: string;
+	private _x_axis: number;
+	private _uid: number;
 
 
-	public AckSceneMove(Packet packet)
-	{
+	constructor(packet: net.Packet) {
 		this._scene_rot_pos = new MsgSceneRotPos(packet);
 		this._forward = new MsgSceneVector3(packet);
 		this._ani_name = packet.ReadString();
@@ -21,34 +17,15 @@ public class AckSceneMove
 	}
 
 
-	public MsgSceneRotPos scene_rot_pos
-	{
-		get { return this._scene_rot_pos; }
-		set { this._scene_rot_pos = value; }
-	}
-
-	public MsgSceneVector3 forward
-	{
-		get { return this._forward; }
-		set { this._forward = value; }
-	}
-
-	public string ani_name
-	{
-		get { return this._ani_name; }
-		set { this._ani_name = value; }
-	}
-
-	public short x_axis
-	{
-		get { return this._x_axis; }
-		set { this._x_axis = value; }
-	}
-
-	public uint uid
-	{
-		get { return this._uid; }
-		set { this._uid = value; }
-	}
-
+	public get scene_rot_pos(): MsgSceneRotPos { return this._scene_rot_pos; }
+	public set scene_rot_pos(value: MsgSceneRotPos) { this._scene_rot_pos = value; }
+	public get forward(): MsgSceneVector3 { return this._forward; }
+	public set forward(value: MsgSceneVector3) { this._forward = value; }
+	public get ani_name(): string { return this._ani_name; }
+	public set ani_name(value: string) { this._ani_name = value; }
+	public get x_axis(): number { return this._x_axis; }
+	public set x_axis(value: number) { this._x_axis = value; }
+	public get uid(): number { return this._uid; }
+	public set uid(value: number) { this._uid = value; }
+}
 }

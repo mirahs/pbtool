@@ -1,22 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class AckSceneExit
+namespace proto {
+export class AckSceneExit
 {
-	private uint _uid;
+	private _uid: number;
 
 
-	public AckSceneExit(Packet packet)
-	{
+	constructor(packet: net.Packet) {
 		this._uid = packet.ReadUint();
 	}
 
 
-	public uint uid
-	{
-		get { return this._uid; }
-		set { this._uid = value; }
-	}
-
+	public get uid(): number { return this._uid; }
+	public set uid(value: number) { this._uid = value; }
+}
 }

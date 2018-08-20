@@ -1,27 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class AckScenePlayers
+namespace proto {
+export class AckScenePlayers
 {
-	private List<MsgScenePlayer> _players = new List<MsgScenePlayer>();
+	private _players: MsgScenePlayer[] = [];
 
 
-	public AckScenePlayers(Packet packet)
-	{
-		this._players = new List<MsgScenePlayer>();
-		ushort players_count = packet.ReadUshort();
-		for (ushort i = 0; i < players_count; i++)
+	constructor(packet: net.Packet) {
+		this._players = [];
+		let players_count: number = packet.ReadUshort();
+		for (var i: number = 0; i < players_count; i++)
 		{
-			this._players.Add(new MsgScenePlayer(packet));
+			this._players.push(new MsgScenePlayer(packet));
 		}
 	}
 
 
-	public List<MsgScenePlayer> players
-	{
-		get { return this._players; }
-		set { this._players = value; }
-	}
-
+	public get players(): MsgScenePlayer[] {return this._players; }
+	public set players(value: MsgScenePlayer[]) { this._players = value; }
+}
 }

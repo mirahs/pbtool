@@ -1,4 +1,4 @@
-export namespace proto {
+namespace proto {
 	export const enum Msg {
 		/**聊天信息返回*/
 		ACK_CHAT_SEND_OK              = 1520,

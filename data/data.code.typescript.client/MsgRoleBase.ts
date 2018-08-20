@@ -1,47 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
-
-
-public class MsgRoleBase
+namespace proto {
+export class MsgRoleBase
 {
-	private uint _uid;
-	private string _uname;
+	private _uid: number;
+	private _uname: string;
 
 
-	public Packet Encode()
-	{
-		Packet packet = new Packet();
+	public Encode(): net.Packet {
+		let packet: net.Packet = new net.Packet();
 		packet.WriteUint(this._uid);
 		packet.WriteString(this._uname);
 		return packet;
 	}
 
-	public MsgRoleBase()
-	{
-	}
 
-	public MsgRoleBase(Packet packet)
-	{
+	constructor(packet: net.Packet) {
 		this._uid = packet.ReadUint();
 		this._uname = packet.ReadString();
 	}
 
-	public List<byte> GetBuffer()
+	public GetBuffer(): ByteBuffer
 	{
 		return this.Encode().GetBuffer();
 	}
 
 
-	public uint uid
-	{
-		get { return this._uid; }
-		set { this._uid = value; }
-	}
-
-	public string uname
-	{
-		get { return this._uname; }
-		set { this._uname = value; }
-	}
-
+	public get uid(): number { return this._uid; }
+	public set uid(value: number) { this._uid = value; }
+	public get uname(): string { return this._uname; }
+	public set uname(value: string) { this._uname = value; }
+}
 }

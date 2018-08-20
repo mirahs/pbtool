@@ -16,7 +16,7 @@
 * [python](examples/python)
 * [php](examples/php)
 * [javascript](examples/javascript)
-* [typescript](examples/typescript)
+* typescript([LayaAir](examples/LayaAir))
 
 ## 使用方法
 找到 conf.py 文件, 修改 data_proto 配置(原始协议文件目录) 例:  

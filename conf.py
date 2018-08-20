@@ -20,6 +20,8 @@ data_xml			= data_dir + 'data.xml/'
 现支持:
     erlang_server
     erlang_client
+    erlang_server_old
+    erlang_client_old
     csharp_server
     csharp_client
     golang_server
@@ -54,6 +56,16 @@ langs_proto = [
         'lang':     'erlang_client',
         'code':     'data.code.erlang.client',
         'common':   'data.code.erlang.common.client',
+    },
+    {
+        'lang':     'erlang_server_old',
+        'code':     'data.code.erlang.server.old',
+        'common':   'data.code.erlang.common.server.old',
+    },
+    {
+        'lang':     'erlang_client_old',
+        'code':     'data.code.erlang.client.old',
+        'common':   'data.code.erlang.common.client.old',
     },
     {
         'lang':     'csharp_client',

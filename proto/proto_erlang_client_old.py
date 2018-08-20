@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # coding:utf-8
-from proto_erlang import ProtoErlang, protocol_const, protocol_record
+from proto_erlang_old import ProtoErlang, protocol_const, protocol_record
 
 
 def parse(code_path, common_path, protos):

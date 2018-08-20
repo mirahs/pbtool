@@ -37,6 +37,7 @@ data_xml			= data_dir + 'data.xml/'
     php_server
     php_client
     javascript_client
+    typescript_client
 
 配置格式:
     lang:       需要导出的语言
@@ -128,6 +129,10 @@ langs_proto = [
     {
         'lang':     'javascript_client',
         'code':     'data.code.javascript.client',
+    },
+    {
+        'lang':     'typescript_client',
+        'code':     'data.code.typescript.client',
     },
 ]
 

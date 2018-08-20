@@ -7,7 +7,7 @@ from proto_typescript import ProtoTypeScript, protocol_const
 
 
 def parse(code_path, common_path, protos):
-	name_ids	= list()
+	name_ids = list()
 	for proto in protos:
 		name_id	= dict()
 		name_id['mess_name']	= proto['mess_name']

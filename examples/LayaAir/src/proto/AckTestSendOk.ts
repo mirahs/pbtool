@@ -10,7 +10,7 @@ export class AckTestSendOk
 	private _op_role_base: MsgRoleBase;
 
 
-	constructor(packet: net.Packet) {
+	constructor(packet: game.util.Packet) {
 		this._id_u8 = packet.ReadByte();
 		this._role_base = new MsgRoleBase(packet);
 		this._id_f32 = [];

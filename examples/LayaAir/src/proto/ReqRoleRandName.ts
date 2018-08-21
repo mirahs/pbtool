@@ -3,8 +3,8 @@ export class ReqRoleRandName
 {
 
 
-	public Encode(): net.Packet {
-		let packet: net.Packet = new net.Packet();
+	public Encode(): game.util.Packet {
+		let packet: game.util.Packet = new game.util.Packet();
 		packet.Encode(1030);
 		return packet;
 	}

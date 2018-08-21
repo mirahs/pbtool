@@ -115,7 +115,7 @@ class ProtoTypeScript(object):
 				self._str_priv_var += '\tprivate ' + field_name_m + ': ' + field_type + ';\n'
 
 	def _set_encode(self):
-		self._str_encode = '\tpublic Encode(): net.Packet {\n\t\tlet packet: net.Packet = new net.Packet();\n'
+		self._str_encode = '\tpublic Encode(): game.util.Packet {\n\t\tlet packet: game.util.Packet = new game.util.Packet();\n'
 		for mess_field in self._proto['mess_fields']:
 			field_op 		= mess_field['field_op']
 			field_type 		= mess_field['field_type']
@@ -153,7 +153,7 @@ class ProtoTypeScript(object):
 		self._str_encode += '\t\treturn packet;\n\t}\n'
 
 	def _set_decode(self):
-		self._str_decode = '\tconstructor(packet: net.Packet) {\n'
+		self._str_decode = '\tconstructor(packet: game.util.Packet) {\n'
 		for mess_field in self._proto['mess_fields']:
 			field_op 		= mess_field['field_op']
 			field_type 		= mess_field['field_type']

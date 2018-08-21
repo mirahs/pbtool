@@ -13,8 +13,8 @@ export class ReqRoleCreate
 	private _login_time: number;
 
 
-	public Encode(): net.Packet {
-		let packet: net.Packet = new net.Packet();
+	public Encode(): game.util.Packet {
+		let packet: game.util.Packet = new game.util.Packet();
 		packet.WriteUint(this._uid);
 		packet.WriteUint(this._uuid);
 		packet.WriteUshort(this._sid);

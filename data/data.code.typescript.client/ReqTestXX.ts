@@ -9,8 +9,8 @@ export class ReqTestXX
 	private _optional_id_u8: number;
 
 
-	public Encode(): net.Packet {
-		let packet: net.Packet = new net.Packet();
+	public Encode(): game.util.Packet {
+		let packet: game.util.Packet = new game.util.Packet();
 		packet.WriteByte(this._id_u8);
 		packet.WriteUshort(this._id_u16);
 		packet.WriteUint(this._id_u32);

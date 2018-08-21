@@ -9,7 +9,7 @@ export class AckTestPhpOk
 	private _msg_rep: MsgTestPhp[] = [];
 
 
-	constructor(packet: net.Packet) {
+	constructor(packet: game.util.Packet) {
 		this._u64 = packet.ReadUlong();
 		this._strxx = packet.ReadString();
 		this._msg_req = new MsgTestPhp(packet);

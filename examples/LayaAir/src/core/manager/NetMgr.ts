@@ -1,17 +1,23 @@
-namespace net {
-	//let PacketHandler: (number, Packet) => any;
+//import * as ByteBuffer from "bytebuffer";
+
+
+namespace core.manager {
 	export class NetMgr {
 		private _host: string = '';
 		private _port: number = 0;
 		private _socket: WebSocket = null;
 
-		private _handlers: { [packetId: number]: ((number, Packet) => any)[] } = {};
+		private _handlers: { [packetId: number]: HandlerFunc[] } = {};
 
 		private _bufferLen: number = 0;
 		private _buffer: ByteBuffer = null;
 
 
-		constructor(host: string = '', port: number = 0) {
+		private static _inst: NetMgr = null;
+		public static get Inst(): NetMgr {
+			return this._inst || (this._inst = new NetMgr());
+		}
+		private constructor() {
 			this._handlers = {};
 
 			this._bufferLen = 0;
@@ -19,18 +25,18 @@ namespace net {
 		}
 
 
-		public on(packetId: number, handler: (number, Packet) => any) {
+		public on(packetId: number, handler: HandlerFunc): void {
 			if (this._handlers[packetId]) {
 				const handlers = this._handlers[packetId];
 				handlers.push(handler);
 			} else {
-				const handlers: ((number, Packet) => any)[] = [];
+				const handlers: HandlerFunc[] = [];
 				handlers.push(handler);
 				this._handlers[packetId] = handlers;
 			}
 		}
 
-		public off(packetId: number, handler: (number, Packet) => any) {
+		public off(packetId: number, handler: HandlerFunc): void {
 			if (this._handlers[packetId]) {
 				const handlers = this._handlers[packetId];
 				let delIdx = -1;
@@ -64,7 +70,7 @@ namespace net {
 			}
 		}
 
-		send(packet: Packet) {
+		public send(packet: game.util.Packet): void {
 			if (this.isConnect) {
 				const bf = packet.Buffer();
 				this._socket.send(bf);
@@ -74,7 +80,7 @@ namespace net {
 			}
 		}
 
-		isConnect() {
+		public get isConnect(): boolean {
 			return this._socket && this._socket.readyState == WebSocket.OPEN;
 		}
 
@@ -133,7 +139,7 @@ namespace net {
 			if (this._handlers[packetId]) {
 				const handlers = this._handlers[packetId];
 				for (let i = 0; i < handlers.length; i++) {
-					const packet = new Packet(packetBuffer);
+					const packet = new game.util.Packet(packetBuffer);
 					handlers[i](packetId, packet);
 				}
 			} else {
@@ -141,4 +147,9 @@ namespace net {
 			}
 		}
 	}
+}
+
+
+interface HandlerFunc {
+	(number, Packet): void;
 }

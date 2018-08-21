@@ -1,4 +1,4 @@
-namespace net {
+namespace game.util {
 	export class Packet {
 		public packetId: number = 0;
 

@@ -6,8 +6,8 @@ export class MsgSceneVector3
 	private _z: number;
 
 
-	public Encode(): net.Packet {
-		let packet: net.Packet = new net.Packet();
+	public Encode(): game.util.Packet {
+		let packet: game.util.Packet = new game.util.Packet();
 		packet.WriteShort(this._x);
 		packet.WriteShort(this._y);
 		packet.WriteShort(this._z);
@@ -15,7 +15,7 @@ export class MsgSceneVector3
 	}
 
 
-	constructor(packet: net.Packet) {
+	constructor(packet: game.util.Packet) {
 		this._x = packet.ReadShort();
 		this._y = packet.ReadShort();
 		this._z = packet.ReadShort();

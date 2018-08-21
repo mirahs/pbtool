@@ -4,7 +4,7 @@ export class AckSceneExit
 	private _uid: number;
 
 
-	constructor(packet: net.Packet) {
+	constructor(packet: game.util.Packet) {
 		this._uid = packet.ReadUint();
 	}
 

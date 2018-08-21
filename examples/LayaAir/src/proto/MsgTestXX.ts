@@ -7,8 +7,8 @@ export class MsgTestXX
 	private _id_op_u8: number;
 
 
-	public Encode(): net.Packet {
-		let packet: net.Packet = new net.Packet();
+	public Encode(): game.util.Packet {
+		let packet: game.util.Packet = new game.util.Packet();
 		packet.WriteByte(this._id_u8);
 		let id_f32_count: number = this._id_f32.length;
 		packet.WriteUshort(id_f32_count);
@@ -26,7 +26,7 @@ export class MsgTestXX
 	}
 
 
-	constructor(packet: net.Packet) {
+	constructor(packet: game.util.Packet) {
 		this._id_u8 = packet.ReadByte();
 		this._id_f32 = [];
 		let id_f32_count: number = packet.ReadUshort();

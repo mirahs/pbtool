@@ -5,15 +5,15 @@ export class MsgRoleBase
 	private _uname: string;
 
 
-	public Encode(): net.Packet {
-		let packet: net.Packet = new net.Packet();
+	public Encode(): game.util.Packet {
+		let packet: game.util.Packet = new game.util.Packet();
 		packet.WriteUint(this._uid);
 		packet.WriteString(this._uname);
 		return packet;
 	}
 
 
-	constructor(packet: net.Packet) {
+	constructor(packet: game.util.Packet) {
 		this._uid = packet.ReadUint();
 		this._uname = packet.ReadString();
 	}

@@ -4,7 +4,7 @@ export class AckRoleRandNameOk
 	private _uname: string;
 
 
-	constructor(packet: net.Packet) {
+	constructor(packet: game.util.Packet) {
 		this._uname = packet.ReadString();
 	}
 

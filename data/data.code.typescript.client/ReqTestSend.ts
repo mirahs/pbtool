@@ -10,8 +10,8 @@ export class ReqTestSend
 	private _op_role_base: MsgRoleBase;
 
 
-	public Encode(): net.Packet {
-		let packet: net.Packet = new net.Packet();
+	public Encode(): game.util.Packet {
+		let packet: game.util.Packet = new game.util.Packet();
 		packet.WriteByte(this._id_u8);
 		packet.WriteBuffer(this._role_base.GetBuffer());
 		let id_f32_count: number = this._id_f32.length;

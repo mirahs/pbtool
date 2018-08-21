@@ -8,7 +8,7 @@ export class AckSceneMove
 	private _uid: number;
 
 
-	constructor(packet: net.Packet) {
+	constructor(packet: game.util.Packet) {
 		this._scene_rot_pos = new MsgSceneRotPos(packet);
 		this._forward = new MsgSceneVector3(packet);
 		this._ani_name = packet.ReadString();

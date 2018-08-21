@@ -7,7 +7,7 @@ export class AckChatSendOk
 	private _content: string;
 
 
-	constructor(packet: net.Packet) {
+	constructor(packet: game.util.Packet) {
 		this._channel = packet.ReadByte();
 		this._uid = packet.ReadUint();
 		this._uname = packet.ReadString();

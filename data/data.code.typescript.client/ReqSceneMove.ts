@@ -7,8 +7,8 @@ export class ReqSceneMove
 	private _x_axis: number;
 
 
-	public Encode(): net.Packet {
-		let packet: net.Packet = new net.Packet();
+	public Encode(): game.util.Packet {
+		let packet: game.util.Packet = new game.util.Packet();
 		packet.WriteBuffer(this._scene_rot_pos.GetBuffer());
 		packet.WriteBuffer(this._forward.GetBuffer());
 		packet.WriteString(this._ani_name);

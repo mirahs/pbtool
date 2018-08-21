@@ -9,8 +9,8 @@ export class ReqTestPhp
 	private _msg_rep: MsgTestPhp[] = [];
 
 
-	public Encode(): net.Packet {
-		let packet: net.Packet = new net.Packet();
+	public Encode(): game.util.Packet {
+		let packet: game.util.Packet = new game.util.Packet();
 		packet.WriteUlong(this._u64);
 		packet.WriteString(this._strxx);
 		packet.WriteBuffer(this._msg_req.GetBuffer());

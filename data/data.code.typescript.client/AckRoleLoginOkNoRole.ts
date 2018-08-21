@@ -3,7 +3,7 @@ export class AckRoleLoginOkNoRole
 {
 
 
-	constructor(packet: net.Packet) {
+	constructor(packet: game.util.Packet) {
 	}
 
 

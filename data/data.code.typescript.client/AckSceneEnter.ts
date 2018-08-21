@@ -4,7 +4,7 @@ export class AckSceneEnter
 	private _player: MsgScenePlayer;
 
 
-	constructor(packet: net.Packet) {
+	constructor(packet: game.util.Packet) {
 		this._player = new MsgScenePlayer(packet);
 	}
 

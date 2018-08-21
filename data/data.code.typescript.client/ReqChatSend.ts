@@ -6,8 +6,8 @@ export class ReqChatSend
 	private _content: string;
 
 
-	public Encode(): net.Packet {
-		let packet: net.Packet = new net.Packet();
+	public Encode(): game.util.Packet {
+		let packet: game.util.Packet = new game.util.Packet();
 		packet.WriteByte(this._channel);
 		packet.WriteUint(this._dest_uid);
 		packet.WriteString(this._content);

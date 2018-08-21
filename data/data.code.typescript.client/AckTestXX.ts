@@ -9,7 +9,7 @@ export class AckTestXX
 	private _optional_id_u8: number;
 
 
-	constructor(packet: net.Packet) {
+	constructor(packet: game.util.Packet) {
 		this._id_u8 = packet.ReadByte();
 		this._id_u16 = packet.ReadUshort();
 		this._id_u32 = packet.ReadUint();

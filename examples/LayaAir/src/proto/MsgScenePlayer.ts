@@ -5,15 +5,15 @@ export class MsgScenePlayer
 	private _scene_rot_pos: MsgSceneRotPos;
 
 
-	public Encode(): net.Packet {
-		let packet: net.Packet = new net.Packet();
+	public Encode(): game.util.Packet {
+		let packet: game.util.Packet = new game.util.Packet();
 		packet.WriteUint(this._uid);
 		packet.WriteBuffer(this._scene_rot_pos.GetBuffer());
 		return packet;
 	}
 
 
-	constructor(packet: net.Packet) {
+	constructor(packet: game.util.Packet) {
 		this._uid = packet.ReadUint();
 		this._scene_rot_pos = new MsgSceneRotPos(packet);
 	}

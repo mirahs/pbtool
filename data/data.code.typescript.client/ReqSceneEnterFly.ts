@@ -4,8 +4,8 @@ export class ReqSceneEnterFly
 	private _map_id: number;
 
 
-	public Encode(): net.Packet {
-		let packet: net.Packet = new net.Packet();
+	public Encode(): game.util.Packet {
+		let packet: game.util.Packet = new game.util.Packet();
 		packet.WriteUint(this._map_id);
 		packet.Encode(2010);
 		return packet;

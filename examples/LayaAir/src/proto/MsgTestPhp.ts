@@ -4,14 +4,14 @@ export class MsgTestPhp
 	private _u16: number;
 
 
-	public Encode(): net.Packet {
-		let packet: net.Packet = new net.Packet();
+	public Encode(): game.util.Packet {
+		let packet: game.util.Packet = new game.util.Packet();
 		packet.WriteUshort(this._u16);
 		return packet;
 	}
 
 
-	constructor(packet: net.Packet) {
+	constructor(packet: game.util.Packet) {
 		this._u16 = packet.ReadUshort();
 	}
 

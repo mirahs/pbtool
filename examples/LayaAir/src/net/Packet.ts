@@ -1,5 +1,7 @@
 namespace net {
 	export class Packet {
+		public packetId: number = 0;
+
 		private _buffer: ByteBuffer;
 
 

@@ -1,24 +1,27 @@
-import EventMgr = core.manager.EventMgr;
 import NetMgr = core.manager.NetMgr;
 
 
 class GameMain {
+    private _netMgr: NetMgr = null;
+
+
     constructor() {
         Laya.init(600, 400);
 
-        EventMgr.Inst.on(1, this.testEvent);
-        EventMgr.Inst.fire(1);
-        EventMgr.Inst.fire(1, 10086);
-        EventMgr.Inst.fire(1, '10086');
-        EventMgr.Inst.fire(1, [111, 222]);
-        EventMgr.Inst.fire(1, { a: 111, b: 222 });
-
-        console.log('NetMgr.Inst.isConnect:' + NetMgr.Inst.isConnect);
+        this._netMgr = new NetMgr(() => this.onNetOpen(), () => this.onNetClose(), () => this.onNetError());
+        this._netMgr.connect('119.23.52.178', 9090);
     }
 
 
-    private testEvent(eventId: number, data: any): void {
-        console.log('testEvent eventId:' + eventId, data);
+    private onNetOpen(): void {
+        console.log('网络链接成功');
+    }
+
+    private onNetClose(): void {
+
+    }
+
+    private onNetError(): void {
     }
 }
 

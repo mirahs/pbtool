@@ -13,16 +13,20 @@ namespace core.manager {
 		private _bufferLen: number = 0;
 		private _buffer: ByteBuffer = null;
 
+		private _onopen: Function = null;
+		private _onclose: Function = null;
+		private _onerror: Function = null;
 
-		private static _inst: NetMgr = null;
-		public static get Inst(): NetMgr {
-			return this._inst || (this._inst = new NetMgr());
-		}
-		private constructor() {
+
+		constructor(onopen?: Function, onclose?: Function, onerror?: Function) {
 			this._handlers = {};
 
 			this._bufferLen = 0;
 			this._buffer = new ByteBuffer();
+
+			this._onopen = onopen;
+			this._onclose = onclose;
+			this._onerror = onerror;
 		}
 
 
@@ -59,10 +63,10 @@ namespace core.manager {
 			this._port = port;
 			this._socket = new WebSocket("ws://" + this._host + ":" + this._port + '/websocket');
 
-			this._socket.onopen = this.openHandler;
-			this._socket.onclose = this.closeHandler;
-			this._socket.onmessage = this.receiveHandler;
-			this._socket.onerror = this.errorHandler;
+			this._socket.onopen = (ev: Event) => { this.openHandler(ev); };
+			this._socket.onclose = (ev: Event) => { this.closeHandler(ev); };
+			this._socket.onmessage = (ev: Event) => { this.receiveHandler(ev); };
+			this._socket.onerror = (ev: ErrorEvent) => { this.errorHandler(ev); };
 		}
 
 		public disConnect(): void {
@@ -82,21 +86,24 @@ namespace core.manager {
 		}
 
 		public get isConnect(): boolean {
-			return this._socket && this._socket.readyState == WebSocket.OPEN;
+			return this._socket != null && this._socket.readyState == WebSocket.OPEN;
 		}
 
 
-		private openHandler(event: any = null): void {
-			//cy.EventMgr.Send(cy.AppConst.Event.NetConnectSuccess);
+		private openHandler(ev: any = null): void {
+			console.log('网络链接成功');
+			if (this._onopen) this._onopen(ev);
 		}
 		private receiveHandler(evt: any = null): void {
 			this.processRecive(evt.data as ArrayBuffer);
 		}
-		private closeHandler(e: any = null): void {
-			//cy.EventMgr.Send(cy.AppConst.Event.NetDisconnect);
+		private closeHandler(ev: any = null): void {
+			console.log('网络链接关闭');
+			if (this._onclose) this._onclose(ev);
 		}
-		private errorHandler(e: any = null): void {
-			//cy.EventMgr.Send(cy.AppConst.Event.NetError);
+		private errorHandler(ev: ErrorEvent): void {
+			console.log('网络错误 ev.message:', ev.message);
+			if (this._onerror) this._onerror(ev);
 		}
 
 

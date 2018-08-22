@@ -1,4 +1,5 @@
 //import * as ByteBuffer from "bytebuffer";
+import ByteBuffer = dcodeIO.ByteBuffer;
 
 
 namespace core.manager {

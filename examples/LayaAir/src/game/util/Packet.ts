@@ -78,7 +78,7 @@ namespace game.util {
 		public WriteString(v) {
 			var len = ByteBuffer.calculateUTF8Bytes(v);
 			this.WriteUshort(len);
-			this._buffer.WriteString(v);
+			this._buffer.writeString(v);
 		}
 
 

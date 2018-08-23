@@ -9,7 +9,7 @@ class GameMain {
         Laya.init(600, 400);
 
         this._netMgr = new NetMgr(() => this.onNetOpen(), () => this.onNetClose(), () => this.onNetError());
-        this._netMgr.connect('119.23.52.178', 9090);
+        this._netMgr.connect('127.0.0.1', 8080);
     }
 
 

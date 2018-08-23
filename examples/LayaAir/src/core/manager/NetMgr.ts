@@ -23,6 +23,7 @@ namespace core.manager {
 
 			this._bufferLen = 0;
 			this._buffer = new ByteBuffer();
+			console.log('this._buffer', this._buffer);
 
 			this._onopen = onopen;
 			this._onclose = onclose;
@@ -62,6 +63,7 @@ namespace core.manager {
 			this._host = host;
 			this._port = port;
 			this._socket = new WebSocket("ws://" + this._host + ":" + this._port + '/websocket');
+			this._socket.binaryType = "arraybuffer";
 
 			this._socket.onopen = (ev: Event) => { this.openHandler(ev); };
 			this._socket.onclose = (ev: Event) => { this.closeHandler(ev); };
@@ -108,6 +110,7 @@ namespace core.manager {
 
 
 		private processRecive(data: ArrayBuffer): void {
+			console.log('data:', data);
 			this._bufferLen += data.byteLength;
 			// 新收的包加进去
 			this._buffer.append(data);

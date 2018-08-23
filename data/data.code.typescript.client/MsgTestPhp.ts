@@ -11,8 +11,10 @@ export class MsgTestPhp
 	}
 
 
-	constructor(packet: game.util.Packet) {
-		this._u16 = packet.ReadUshort();
+	constructor(packet?: game.util.Packet) {
+		if (packet) {
+			this._u16 = packet.ReadUshort();
+		}
 	}
 
 	public GetBuffer(): ByteBuffer

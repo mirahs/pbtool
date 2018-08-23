@@ -35,24 +35,26 @@ export class MsgTestSend
 	}
 
 
-	constructor(packet: game.util.Packet) {
-		this._id_u8 = packet.ReadByte();
-		this._role_base = new MsgRoleBase(packet);
-		this._id_f32 = [];
-		let id_f32_count: number = packet.ReadUshort();
-		for (var i: number = 0; i < id_f32_count; i++)
+	constructor(packet?: game.util.Packet) {
+		if (packet) {
+			this._id_u8 = packet.ReadByte();
+			this._role_base = new MsgRoleBase(packet);
+			this._id_f32 = [];
+			let id_f32_count: number = packet.ReadUshort();
+			for (var i: number = 0; i < id_f32_count; i++)
 		{
-			this._id_f32.push(packet.ReadFloat());
+				this._id_f32.push(packet.ReadFloat());
 		}
-		this. id_op_u8_flag = packet.ReadByte();
-		if (this.id_op_u8_flag == 1)
-		{
-			this._id_op_u8 = packet.ReadByte();
-		}
-		this. op_role_base_flag = packet.ReadByte();
-		if (this.op_role_base_flag == 1)
-		{
-			this._op_role_base = new MsgRoleBase(packet);
+			this. id_op_u8_flag = packet.ReadByte();
+			if (this.id_op_u8_flag == 1)
+			{
+				this._id_op_u8 = packet.ReadByte();
+			}
+			this. op_role_base_flag = packet.ReadByte();
+			if (this.op_role_base_flag == 1)
+			{
+				this._op_role_base = new MsgRoleBase(packet);
+			}
 		}
 	}
 

@@ -7,11 +7,13 @@ export class AckChatSendOk
 	private _content: string;
 
 
-	constructor(packet: game.util.Packet) {
-		this._channel = packet.ReadByte();
-		this._uid = packet.ReadUint();
-		this._uname = packet.ReadString();
-		this._content = packet.ReadString();
+	constructor(packet?: game.util.Packet) {
+		if (packet) {
+			this._channel = packet.ReadByte();
+			this._uid = packet.ReadUint();
+			this._uname = packet.ReadString();
+			this._content = packet.ReadString();
+		}
 	}
 
 

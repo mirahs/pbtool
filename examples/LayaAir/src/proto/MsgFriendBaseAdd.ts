@@ -13,9 +13,11 @@ export class MsgFriendBaseAdd
 	}
 
 
-	constructor(packet: game.util.Packet) {
-		this._uid = packet.ReadUint();
-		this._uname = packet.ReadString();
+	constructor(packet?: game.util.Packet) {
+		if (packet) {
+			this._uid = packet.ReadUint();
+			this._uname = packet.ReadString();
+		}
 	}
 
 	public GetBuffer(): ByteBuffer

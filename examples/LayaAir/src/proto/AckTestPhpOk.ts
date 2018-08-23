@@ -9,20 +9,22 @@ export class AckTestPhpOk
 	private _msg_rep: MsgTestPhp[] = [];
 
 
-	constructor(packet: game.util.Packet) {
-		this._u64 = packet.ReadUlong();
-		this._strxx = packet.ReadString();
-		this._msg_req = new MsgTestPhp(packet);
-		this. msg_opt_flag = packet.ReadByte();
-		if (this.msg_opt_flag == 1)
+	constructor(packet?: game.util.Packet) {
+		if (packet) {
+			this._u64 = packet.ReadUlong();
+			this._strxx = packet.ReadString();
+			this._msg_req = new MsgTestPhp(packet);
+			this. msg_opt_flag = packet.ReadByte();
+			if (this.msg_opt_flag == 1)
+			{
+				this._msg_opt = new MsgTestPhp(packet);
+			}
+			this._msg_rep = [];
+			let msg_rep_count: number = packet.ReadUshort();
+			for (var i: number = 0; i < msg_rep_count; i++)
 		{
-			this._msg_opt = new MsgTestPhp(packet);
+				this._msg_rep.push(new MsgTestPhp(packet));
 		}
-		this._msg_rep = [];
-		let msg_rep_count: number = packet.ReadUshort();
-		for (var i: number = 0; i < msg_rep_count; i++)
-		{
-			this._msg_rep.push(new MsgTestPhp(packet));
 		}
 	}
 

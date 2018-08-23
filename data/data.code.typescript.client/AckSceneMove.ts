@@ -8,12 +8,14 @@ export class AckSceneMove
 	private _uid: number;
 
 
-	constructor(packet: game.util.Packet) {
-		this._scene_rot_pos = new MsgSceneRotPos(packet);
-		this._forward = new MsgSceneVector3(packet);
-		this._ani_name = packet.ReadString();
-		this._x_axis = packet.ReadShort();
-		this._uid = packet.ReadUint();
+	constructor(packet?: game.util.Packet) {
+		if (packet) {
+			this._scene_rot_pos = new MsgSceneRotPos(packet);
+			this._forward = new MsgSceneVector3(packet);
+			this._ani_name = packet.ReadString();
+			this._x_axis = packet.ReadShort();
+			this._uid = packet.ReadUint();
+		}
 	}
 
 

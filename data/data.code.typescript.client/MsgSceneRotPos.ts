@@ -21,13 +21,15 @@ export class MsgSceneRotPos
 	}
 
 
-	constructor(packet: game.util.Packet) {
-		this._rot_x = packet.ReadShort();
-		this._rot_y = packet.ReadShort();
-		this._rot_z = packet.ReadShort();
-		this._pos_x = packet.ReadShort();
-		this._pos_y = packet.ReadShort();
-		this._pos_z = packet.ReadShort();
+	constructor(packet?: game.util.Packet) {
+		if (packet) {
+			this._rot_x = packet.ReadShort();
+			this._rot_y = packet.ReadShort();
+			this._rot_z = packet.ReadShort();
+			this._pos_x = packet.ReadShort();
+			this._pos_y = packet.ReadShort();
+			this._pos_z = packet.ReadShort();
+		}
 	}
 
 	public GetBuffer(): ByteBuffer

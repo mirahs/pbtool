@@ -13,9 +13,11 @@ export class MsgScenePlayer
 	}
 
 
-	constructor(packet: game.util.Packet) {
-		this._uid = packet.ReadUint();
-		this._scene_rot_pos = new MsgSceneRotPos(packet);
+	constructor(packet?: game.util.Packet) {
+		if (packet) {
+			this._uid = packet.ReadUint();
+			this._scene_rot_pos = new MsgSceneRotPos(packet);
+		}
 	}
 
 	public GetBuffer(): ByteBuffer

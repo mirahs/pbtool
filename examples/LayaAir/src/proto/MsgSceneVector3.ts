@@ -15,10 +15,12 @@ export class MsgSceneVector3
 	}
 
 
-	constructor(packet: game.util.Packet) {
-		this._x = packet.ReadShort();
-		this._y = packet.ReadShort();
-		this._z = packet.ReadShort();
+	constructor(packet?: game.util.Packet) {
+		if (packet) {
+			this._x = packet.ReadShort();
+			this._y = packet.ReadShort();
+			this._z = packet.ReadShort();
+		}
 	}
 
 	public GetBuffer(): ByteBuffer

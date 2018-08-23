@@ -9,20 +9,22 @@ export class AckTestXX
 	private _optional_id_u8: number;
 
 
-	constructor(packet: game.util.Packet) {
-		this._id_u8 = packet.ReadByte();
-		this._id_u16 = packet.ReadUshort();
-		this._id_u32 = packet.ReadUint();
-		this._repeat_id_u8 = [];
-		let repeat_id_u8_count: number = packet.ReadUshort();
-		for (var i: number = 0; i < repeat_id_u8_count; i++)
+	constructor(packet?: game.util.Packet) {
+		if (packet) {
+			this._id_u8 = packet.ReadByte();
+			this._id_u16 = packet.ReadUshort();
+			this._id_u32 = packet.ReadUint();
+			this._repeat_id_u8 = [];
+			let repeat_id_u8_count: number = packet.ReadUshort();
+			for (var i: number = 0; i < repeat_id_u8_count; i++)
 		{
-			this._repeat_id_u8.push(packet.ReadByte());
+				this._repeat_id_u8.push(packet.ReadByte());
 		}
-		this. optional_id_u8_flag = packet.ReadByte();
-		if (this.optional_id_u8_flag == 1)
-		{
-			this._optional_id_u8 = packet.ReadByte();
+			this. optional_id_u8_flag = packet.ReadByte();
+			if (this.optional_id_u8_flag == 1)
+			{
+				this._optional_id_u8 = packet.ReadByte();
+			}
 		}
 	}
 

@@ -4,12 +4,14 @@ export class AckScenePlayers
 	private _players: MsgScenePlayer[] = [];
 
 
-	constructor(packet: game.util.Packet) {
-		this._players = [];
-		let players_count: number = packet.ReadUshort();
-		for (var i: number = 0; i < players_count; i++)
+	constructor(packet?: game.util.Packet) {
+		if (packet) {
+			this._players = [];
+			let players_count: number = packet.ReadUshort();
+			for (var i: number = 0; i < players_count; i++)
 		{
-			this._players.push(new MsgScenePlayer(packet));
+				this._players.push(new MsgScenePlayer(packet));
+		}
 		}
 	}
 

@@ -1,6 +1,6 @@
 namespace core.manager {
 	export class EventMgr {
-		private _handlers: { [eventId: number]: HandlerFunc[] } = {};
+		private _handlers: { [eventId: number]: Function[] } = {};
 		private _eventQueue: QueueData[] = [];
 
 
@@ -13,18 +13,18 @@ namespace core.manager {
 		}
 
 
-		public on(eventId: number, handler: HandlerFunc): void {
+		public on(eventId: number, handler: Function): void {
 			if (this._handlers[eventId]) {
 				const handlers = this._handlers[eventId];
 				handlers.push(handler);
 			} else {
-				const handlers: HandlerFunc[] = [];
+				const handlers: Function[] = [];
 				handlers.push(handler);
 				this._handlers[eventId] = handlers;
 			}
 		}
 
-		public off(eventId: number, handler: HandlerFunc): void {
+		public off(eventId: number, handler: Function): void {
 			if (this._handlers[eventId]) {
 				const handlers = this._handlers[eventId];
 				let delIdx = -1;
@@ -64,10 +64,6 @@ namespace core.manager {
 	}
 }
 
-
-interface HandlerFunc {
-	(number, any): void;
-}
 
 interface QueueData {
 	key: number;

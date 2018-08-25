@@ -1,4 +1,3 @@
-//import * as ByteBuffer from "bytebuffer";
 import ByteBuffer = dcodeIO.ByteBuffer;
 
 
@@ -8,7 +7,7 @@ namespace core.manager {
 		private _port: number = 0;
 		private _socket: WebSocket = null;
 
-		private _handlers: { [packetId: number]: HandlerFunc[] } = {};
+		private _handlers: { [packetId: number]: Function[] } = {};
 
 		private _bufferLen: number = 0;
 		private _buffer: ByteBuffer = null;
@@ -31,18 +30,18 @@ namespace core.manager {
 		}
 
 
-		public on(packetId: number, handler: HandlerFunc): void {
+		public on(packetId: number, handler: Function): void {
 			if (this._handlers[packetId]) {
 				const handlers = this._handlers[packetId];
 				handlers.push(handler);
 			} else {
-				const handlers: HandlerFunc[] = [];
+				const handlers: Function[] = [];
 				handlers.push(handler);
 				this._handlers[packetId] = handlers;
 			}
 		}
 
-		public off(packetId: number, handler: HandlerFunc): void {
+		public off(packetId: number, handler: Function): void {
 			if (this._handlers[packetId]) {
 				const handlers = this._handlers[packetId];
 				let delIdx = -1;
@@ -158,9 +157,4 @@ namespace core.manager {
 			}
 		}
 	}
-}
-
-
-interface HandlerFunc {
-	(number, Packet): void;
 }

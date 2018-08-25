@@ -3,12 +3,13 @@ import NetMgr = core.manager.NetMgr;
 
 class GameMain {
     private _netMgr: NetMgr = null;
+    private _xx: string = '123456';
 
 
     constructor() {
         Laya.init(600, 400);
 
-        this._netMgr = new NetMgr(() => this.onNetOpen(), () => this.onNetClose(), () => this.onNetError());
+        this._netMgr = new NetMgr(this, this.onNetOpen, this.onNetClose, this.onNetError);
         this._netMgr.connect('127.0.0.1', 8080);
     }
 
@@ -16,8 +17,8 @@ class GameMain {
     private onNetOpen(): void {
         console.log('网络链接成功');
 
-        this._netMgr.on(proto.Msg.ACK_TEST_X_X, this.onAckTestXX);
-        this._netMgr.on(proto.Msg.ACK_TEST_SEND_OK, this.onAckTestSendOk);
+        this._netMgr.on(proto.Msg.ACK_TEST_X_X, this, this.onAckTestXX);
+        this._netMgr.on(proto.Msg.ACK_TEST_SEND_OK, this, this.onAckTestSendOk);
 
         let reqTestXX: proto.ReqTestXX = new proto.ReqTestXX();
         reqTestXX.id_u8 = 111;
@@ -44,7 +45,7 @@ class GameMain {
     }
 
     private onNetError(): void {
-
+        
     }
 
 

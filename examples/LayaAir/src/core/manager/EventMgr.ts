@@ -1,6 +1,6 @@
 namespace core.manager {
 	export class EventMgr {
-		private _handlers: { [eventId: number]: Function[] } = {};
+		private _handlers: { [eventId: number]: Handler[] } = {};
 		private _eventQueue: QueueData[] = [];
 
 
@@ -13,30 +13,43 @@ namespace core.manager {
 		}
 
 
-		public on(eventId: number, handler: Function): void {
+		public on(eventId: number, caller: any, method: Function): void {
 			if (this._handlers[eventId]) {
 				const handlers = this._handlers[eventId];
+				const handler: Handler = { caller: caller, method: method };
 				handlers.push(handler);
 			} else {
-				const handlers: Function[] = [];
+				const handlers: Handler[] = [];
+				const handler: Handler = { caller: caller, method: method };
 				handlers.push(handler);
 				this._handlers[eventId] = handlers;
 			}
 		}
 
-		public off(eventId: number, handler: Function): void {
+		public off(eventId: number, caller: any, method: Function): void {
 			if (this._handlers[eventId]) {
-				const handlers = this._handlers[eventId];
-				let delIdx = -1;
-				for (let i = 0; i < handlers.length; i++) {
-					if (handlers[i] == handler) {
-						delIdx = i;
+				const handlers: Handler[] = this._handlers[eventId];
+				for (let i = handlers.length - 1; i >= 0; i--) {
+					let handler: Handler = handlers[i];
+					if (handler.caller == caller && handler.method == method) {
+						handlers.splice(i, 1);
+					}
+				}
+			} else {
+				console.log('eventId: ' + eventId + ' 没有注册');
+			}
+		}
+
+		public clear(caller: any): void {
+			for (let eventId in this._handlers) {
+				const handlers: Handler[] = this._handlers[eventId];
+				for (let i = handlers.length - 1; i >= 0; i--) {
+					let handler: Handler = handlers[i];
+					if (handler.caller == caller) {
+						handlers.splice(i, 1);
 						break;
 					}
 				}
-				if (delIdx != -1) handlers.splice(delIdx, 1);
-			} else {
-				console.log('eventId: ' + eventId + ' 没有注册');
 			}
 		}
 
@@ -53,9 +66,10 @@ namespace core.manager {
 				const value: any = kvPair.value;
 
 				if (this._handlers[key]) {
-					const callbacks = this._handlers[key];
-					for (let j = 0; j < callbacks.length; j++) {
-						callbacks[j](key, value);
+					const handlers = this._handlers[key];
+					for (let j = 0; j < handlers.length; j++) {
+						const handler: Handler = handlers[j];
+						handler.method.apply(handler.caller, [key, value]);
 					}
 				}
 			}
@@ -64,6 +78,11 @@ namespace core.manager {
 	}
 }
 
+
+interface Handler {
+	caller: any;
+	method: Function;
+}
 
 interface QueueData {
 	key: number;

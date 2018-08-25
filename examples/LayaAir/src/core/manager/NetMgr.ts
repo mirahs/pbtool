@@ -2,6 +2,12 @@ import ByteBuffer = dcodeIO.ByteBuffer;
 
 
 namespace core.manager {
+	interface Handler {
+		caller: any;
+		method: Function;
+	}
+
+
 	export class NetMgr {
 		private _host: string = '';
 		private _port: number = 0;

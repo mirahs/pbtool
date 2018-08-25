@@ -1,4 +1,15 @@
 namespace core.manager {
+	interface Handler {
+		caller: any;
+		method: Function;
+	}
+
+	interface QueueData {
+		key: number;
+		value: any;
+	}
+	
+
 	export class EventMgr {
 		private _handlers: { [eventId: number]: Handler[] } = {};
 		private _eventQueue: QueueData[] = [];
@@ -76,15 +87,4 @@ namespace core.manager {
 			this._eventQueue = [];
 		}
 	}
-}
-
-
-interface Handler {
-	caller: any;
-	method: Function;
-}
-
-interface QueueData {
-	key: number;
-	value: any;
 }

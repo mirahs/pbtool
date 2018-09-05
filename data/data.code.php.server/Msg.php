@@ -72,4 +72,10 @@ class Msg
 
 	// 
 	public static $P_ACK_TEST_PHP_OK                   = 40070;
+
+	// 
+	public static $P_REQ_TEST_JS                       = 40080;
+
+	// 
+	public static $P_ACK_TEST_JS_OK                    = 40090;
 }

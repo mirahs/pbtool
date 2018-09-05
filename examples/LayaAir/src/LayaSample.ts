@@ -19,6 +19,7 @@ class GameMain {
 
         this._netMgr.on(proto.Msg.ACK_TEST_X_X, this, this.onAckTestXX);
         this._netMgr.on(proto.Msg.ACK_TEST_SEND_OK, this, this.onAckTestSendOk);
+        this._netMgr.on(proto.Msg.ACK_TEST_JS_OK, this, this.onAckTestJsOk);
 
         let reqTestXX: proto.ReqTestXX = new proto.ReqTestXX();
         reqTestXX.id_u8 = 111;
@@ -38,6 +39,11 @@ class GameMain {
         reqTestSend.id_op_u8 = 123;
         reqTestSend.op_role_base = roleBase;
         this._netMgr.send(reqTestSend.Encode());
+
+        const reqTestJs = new proto.ReqTestJs();
+        reqTestJs.u64 = 429496729610086;
+        reqTestJs.i64 = -429496729612233;
+        this._netMgr.send(reqTestJs.Encode());
     }
 
     private onNetClose(): void {
@@ -59,6 +65,12 @@ class GameMain {
         console.log('packetId:' + packetId);
         const ackTestSendOk: proto.AckTestSendOk = new proto.AckTestSendOk(packet);
         console.log('ackTestSendOk:', ackTestSendOk);
+    }
+
+    private onAckTestJsOk(packetId: number, packet: game.util.Packet): void {
+        console.log('packetId:' + packetId);
+        const ackTestJsOk: proto.AckTestJsOk = new proto.AckTestJsOk(packet);
+        console.log('ackTestJsOk:', ackTestJsOk);
     }
 }
 

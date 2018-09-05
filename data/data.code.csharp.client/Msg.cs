@@ -94,5 +94,11 @@ public class Msg
 	public static ushort P_ACK_TEST_PHP_OK                      = 40070;
 
 	//
-	public static ushort P_MSG_TEST_PHP                         = 40080;
+	public static ushort P_REQ_TEST_JS                          = 40080;
+
+	//
+	public static ushort P_ACK_TEST_JS_OK                       = 40090;
+
+	//
+	public static ushort P_MSG_TEST_PHP                         = 0;
 }

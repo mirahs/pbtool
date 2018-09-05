@@ -23,3 +23,5 @@
 -define(P_S_TEST_X_X,                   40050).% 
 -define(P_C_TEST_PHP,                   40060).% 
 -define(P_S_TEST_PHP_OK,                40070).% 
+-define(P_C_TEST_JS,                    40080).% 
+-define(P_S_TEST_JS_OK,                 40090).% 

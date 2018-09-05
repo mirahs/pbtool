@@ -38,6 +38,8 @@
 #include <AckTestXX.cpp>
 #include <ReqTestPhp.cpp>
 #include <AckTestPhpOk.cpp>
+#include <ReqTestJs.cpp>
+#include <AckTestJsOk.cpp>
 #include <MsgTestPhp.cpp>
 
 #endif

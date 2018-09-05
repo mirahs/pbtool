@@ -437,6 +437,19 @@ ack_test_php_ok(#ack_test_php_ok{u64=U64,strxx=Strxx,msg_req=MsgReq,msg_opt=MsgO
 	?MSG(40070, BinData).
 
 %% 
+req_test_js(Bin0) ->
+	{U64, Bin1} = ?D(u64, Bin0),
+	{I64, Bin2} = ?D(i64, Bin1),
+	#req_test_js{u64=U64,i64=I64}.
+
+%% 
+ack_test_js_ok(#ack_test_js_ok{u64=U64,i64=I64}) ->
+	Bin1 = ?E(u64, U64),
+	Bin2 = ?E(i64, I64),
+	BinData = <<Bin1/binary,Bin2/binary>>,
+	?MSG(40090, BinData).
+
+%% 
 msg_test_php_encode(#msg_test_php{u16=U16}) ->
 	Bin1 = ?E(u16, U16),
 	<<Bin1/binary>>.

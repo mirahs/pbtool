@@ -219,6 +219,18 @@
 }).
 
 %% 
+-record(req_test_js, {
+	u64             = 0,          % 
+	i64             = 0           % 
+}).
+
+%% 
+-record(ack_test_js_ok, {
+	u64             = 0,          % 
+	i64             = 0           % 
+}).
+
+%% 
 -record(msg_test_php, {
 	u16             = 0           % 
 }).

@@ -1333,6 +1333,57 @@ class AckTestPhpOk(object):
 		return self.__msg_rep
 
 
+class ReqTestJs(object):
+	__u64 = 0
+	__i64 = 0
+
+	def encode(self):
+		packet = Packet()
+		packet.write_u64(self.__u64)
+		packet.write_i64(self.__i64)
+		return packet.encode(msg.P_REQ_TEST_JS)
+
+	@property
+	def u64(self):
+		return self.__u64
+	@u64.setter
+	def u64(self, value):
+		self.__u64 = value
+
+	@property
+	def i64(self):
+		return self.__i64
+	@i64.setter
+	def i64(self, value):
+		self.__i64 = value
+
+
+class AckTestJsOk(object):
+	__u64 = 0
+	__i64 = 0
+
+	def __init__(self, packet):
+		self.decode(packet)
+
+	def decode(self, packet):
+		self.__u64 = packet.read_u64()
+		self.__i64 = packet.read_i64()
+
+	@property
+	def u64(self):
+		return self.__u64
+	@u64.getter
+	def u64(self):
+		return self.__u64
+
+	@property
+	def i64(self):
+		return self.__i64
+	@i64.getter
+	def i64(self):
+		return self.__i64
+
+
 class MsgTestPhp(object):
 	__u16 = 0
 

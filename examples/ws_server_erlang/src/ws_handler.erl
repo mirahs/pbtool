@@ -97,6 +97,18 @@ routing(?P_C_TEST_SEND, Bin, State) ->
     BinMsg      = pb:ack_test_send_ok(AckTestSend),
     send(BinMsg),
     State;
+routing(?P_C_TEST_JS, Bin, State) ->
+	?DEBUG("Bin:~w~n", [Bin]),
+    ReqTestJs = pb:req_test_js(Bin),
+    ?DEBUG("ReqTestJs:~p~n", [ReqTestJs]),
+
+    AckTestJsOk = #ack_test_js_ok{
+        u64 = ReqTestJs#req_test_js.u64,
+        i64 = ReqTestJs#req_test_js.i64
+    },
+    BinMsg = pb:ack_test_js_ok(AckTestJsOk),
+    send(BinMsg),
+    State;
 routing(PacketId, Bin, State) ->
 	?DEBUG("Unknow PacketId:~w Bin:~w~n", [PacketId, Bin]),
 	State.

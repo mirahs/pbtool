@@ -37,6 +37,9 @@ public class P2P
 			case 40070:
 				AckTestPhpOk ackTestPhpOk = new AckTestPhpOk(packet);
 				return ackTestPhpOk;
+			case 40090:
+				AckTestJsOk ackTestJsOk = new AckTestJsOk(packet);
+				return ackTestJsOk;
 		}
 
 		return null;

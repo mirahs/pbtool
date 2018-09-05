@@ -40,6 +40,9 @@ public class P2P
 			case 40060:
 				ReqTestPhp reqTestPhp = new ReqTestPhp(packet);
 				return reqTestPhp;
+			case 40080:
+				ReqTestJs reqTestJs = new ReqTestJs(packet);
+				return reqTestJs;
 		}
 
 		return null;

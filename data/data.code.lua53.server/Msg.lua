@@ -92,4 +92,10 @@ P_REQ_TEST_PHP                      = 40060
 P_ACK_TEST_PHP_OK                   = 40070
 
 -- [40080]
-P_MSG_TEST_PHP                      = 40080
+P_REQ_TEST_JS                       = 40080
+
+-- [40090]
+P_ACK_TEST_JS_OK                    = 40090
+
+-- [0]
+P_MSG_TEST_PHP                      = 0

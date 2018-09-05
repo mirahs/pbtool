@@ -67,4 +67,10 @@ module.exports = Object.freeze({
 
 	//
 	ACK_TEST_PHP_OK               : 40070,
+
+	//
+	REQ_TEST_JS                   : 40080,
+
+	//
+	ACK_TEST_JS_OK                : 40090,
 });

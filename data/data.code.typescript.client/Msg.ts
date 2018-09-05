@@ -32,5 +32,8 @@ namespace proto {
 
 		/***/
 		ACK_TEST_PHP_OK               = 40070,
+
+		/***/
+		ACK_TEST_JS_OK                = 40090,
 	}
 }

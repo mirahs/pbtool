@@ -68,7 +68,11 @@ public:
 	// 
 	static const U16 P_ACK_TEST_PHP_OK                      = 40070;
 	// 
-	static const U16 P_MSG_TEST_PHP                         = 40080;
+	static const U16 P_REQ_TEST_JS                          = 40080;
+	// 
+	static const U16 P_ACK_TEST_JS_OK                       = 40090;
+	// 
+	static const U16 P_MSG_TEST_PHP                         = 0;
 };
 
 #endif

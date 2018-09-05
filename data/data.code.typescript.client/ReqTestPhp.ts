@@ -1,7 +1,7 @@
 namespace proto {
 export class ReqTestPhp
 {
-	private _u64: Long;
+	private _u64: number;
 	private _strxx: string;
 	private _msg_req: MsgTestPhp;
 	private msg_opt_flag: number = 0;
@@ -31,8 +31,8 @@ export class ReqTestPhp
 	}
 
 
-	public get u64(): Long { return this._u64; }
-	public set u64(value: Long) { this._u64 = value; }
+	public get u64(): number { return this._u64; }
+	public set u64(value: number) { this._u64 = value; }
 	public get strxx(): string { return this._strxx; }
 	public set strxx(value: string) { this._strxx = value; }
 	public get msg_req(): MsgTestPhp { return this._msg_req; }

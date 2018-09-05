@@ -64,7 +64,19 @@ message STestPhpOk(40070)
 	repeated	MsgTestPhp	msg_rep
 }
 
-message MsgTestPhp(40080)
+message CTestJs(40080)
+{
+	required	u64			u64
+	required	i64			i64
+}
+
+message STestJsOk(40090)
+{
+	required	u64			u64
+	required	i64			i64
+}
+
+message MsgTestPhp(0)
 {
 	required	u16			u16
 }

@@ -22,6 +22,8 @@ encode(i32, Val) ->
 	<<Val:32/big-integer-signed>>;
 encode(u32, Val) ->
 	<<Val:32/big-integer-unsigned>>;
+encode(i64, Val) ->
+	<<Val:64/big-integer-signed>>;
 encode(u64, Val) ->
 	<<Val:64/big-integer-unsigned>>;
 encode(f32, Val) ->
@@ -38,6 +40,8 @@ decode(u8, <<Val:8/big-integer-unsigned,Rest/binary>>) ->
 decode(u16, <<Val:16/big-integer-unsigned,Rest/binary>>) ->
 	{Val,Rest};
 decode(u32, <<Val:32/big-integer-unsigned,Rest/binary>>) ->
+	{Val,Rest};
+decode(i64, <<Val:64/big-integer-signed,Rest/binary>>) ->
 	{Val,Rest};
 decode(u64, <<Val:64/big-integer-unsigned,Rest/binary>>) ->
 	{Val,Rest};

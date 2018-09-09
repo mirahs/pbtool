@@ -238,7 +238,7 @@ class ProtoErlang(object):
 					_str_tmp += '?D(' + field_type + ', Bin' + _field_var_name + 'Acc),\n\t\t\t\t'
 
 				# _str_tmp += '{[Fun' + _field_var_name + '|' + _field_var_name + 'Acc], Bin' + _field_var_name + 'Acc2}\n\t\t\t'
-				_str_tmp += '{' + _field_var_name + 'Acc' + '++Fun' + _field_var_name + ', Bin' + _field_var_name + 'Acc2}\n\t\t\t'
+				_str_tmp += '{' + _field_var_name + 'Acc' + '++[Fun' + _field_var_name + '], Bin' + _field_var_name + 'Acc2}\n\t\t\t'
 				_str_tmp += 'end,\n\t'
 				_str_tmp += '{' + _field_var_name + ', Bin' + str(
 					_idx_bin) + '} = lists:foldl(' + _str_fun_name + ', {[], Bin' + str(

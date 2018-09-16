@@ -230,6 +230,72 @@ msg_test_x_x_decode(Bin0) ->
 	end,
 	{#msg_test_x_x{id_u8=IdU8,id_f32=IdF32,id_op_u8=IdOpU8}, Bin5}.
 
+%% 测试信息块
+msg_test_send_encode(#msg_test_send{id_u8=IdU8,role_base=RoleBase,id_f32=IdF32,id_op_u8=IdOpU8,op_role_base=OpRoleBase}) ->
+	Bin1 = ?E(u8, IdU8),
+	Bin2 = msg_role_base_encode(RoleBase),
+	FunIdF32 = fun(FIdF32, {CountAcc, BinAcc}) ->
+			FBin = ?E(f32, FIdF32),
+			{CountAcc + 1, <<BinAcc/binary,FBin/binary>>}
+	end,
+	{CountIdF32, BinIdF32} = lists:foldl(FunIdF32, {0, <<>>}, IdF32),
+	Bin3 = ?E(u16, CountIdF32),
+	Bin4 = BinIdF32,
+	Bin5 = 
+		case IdOpU8 of
+			undefined ->
+				?E(u8, 0);
+			_ ->
+				BinIdOpU8Flag = ?E(u8, 1),
+				BinIdOpU8= ?E(u8, IdOpU8),
+				<<BinIdOpU8Flag/binary,BinIdOpU8/binary>>
+		end,
+	Bin6 = 
+		case OpRoleBase of
+			undefined ->
+				?E(u8, 0);
+			_ ->
+				BinOpRoleBaseFlag = ?E(u8, 1),
+				BinOpRoleBase = msg_role_base_encode(OpRoleBase),
+				<<BinOpRoleBaseFlag/binary,BinOpRoleBase/binary>>
+		end,
+	<<Bin1/binary,Bin2/binary,Bin3/binary,Bin4/binary,Bin5/binary,Bin6/binary>>.
+msg_test_send_decode(Bin0) ->
+	{IdU8, Bin1} = ?D(u8, Bin0),
+	{RoleBase, Bin2} = msg_role_base_decode(Bin1),
+	{IdF32Count, Bin3} = ?D(u16, Bin2),
+	FunIdF32 = fun(_, {IdF32Acc, BinIdF32Acc}) ->
+				{FunIdF32, BinIdF32Acc2} = ?D(f32, BinIdF32Acc),
+				{[FunIdF32|IdF32Acc], BinIdF32Acc2}
+			end,
+	{IdF32Tmp, Bin4} = lists:foldl(FunIdF32, {[], Bin3}, lists:duplicate(IdF32Count, 0)),
+	IdF32 = lists:reverse(IdF32Tmp),
+	{IdOpU8Flag, Bin5} = ?D(u8, Bin4),
+	{IdOpU8, Bin6} =
+	case IdOpU8Flag of
+		0 ->
+			{undefined, Bin5};
+		1 ->
+			?D(u8, Bin5)
+	end,
+	{OpRoleBaseFlag, Bin7} = ?D(u8, Bin6),
+	{OpRoleBase, Bin8} =
+	case OpRoleBaseFlag of
+		0 ->
+			{undefined, Bin7};
+		1 ->
+			msg_role_base_decode(Bin7)
+	end,
+	{#msg_test_send{id_u8=IdU8,role_base=RoleBase,id_f32=IdF32,id_op_u8=IdOpU8,op_role_base=OpRoleBase}, Bin8}.
+
+%% 
+msg_test_php_encode(#msg_test_php{u16=U16}) ->
+	Bin1 = ?E(u16, U16),
+	<<Bin1/binary>>.
+msg_test_php_decode(Bin0) ->
+	{U16, Bin1} = ?D(u16, Bin0),
+	{#msg_test_php{u16=U16}, Bin1}.
+
 %% 测试发送
 req_test_send(Bin0) ->
 	{IdU8, Bin1} = ?D(u8, Bin0),
@@ -290,64 +356,6 @@ ack_test_send_ok(#ack_test_send_ok{id_u8=IdU8,role_base=RoleBase,id_f32=IdF32,id
 		end,
 	BinData = <<Bin1/binary,Bin2/binary,Bin3/binary,Bin4/binary,Bin5/binary,Bin6/binary>>,
 	?MSG(40020, BinData).
-
-%% 测试信息块
-msg_test_send_encode(#msg_test_send{id_u8=IdU8,role_base=RoleBase,id_f32=IdF32,id_op_u8=IdOpU8,op_role_base=OpRoleBase}) ->
-	Bin1 = ?E(u8, IdU8),
-	Bin2 = msg_role_base_encode(RoleBase),
-	FunIdF32 = fun(FIdF32, {CountAcc, BinAcc}) ->
-			FBin = ?E(f32, FIdF32),
-			{CountAcc + 1, <<BinAcc/binary,FBin/binary>>}
-	end,
-	{CountIdF32, BinIdF32} = lists:foldl(FunIdF32, {0, <<>>}, IdF32),
-	Bin3 = ?E(u16, CountIdF32),
-	Bin4 = BinIdF32,
-	Bin5 = 
-		case IdOpU8 of
-			undefined ->
-				?E(u8, 0);
-			_ ->
-				BinIdOpU8Flag = ?E(u8, 1),
-				BinIdOpU8= ?E(u8, IdOpU8),
-				<<BinIdOpU8Flag/binary,BinIdOpU8/binary>>
-		end,
-	Bin6 = 
-		case OpRoleBase of
-			undefined ->
-				?E(u8, 0);
-			_ ->
-				BinOpRoleBaseFlag = ?E(u8, 1),
-				BinOpRoleBase = msg_role_base_encode(OpRoleBase),
-				<<BinOpRoleBaseFlag/binary,BinOpRoleBase/binary>>
-		end,
-	<<Bin1/binary,Bin2/binary,Bin3/binary,Bin4/binary,Bin5/binary,Bin6/binary>>.
-msg_test_send_decode(Bin0) ->
-	{IdU8, Bin1} = ?D(u8, Bin0),
-	{RoleBase, Bin2} = msg_role_base_decode(Bin1),
-	{IdF32Count, Bin3} = ?D(u16, Bin2),
-	FunIdF32 = fun(_, {IdF32Acc, BinIdF32Acc}) ->
-				{FunIdF32, BinIdF32Acc2} = ?D(f32, BinIdF32Acc),
-				{[FunIdF32|IdF32Acc], BinIdF32Acc2}
-			end,
-	{IdF32Tmp, Bin4} = lists:foldl(FunIdF32, {[], Bin3}, lists:duplicate(IdF32Count, 0)),
-	IdF32 = lists:reverse(IdF32Tmp),
-	{IdOpU8Flag, Bin5} = ?D(u8, Bin4),
-	{IdOpU8, Bin6} =
-	case IdOpU8Flag of
-		0 ->
-			{undefined, Bin5};
-		1 ->
-			?D(u8, Bin5)
-	end,
-	{OpRoleBaseFlag, Bin7} = ?D(u8, Bin6),
-	{OpRoleBase, Bin8} =
-	case OpRoleBaseFlag of
-		0 ->
-			{undefined, Bin7};
-		1 ->
-			msg_role_base_decode(Bin7)
-	end,
-	{#msg_test_send{id_u8=IdU8,role_base=RoleBase,id_f32=IdF32,id_op_u8=IdOpU8,op_role_base=OpRoleBase}, Bin8}.
 
 %% 
 req_test_x_x(Bin0) ->
@@ -453,11 +461,3 @@ ack_test_js_ok(#ack_test_js_ok{u64=U64,i64=I64}) ->
 	Bin2 = ?E(i64, I64),
 	BinData = <<Bin1/binary,Bin2/binary>>,
 	?MSG(40090, BinData).
-
-%% 
-msg_test_php_encode(#msg_test_php{u16=U16}) ->
-	Bin1 = ?E(u16, U16),
-	<<Bin1/binary>>.
-msg_test_php_decode(Bin0) ->
-	{U16, Bin1} = ?D(u16, Bin0),
-	{#msg_test_php{u16=U16}, Bin1}.

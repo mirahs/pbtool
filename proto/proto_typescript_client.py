@@ -6,7 +6,7 @@ path.append(r'../')
 from proto_typescript import ProtoTypeScript, protocol_const
 
 
-def parse(code_path, common_path, protos):
+def parse(code_path, common_path, protos, _tmp_protos_file):
 	name_ids = list()
 	for proto in protos:
 		name_id	= dict()

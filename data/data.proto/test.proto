@@ -18,15 +18,6 @@ message STestSendOk(40020) //测试返回
 	optional	MsgRoleBase	op_role_base
 }
 
-message MsgTestSend(40030) //测试信息块
-{
-	required	u8			id_u8
-	required	MsgRoleBase	role_base
-	repeated	f32			id_f32
-	optional	u8 			id_op_u8
-	optional	MsgRoleBase	op_role_base
-}
-
 message CTestXX(40040)
 {
 	required	u8 			id_u8
@@ -74,9 +65,4 @@ message STestJsOk(40090)
 {
 	required	u64			u64
 	required	i64			i64
-}
-
-message MsgTestPhp(0)
-{
-	required	u16			u16
 }

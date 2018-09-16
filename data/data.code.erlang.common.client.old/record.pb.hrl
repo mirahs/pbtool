@@ -155,6 +155,20 @@
 	id_op_u8        = undefined   % 
 }).
 
+%% 测试信息块
+-record(msg_test_send, {
+	id_u8           = 0,          % 
+	role_base       = 0,          % 
+	id_f32          = [],         % 
+	id_op_u8        = undefined,  % 
+	op_role_base    = undefined   % 
+}).
+
+%% 
+-record(msg_test_php, {
+	u16             = 0           % 
+}).
+
 %% 测试发送
 -record(req_test_send, {
 	id_u8           = 0,          % 
@@ -166,15 +180,6 @@
 
 %% 测试返回
 -record(ack_test_send_ok, {
-	id_u8           = 0,          % 
-	role_base       = 0,          % 
-	id_f32          = [],         % 
-	id_op_u8        = undefined,  % 
-	op_role_base    = undefined   % 
-}).
-
-%% 测试信息块
--record(msg_test_send, {
 	id_u8           = 0,          % 
 	role_base       = 0,          % 
 	id_f32          = [],         % 
@@ -228,9 +233,4 @@
 -record(ack_test_js_ok, {
 	u64             = 0,          % 
 	i64             = 0           % 
-}).
-
-%% 
--record(msg_test_php, {
-	u16             = 0           % 
 }).

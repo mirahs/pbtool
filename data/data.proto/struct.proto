@@ -1,6 +1,6 @@
 //******信息块(玩家)**************************************************************
 
-message MsgRoleBase(50000) //玩家基础信息
+message MsgRoleBase(0) //玩家基础信息
 {
 	required u32			uid					//玩家uid
 	required string			uname				//玩家昵称
@@ -11,7 +11,7 @@ message MsgRoleBase(50000) //玩家基础信息
 
 //******信息块(好友)**************************************************************
 
-message MsgFriendBaseAdd(50010) //添加好友基础信息
+message MsgFriendBaseAdd(0) //添加好友基础信息
 {
 	required u32			uid					//玩家uid
 	required string			uname				//玩家昵称
@@ -22,7 +22,7 @@ message MsgFriendBaseAdd(50010) //添加好友基础信息
 
 //******信息块(场景)**************************************************************
 
-message MsgSceneRotPos(50020) //场景玩家旋转和位置信息
+message MsgSceneRotPos(0) //场景玩家旋转和位置信息
 {
     required i16            rot_x        //旋转x
     required i16            rot_y        //旋转y
@@ -32,13 +32,13 @@ message MsgSceneRotPos(50020) //场景玩家旋转和位置信息
     required i16            pos_z        //位置z
 }
 
-message MsgScenePlayer(50030) //场景玩家旋转和位置信息
+message MsgScenePlayer(0) //场景玩家旋转和位置信息
 {
     required u32            uid             //玩家ID
     required MsgSceneRotPos scene_rot_pos   //旋转和位置信息
 }
 
-message MsgSceneVector3(50040) //场景Vector3信息
+message MsgSceneVector3(0) //场景Vector3信息
 {
     required i16            x        //x
     required i16            y        //y
@@ -50,11 +50,25 @@ message MsgSceneVector3(50040) //场景Vector3信息
 
 //******信息块(测试)**************************************************************
 
-message MsgTestXX(59990)
+message MsgTestXX(0)
 {
     required    u8          id_u8
     repeated    f32         id_f32
     optional    u8          id_op_u8
+}
+
+message MsgTestSend(0) //测试信息块
+{
+	required	u8			id_u8
+	required	MsgRoleBase	role_base
+	repeated	f32			id_f32
+	optional	u8 			id_op_u8
+	optional	MsgRoleBase	op_role_base
+}
+
+message MsgTestPhp(0)
+{
+	required	u16			u16
 }
 
 //******信息块(测试)**************************************************************

@@ -1,4 +1,5 @@
 //角色: 1001 - 1500
+inxxclude:role,map
 
 message CRoleLogin(1010) //角色登录
 {
@@ -38,6 +39,7 @@ message SRoleRandNameOk(1040) //随机名字返回
     required    string      uname           //玩家名字
 }
 
+//[record:role]
 message SRoleLoginOk(1050) //登录成功
 {
     required    string      uname           //玩家名字

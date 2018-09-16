@@ -37,23 +37,25 @@ public class Msg
 
 	public static final int P_ACK_SCENE_MOVE                = 2080;
 
-	public static final int P_MSG_ROLE_BASE                 = 50000;
+	public static final int P_MSG_ROLE_BASE                 = 0;
 
-	public static final int P_MSG_FRIEND_BASE_ADD           = 50010;
+	public static final int P_MSG_FRIEND_BASE_ADD           = 0;
 
-	public static final int P_MSG_SCENE_ROT_POS             = 50020;
+	public static final int P_MSG_SCENE_ROT_POS             = 0;
 
-	public static final int P_MSG_SCENE_PLAYER              = 50030;
+	public static final int P_MSG_SCENE_PLAYER              = 0;
 
-	public static final int P_MSG_SCENE_VECTOR_3            = 50040;
+	public static final int P_MSG_SCENE_VECTOR_3            = 0;
 
-	public static final int P_MSG_TEST_X_X                  = 59990;
+	public static final int P_MSG_TEST_X_X                  = 0;
+
+	public static final int P_MSG_TEST_SEND                 = 0;
+
+	public static final int P_MSG_TEST_PHP                  = 0;
 
 	public static final int P_REQ_TEST_SEND                 = 40010;
 
 	public static final int P_ACK_TEST_SEND_OK              = 40020;
-
-	public static final int P_MSG_TEST_SEND                 = 40030;
 
 	public static final int P_REQ_TEST_X_X                  = 40040;
 
@@ -66,6 +68,4 @@ public class Msg
 	public static final int P_REQ_TEST_JS                   = 40080;
 
 	public static final int P_ACK_TEST_JS_OK                = 40090;
-
-	public static final int P_MSG_TEST_PHP                  = 0;
 }

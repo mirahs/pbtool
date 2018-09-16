@@ -11,4 +11,3 @@
 
 %% Record
 -include("const.pb.hrl").
--include("record.pb.hrl").

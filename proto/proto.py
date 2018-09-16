@@ -8,14 +8,18 @@ import fileinput
 def parse(filename):
 	print 'filename:', filename
 
+	_is_begin_mess	= False
+	_includes		= []
 	_protos         = []
 	_mess_body		= dict()
 
+	_include_com	= re.compile(r'include:(.*)')  # 头文件包含(erlang)
 	_mess_com       = re.compile(r'\s*message\s*(\w+)\((\d+)\)\s*(.*)')  # 协议格式(协议名称,协议id,协议注释)
 	_note_com       = re.compile(r'\s*/.*')     # 注释行
 	_left_com       = re.compile(r'\s*\{.*')    # 左大括号
 	_right_com      = re.compile(r'\s*}.*')     # 右大括号
-	_field_com		= re.compile(r'\s*(\w+)\s*([\w\d]+)\s*([\w\d]+)\s*(.*)')	# 协议每个字段
+	_field_com		= re.compile(r'\s*(\w+)\s*([\w\d]+)\s*([\w\d]+)\s*(.*)')	 # 协议每个字段
+	_proto_spec_com	= re.compile(r'\[(.*)\](.*)')  # 协议特殊标识
 
 	for line in fileinput.input(filename):
 		if _mess_body:
@@ -54,11 +58,33 @@ def parse(filename):
 				_mess_body['mess_fields'].append(field_body)
 
 		else:
+			if not _is_begin_mess:
+				m_include = _include_com.match(line)  # 匹配包含
+				if m_include:
+					_includes = m_include.group(1).split(',')
+
 			m = _mess_com.match(line)   # 匹配协议格式
 			if m:
+				_is_begin_mess = True
+
 				_mess_body['mess_name']     = string.strip(m.group(1))          # 协议名称
 				_mess_body['mess_id']       = string.strip(m.group(2))          # 协议id
-				_mess_body['mess_note']     = string.strip(m.group(3), '/')     # 协议注释
+
+				note = string.strip(m.group(3), '/')
+				m2 = _proto_spec_com.match(note)
+				if m2:
+					_mess_body['mess_note'] = string.strip(m2.group(2))  		# 协议注释
+					proto_specs = {}
+					specs = m2.group(1)
+					specs = specs.split(',')
+					for spec in specs:
+						spec2 = spec.split(':')
+						if len(spec2) == 2:
+							proto_specs[spec2[0]] = spec2[1]
+					_mess_body['proto_specs'] = proto_specs
+				else:
+					_mess_body['mess_note'] = note  							# 协议注释
+
 				_mess_body['mess_fields']   = list()                            # 协议字段
 
-	return _protos
+	return {'includes': _includes, 'protos': _protos}

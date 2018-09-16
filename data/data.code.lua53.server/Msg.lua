@@ -52,32 +52,35 @@ P_REQ_SCENE_REQ_PLAYERS             = 2070
 -- [2080]行走数据
 P_ACK_SCENE_MOVE                    = 2080
 
--- [50000]玩家基础信息
-P_MSG_ROLE_BASE                     = 50000
+-- [0]玩家基础信息
+P_MSG_ROLE_BASE                     = 0
 
--- [50010]添加好友基础信息
-P_MSG_FRIEND_BASE_ADD               = 50010
+-- [0]添加好友基础信息
+P_MSG_FRIEND_BASE_ADD               = 0
 
--- [50020]场景玩家旋转和位置信息
-P_MSG_SCENE_ROT_POS                 = 50020
+-- [0]场景玩家旋转和位置信息
+P_MSG_SCENE_ROT_POS                 = 0
 
--- [50030]场景玩家旋转和位置信息
-P_MSG_SCENE_PLAYER                  = 50030
+-- [0]场景玩家旋转和位置信息
+P_MSG_SCENE_PLAYER                  = 0
 
--- [50040]场景Vector3信息
-P_MSG_SCENE_VECTOR_3                = 50040
+-- [0]场景Vector3信息
+P_MSG_SCENE_VECTOR_3                = 0
 
--- [59990]
-P_MSG_TEST_X_X                      = 59990
+-- [0]
+P_MSG_TEST_X_X                      = 0
+
+-- [0]测试信息块
+P_MSG_TEST_SEND                     = 0
+
+-- [0]
+P_MSG_TEST_PHP                      = 0
 
 -- [40010]测试发送
 P_REQ_TEST_SEND                     = 40010
 
 -- [40020]测试返回
 P_ACK_TEST_SEND_OK                  = 40020
-
--- [40030]测试信息块
-P_MSG_TEST_SEND                     = 40030
 
 -- [40040]
 P_REQ_TEST_X_X                      = 40040
@@ -96,6 +99,3 @@ P_REQ_TEST_JS                       = 40080
 
 -- [40090]
 P_ACK_TEST_JS_OK                    = 40090
-
--- [0]
-P_MSG_TEST_PHP                      = 0

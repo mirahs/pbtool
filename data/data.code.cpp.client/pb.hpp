@@ -31,15 +31,15 @@
 #include <MsgScenePlayer.cpp>
 #include <MsgSceneVector3.cpp>
 #include <MsgTestXX.cpp>
+#include <MsgTestSend.cpp>
+#include <MsgTestPhp.cpp>
 #include <ReqTestSend.cpp>
 #include <AckTestSendOk.cpp>
-#include <MsgTestSend.cpp>
 #include <ReqTestXX.cpp>
 #include <AckTestXX.cpp>
 #include <ReqTestPhp.cpp>
 #include <AckTestPhpOk.cpp>
 #include <ReqTestJs.cpp>
 #include <AckTestJsOk.cpp>
-#include <MsgTestPhp.cpp>
 
 #endif

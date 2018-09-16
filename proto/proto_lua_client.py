@@ -6,7 +6,7 @@ path.append(r'../')
 from proto_lua import ProtoLua, protocol_msg
 
 
-def parse(code_path, common_path, protos):
+def parse(code_path, common_path, protos, _tmp_protos_file):
 	name_ids	= list()
 	for proto in protos:
 		name_id	= dict()

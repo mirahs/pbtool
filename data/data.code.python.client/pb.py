@@ -877,6 +877,133 @@ class MsgTestXX(object):
 		return self.__id_op_u8
 
 
+class MsgTestSend(object):
+	__id_u8 = 0
+	__role_base = None
+	__id_f32 = []
+	__id_op_u8_flag = 0
+	__id_op_u8 = 0
+	__op_role_base_flag = 0
+	__op_role_base = None
+
+	def encode(self):
+		packet = Packet()
+		packet.write_u8(self.__id_u8)
+		packet.write_bytes(self.__role_base.get_bytes())
+		id_f32_count = len(self.__id_f32)
+		packet.write_u16(id_f32_count)
+		for i in range(id_f32_count):
+			packet.write_f32(self.__id_f32[i])
+		packet.write_u8(self.__id_op_u8_flag)
+		if self.__id_op_u8_flag:
+			packet.write_u8(self.__id_op_u8)
+		packet.write_u8(self.__op_role_base_flag)
+		if self.__op_role_base_flag:
+			packet.write_bytes(self.__op_role_base.get_bytes())
+		return packet.read_bytes()
+
+	def __init__(self, packet=None):
+		if packet:
+			self.decode(packet)
+
+	def decode(self, packet):
+		self.__id_u8 = packet.read_u8()
+		self.__role_base = MsgRoleBase(packet)
+		id_f32_count = packet.read_u16()
+		for i in range(id_f32_count):
+			self.__id_f32.append(packet.read_f32())
+		self.__id_op_u8_flag = packet.read_u8()
+		if self.__id_op_u8_flag:
+			self.__id_op_u8 = packet.read_u8()
+		self.__op_role_base_flag = packet.read_u8()
+		if self.__op_role_base_flag:
+			self.__op_role_base = MsgRoleBase(packet)
+
+	def get_bytes(self):
+		return self.encode()
+
+	@property
+	def id_u8(self):
+		return self.__id_u8
+	@id_u8.setter
+	def id_u8(self, value):
+		self.__id_u8 = value
+	@id_u8.getter
+	def id_u8(self):
+		return self.__id_u8
+
+	@property
+	def role_base(self):
+		return self.__role_base
+	@role_base.setter
+	def role_base(self, value):
+		self.__role_base = value
+	@role_base.getter
+	def role_base(self):
+		return self.__role_base
+
+	@property
+	def id_f32(self):
+		return self.__id_f32
+	@id_f32.setter
+	def id_f32(self, value):
+		self.__id_f32 = value
+	@id_f32.getter
+	def id_f32(self):
+		return self.__id_f32
+
+	@property
+	def id_op_u8(self):
+		return self.__id_op_u8
+	@id_op_u8.setter
+	def id_op_u8(self, value):
+		self.__id_op_u8_flag = 1
+		self.__id_op_u8 = value
+	@id_op_u8.getter
+	def id_op_u8(self):
+		return self.__id_op_u8
+
+	@property
+	def op_role_base(self):
+		return self.__op_role_base
+	@op_role_base.setter
+	def op_role_base(self, value):
+		self.__op_role_base_flag = 1
+		self.__op_role_base = value
+	@op_role_base.getter
+	def op_role_base(self):
+		return self.__op_role_base
+
+
+class MsgTestPhp(object):
+	__u16 = 0
+
+	def encode(self):
+		packet = Packet()
+		packet.write_u16(self.__u16)
+		return packet.read_bytes()
+
+	def __init__(self, packet=None):
+		if packet:
+			self.decode(packet)
+
+	def decode(self, packet):
+		self.__u16 = packet.read_u16()
+
+	def get_bytes(self):
+		return self.encode()
+
+	@property
+	def u16(self):
+		return self.__u16
+	@u16.setter
+	def u16(self, value):
+		self.__u16 = value
+	@u16.getter
+	def u16(self):
+		return self.__u16
+
+
 class ReqTestSend(object):
 	__id_u8 = 0
 	__role_base = None
@@ -996,104 +1123,6 @@ class AckTestSendOk(object):
 	@property
 	def op_role_base(self):
 		return self.__op_role_base
-	@op_role_base.getter
-	def op_role_base(self):
-		return self.__op_role_base
-
-
-class MsgTestSend(object):
-	__id_u8 = 0
-	__role_base = None
-	__id_f32 = []
-	__id_op_u8_flag = 0
-	__id_op_u8 = 0
-	__op_role_base_flag = 0
-	__op_role_base = None
-
-	def encode(self):
-		packet = Packet()
-		packet.write_u8(self.__id_u8)
-		packet.write_bytes(self.__role_base.get_bytes())
-		id_f32_count = len(self.__id_f32)
-		packet.write_u16(id_f32_count)
-		for i in range(id_f32_count):
-			packet.write_f32(self.__id_f32[i])
-		packet.write_u8(self.__id_op_u8_flag)
-		if self.__id_op_u8_flag:
-			packet.write_u8(self.__id_op_u8)
-		packet.write_u8(self.__op_role_base_flag)
-		if self.__op_role_base_flag:
-			packet.write_bytes(self.__op_role_base.get_bytes())
-		return packet.read_bytes()
-
-	def __init__(self, packet=None):
-		if packet:
-			self.decode(packet)
-
-	def decode(self, packet):
-		self.__id_u8 = packet.read_u8()
-		self.__role_base = MsgRoleBase(packet)
-		id_f32_count = packet.read_u16()
-		for i in range(id_f32_count):
-			self.__id_f32.append(packet.read_f32())
-		self.__id_op_u8_flag = packet.read_u8()
-		if self.__id_op_u8_flag:
-			self.__id_op_u8 = packet.read_u8()
-		self.__op_role_base_flag = packet.read_u8()
-		if self.__op_role_base_flag:
-			self.__op_role_base = MsgRoleBase(packet)
-
-	def get_bytes(self):
-		return self.encode()
-
-	@property
-	def id_u8(self):
-		return self.__id_u8
-	@id_u8.setter
-	def id_u8(self, value):
-		self.__id_u8 = value
-	@id_u8.getter
-	def id_u8(self):
-		return self.__id_u8
-
-	@property
-	def role_base(self):
-		return self.__role_base
-	@role_base.setter
-	def role_base(self, value):
-		self.__role_base = value
-	@role_base.getter
-	def role_base(self):
-		return self.__role_base
-
-	@property
-	def id_f32(self):
-		return self.__id_f32
-	@id_f32.setter
-	def id_f32(self, value):
-		self.__id_f32 = value
-	@id_f32.getter
-	def id_f32(self):
-		return self.__id_f32
-
-	@property
-	def id_op_u8(self):
-		return self.__id_op_u8
-	@id_op_u8.setter
-	def id_op_u8(self, value):
-		self.__id_op_u8_flag = 1
-		self.__id_op_u8 = value
-	@id_op_u8.getter
-	def id_op_u8(self):
-		return self.__id_op_u8
-
-	@property
-	def op_role_base(self):
-		return self.__op_role_base
-	@op_role_base.setter
-	def op_role_base(self, value):
-		self.__op_role_base_flag = 1
-		self.__op_role_base = value
 	@op_role_base.getter
 	def op_role_base(self):
 		return self.__op_role_base
@@ -1382,32 +1411,3 @@ class AckTestJsOk(object):
 	@i64.getter
 	def i64(self):
 		return self.__i64
-
-
-class MsgTestPhp(object):
-	__u16 = 0
-
-	def encode(self):
-		packet = Packet()
-		packet.write_u16(self.__u16)
-		return packet.read_bytes()
-
-	def __init__(self, packet=None):
-		if packet:
-			self.decode(packet)
-
-	def decode(self, packet):
-		self.__u16 = packet.read_u16()
-
-	def get_bytes(self):
-		return self.encode()
-
-	@property
-	def u16(self):
-		return self.__u16
-	@u16.setter
-	def u16(self, value):
-		self.__u16 = value
-	@u16.getter
-	def u16(self):
-		return self.__u16

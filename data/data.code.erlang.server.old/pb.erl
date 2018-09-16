@@ -216,9 +216,10 @@ msg_test_x_x_decode(Bin0) ->
 	{IdF32Count, Bin2} = ?D(u16, Bin1),
 	FunIdF32 = fun(_, {IdF32Acc, BinIdF32Acc}) ->
 				{FunIdF32, BinIdF32Acc2} = ?D(f32, BinIdF32Acc),
-				{IdF32Acc++FunIdF32, BinIdF32Acc2}
+				{[FunIdF32|IdF32Acc], BinIdF32Acc2}
 			end,
-	{IdF32, Bin3} = lists:foldl(FunIdF32, {[], Bin2}, lists:duplicate(IdF32Count, 0)),
+	{IdF32Tmp, Bin3} = lists:foldl(FunIdF32, {[], Bin2}, lists:duplicate(IdF32Count, 0)),
+	IdF32 = lists:reverse(IdF32Tmp),
 	{IdOpU8Flag, Bin4} = ?D(u8, Bin3),
 	{IdOpU8, Bin5} =
 	case IdOpU8Flag of
@@ -236,9 +237,10 @@ req_test_send(Bin0) ->
 	{IdF32Count, Bin3} = ?D(u16, Bin2),
 	FunIdF32 = fun(_, {IdF32Acc, BinIdF32Acc}) ->
 				{FunIdF32, BinIdF32Acc2} = ?D(f32, BinIdF32Acc),
-				{IdF32Acc++FunIdF32, BinIdF32Acc2}
+				{[FunIdF32|IdF32Acc], BinIdF32Acc2}
 			end,
-	{IdF32, Bin4} = lists:foldl(FunIdF32, {[], Bin3}, lists:duplicate(IdF32Count, 0)),
+	{IdF32Tmp, Bin4} = lists:foldl(FunIdF32, {[], Bin3}, lists:duplicate(IdF32Count, 0)),
+	IdF32 = lists:reverse(IdF32Tmp),
 	{IdOpU8Flag, Bin5} = ?D(u8, Bin4),
 	{IdOpU8, Bin6} =
 	case IdOpU8Flag of
@@ -325,9 +327,10 @@ msg_test_send_decode(Bin0) ->
 	{IdF32Count, Bin3} = ?D(u16, Bin2),
 	FunIdF32 = fun(_, {IdF32Acc, BinIdF32Acc}) ->
 				{FunIdF32, BinIdF32Acc2} = ?D(f32, BinIdF32Acc),
-				{IdF32Acc++FunIdF32, BinIdF32Acc2}
+				{[FunIdF32|IdF32Acc], BinIdF32Acc2}
 			end,
-	{IdF32, Bin4} = lists:foldl(FunIdF32, {[], Bin3}, lists:duplicate(IdF32Count, 0)),
+	{IdF32Tmp, Bin4} = lists:foldl(FunIdF32, {[], Bin3}, lists:duplicate(IdF32Count, 0)),
+	IdF32 = lists:reverse(IdF32Tmp),
 	{IdOpU8Flag, Bin5} = ?D(u8, Bin4),
 	{IdOpU8, Bin6} =
 	case IdOpU8Flag of
@@ -354,9 +357,10 @@ req_test_x_x(Bin0) ->
 	{RepeatIdU8Count, Bin4} = ?D(u16, Bin3),
 	FunRepeatIdU8 = fun(_, {RepeatIdU8Acc, BinRepeatIdU8Acc}) ->
 				{FunRepeatIdU8, BinRepeatIdU8Acc2} = ?D(u8, BinRepeatIdU8Acc),
-				{RepeatIdU8Acc++FunRepeatIdU8, BinRepeatIdU8Acc2}
+				{[FunRepeatIdU8|RepeatIdU8Acc], BinRepeatIdU8Acc2}
 			end,
-	{RepeatIdU8, Bin5} = lists:foldl(FunRepeatIdU8, {[], Bin4}, lists:duplicate(RepeatIdU8Count, 0)),
+	{RepeatIdU8Tmp, Bin5} = lists:foldl(FunRepeatIdU8, {[], Bin4}, lists:duplicate(RepeatIdU8Count, 0)),
+	RepeatIdU8 = lists:reverse(RepeatIdU8Tmp),
 	{OptionalIdU8Flag, Bin6} = ?D(u8, Bin5),
 	{OptionalIdU8, Bin7} =
 	case OptionalIdU8Flag of
@@ -407,9 +411,10 @@ req_test_php(Bin0) ->
 	{MsgRepCount, Bin6} = ?D(u16, Bin5),
 	FunMsgRep = fun(_, {MsgRepAcc, BinMsgRepAcc}) ->
 				{FunMsgRep, BinMsgRepAcc2} = msg_test_php_decode(BinMsgRepAcc),
-				{MsgRepAcc++FunMsgRep, BinMsgRepAcc2}
+				{[FunMsgRep|MsgRepAcc], BinMsgRepAcc2}
 			end,
-	{MsgRep, Bin7} = lists:foldl(FunMsgRep, {[], Bin6}, lists:duplicate(MsgRepCount, 0)),
+	{MsgRepTmp, Bin7} = lists:foldl(FunMsgRep, {[], Bin6}, lists:duplicate(MsgRepCount, 0)),
+	MsgRep = lists:reverse(MsgRepTmp),
 	#req_test_php{u64=U64,strxx=Strxx,msg_req=MsgReq,msg_opt=MsgOpt,msg_rep=MsgRep}.
 
 %% 

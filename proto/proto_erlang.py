@@ -5,65 +5,17 @@ from utils import tool
 
 def protocol_const(common_path, mess_name_ids):
 	file_name 		= common_path + 'const.pb.hrl'
-
-	_str_content 	= '%% 1 - 500 (预留)\n'
-	_str_content 	+= '-define(P_XX_KEEP_END,'.ljust(40, chr(32)) + '500).\n'
-
+	_str_content 	= ''
 	for mess_name_id in mess_name_ids:
 		mess_name = mess_name_id['mess_name']
 		if mess_name.startswith('S') or mess_name.startswith('C'):
-			mess_name 	= 'P_' + tool.camel_to_underline(mess_name).upper()
+			mess_name 	= tool.camel_to_underline(mess_name).lower()
 			mess_id 	= mess_name_id['mess_id']
 			_str_tmp 	= '-define(' + mess_name + ','
 			_str_content+= (_str_tmp.ljust(40, chr(32)) + mess_id + ').').ljust(47, chr(32)) + '% ' + mess_name_id['mess_note'] + '\n'
 
 	with open(file_name, 'w+') as fd:
 		fd.write(_str_content)
-
-
-def protocol_record_proto(proto):
-	mess_name = proto['mess_name']
-	mess_note = proto['mess_note']
-	if mess_name.startswith('C'):
-		record_name = 'req_' + tool.camel_to_underline(mess_name[1:])
-	elif mess_name.startswith('S'):
-		record_name = 'ack_' + tool.camel_to_underline(mess_name[1:])
-	else:
-		record_name = tool.camel_to_underline(mess_name)
-
-	_str_record = '%% ' + mess_note + '\n'
-	_str_record += '-record(' + record_name + ', {\n'
-
-	_str_field  = ''
-	fields_len	= len(proto['mess_fields'])
-	idx_last	= fields_len - 1
-	for i in range(fields_len):
-		mess_field	= proto['mess_fields'][i]
-		field_op   	= mess_field['field_op']
-		field_type 	= mess_field['field_type']
-		field_name 	= mess_field['field_name']
-		field_note 	= mess_field['field_note']
-		field_note 	= '% ' + field_note + '\n'
-		default_val	= field_default_value(field_op, field_type)
-		if i == idx_last:
-			field_content = (field_name.ljust(15, chr(32)) + ' = ' + default_val).ljust(30, chr(32))
-		else:
-			field_content = (field_name.ljust(15, chr(32)) + ' = ' + default_val + ',').ljust(30, chr(32))
-		_str_field += '\t' + field_content + field_note
-
-	return _str_record + _str_field[:-1] + '\n}).\n\n'
-
-
-def field_default_value(field_op, field_type):
-	if field_op == 'optional':
-		return 'undefined'
-	elif field_op == 'repeated':
-		return '[]'
-	else:
-		if field_type == 'string':
-			return '<<>>'
-		else:
-			return '0'
 
 
 class ProtoErlang(object):

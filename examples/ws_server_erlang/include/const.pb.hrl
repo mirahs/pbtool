@@ -1,27 +1,25 @@
-%% 1 - 500 (预留)
--define(P_XX_KEEP_END,                  500).
--define(P_C_CHAT_SEND,                  1510). % 发送聊天信息
--define(P_S_CHAT_SEND_OK,               1520). % 聊天信息返回
--define(P_C_CHAT_GM,                    1530). % GM命令
--define(P_C_ROLE_LOGIN,                 1010). % 角色登录
--define(P_C_ROLE_CREATE,                1020). % 角色创建
--define(P_C_ROLE_RAND_NAME,             1030). % 请求随机名字
--define(P_S_ROLE_RAND_NAME_OK,          1040). % 随机名字返回
--define(P_S_ROLE_LOGIN_OK,              1050). % 登录成功
--define(P_S_ROLE_LOGIN_OK_NO_ROLE,      1060). % 登录成功(无角色)
--define(P_C_SCENE_ENTER_FLY,            2010). % 请求进入场景(飞)
--define(P_C_SCENE_ENTER,                2020). % 请求进入场景
--define(P_C_SCENE_MOVE,                 2030). % 行走数据
--define(P_S_SCENE_ENTER,                2040). % 进入场景成功
--define(P_S_SCENE_PLAYERS,              2050). % 场景玩家列表
--define(P_S_SCENE_EXIT,                 2060). % 退出场景成功
--define(P_C_SCENE_REQ_PLAYERS,          2070). % 请求玩家列表
--define(P_S_SCENE_MOVE,                 2080). % 行走数据
--define(P_C_TEST_SEND,                  40010).% 测试发送
--define(P_S_TEST_SEND_OK,               40020).% 测试返回
--define(P_C_TEST_X_X,                   40040).% 
--define(P_S_TEST_X_X,                   40050).% 
--define(P_C_TEST_PHP,                   40060).% 
--define(P_S_TEST_PHP_OK,                40070).% 
--define(P_C_TEST_JS,                    40080).% 
--define(P_S_TEST_JS_OK,                 40090).% 
+-define(c_chat_send,                    1510). % 发送聊天信息
+-define(s_chat_send_ok,                 1520). % 聊天信息返回
+-define(c_chat_gm,                      1530). % GM命令
+-define(c_role_login,                   1010). % 角色登录
+-define(c_role_create,                  1020). % 角色创建
+-define(c_role_rand_name,               1030). % 请求随机名字
+-define(s_role_rand_name_ok,            1040). % 随机名字返回
+-define(s_role_login_ok,                1050). % 登录成功
+-define(s_role_login_ok_no_role,        1060). % 登录成功(无角色)
+-define(c_scene_enter_fly,              2010). % 请求进入场景(飞)
+-define(c_scene_enter,                  2020). % 请求进入场景
+-define(c_scene_move,                   2030). % 行走数据
+-define(s_scene_enter,                  2040). % 进入场景成功
+-define(s_scene_players,                2050). % 场景玩家列表
+-define(s_scene_exit,                   2060). % 退出场景成功
+-define(c_scene_req_players,            2070). % 请求玩家列表
+-define(s_scene_move,                   2080). % 行走数据
+-define(c_test_send,                    40010).% 测试发送
+-define(s_test_send_ok,                 40020).% 测试返回
+-define(c_test_x_x,                     40040).% 
+-define(s_test_x_x,                     40050).% 
+-define(c_test_php,                     40060).% 
+-define(s_test_php_ok,                  40070).% 
+-define(c_test_js,                      40080).% 
+-define(s_test_js_ok,                   40090).% 

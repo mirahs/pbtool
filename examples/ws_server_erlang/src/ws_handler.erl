@@ -90,17 +90,17 @@ routing(PacketId, BinData, State) ->
 
 
 %% rpc处理
-rpc(?P_C_TEST_X_X, Data, State) ->?DEBUG("xxxxx"),
-	?DEBUG("P_C_TEST_X_X Data:~p~n", [Data]),
-    send(pack(?P_S_TEST_X_X, Data)),
+rpc(?c_test_x_x, Data, State) ->?DEBUG("xxxxx"),
+	?DEBUG("c_test_x_x Data:~p~n", [Data]),
+    send(pack(?s_test_x_x, Data)),
     State;
-rpc(?P_C_TEST_SEND, Data, State) ->?DEBUG("xxxxx"),
-	?DEBUG("P_C_TEST_SEND Data:~p~n", [Data]),
-    send(pack(?P_S_TEST_SEND_OK, Data)),
+rpc(?c_test_send, Data, State) ->?DEBUG("xxxxx"),
+	?DEBUG("c_test_send Data:~p~n", [Data]),
+    send(pack(?s_test_send_ok, Data)),
     State;
-rpc(?P_C_TEST_JS, Data, State) ->?DEBUG("xxxxx"),
+rpc(?c_test_js, Data, State) ->?DEBUG("xxxxx"),
 	?DEBUG("P_C_TEST_JS Data:~p~n", [Data]),
-    send(pack(?P_S_TEST_JS_OK, Data)),
+    send(pack(?s_test_js_ok, Data)),
     State;
 rpc(PacketId, Data, State) ->?DEBUG("xxxxx"),
 	?DEBUG("Unknow PacketId:~w Data:~w~n", [PacketId, Data]),

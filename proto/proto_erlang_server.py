@@ -27,7 +27,7 @@ def parse_protos(code_path, file_protos):
         includes = file_protos[filename]['includes']
         if includes:
             for include in includes:
-                _str_include += '\n-include("' + include + '").'
+                _str_include += '\n-include("' + include + '.hrl").'
         _str_protos = '-module(pb_' + filename + ').\n\n-include("common.hrl").' + _str_include + '\n\n-compile(export_all).\n\n\n'
 
         protos = file_protos[filename]['protos']

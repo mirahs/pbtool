@@ -1,8 +1,8 @@
 package com.data {
 	public class MsgSceneVector3 {
-		private _x: int;
-		private _y: int;
-		private _z: int;
+		private var _x: int;
+		private var _y: int;
+		private var _z: int;
 
 
 		public function Encode(): Packet {
@@ -23,16 +23,16 @@ package com.data {
 		}
 
 		public function GetBuffer(): Byte
-	{
-		return this.Encode().GetBuffer();
-	}
+		{
+			return this.Encode().GetBuffer();
+		}
 
 
 		public function get x(): int { return this._x; }
-		public function set x(value: int) { this._x = value; }
+		public function set x(value: int): void { this._x = value; }
 		public function get y(): int { return this._y; }
-		public function set y(value: int) { this._y = value; }
+		public function set y(value: int): void { this._y = value; }
 		public function get z(): int { return this._z; }
-		public function set z(value: int) { this._z = value; }
+		public function set z(value: int): void { this._z = value; }
 	}
 }

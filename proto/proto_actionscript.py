@@ -109,13 +109,13 @@ class ProtoActionScript(object):
             field_name_flag = field_name + '_flag'
             field_name_m = '_' + field_name
             if field_op == 'repeated':
-                self._str_priv_var += '\t\tprivate ' + field_name_m + ': Array = [];\n'
-                # self._str_priv_var += '\t\tprivate ' + field_name_m + ': ' + field_type + '[] = [];\n'
+                self._str_priv_var += '\t\tprivate var ' + field_name_m + ': Array = [];\n'
+                # self._str_priv_var += '\t\tprivate var ' + field_name_m + ': ' + field_type + '[] = [];\n'
             elif field_op == 'optional':
-                self._str_priv_var += '\t\tprivate ' + field_name_flag + ': Number = 0;\n'
-                self._str_priv_var += '\t\tprivate ' + field_name_m + ': ' + field_type + ';\n'
+                self._str_priv_var += '\t\tprivate var ' + field_name_flag + ': uint = 0;\n'
+                self._str_priv_var += '\t\tprivate var ' + field_name_m + ': ' + field_type + ';\n'
             else:
-                self._str_priv_var += '\t\tprivate ' + field_name_m + ': ' + field_type + ';\n'
+                self._str_priv_var += '\t\tprivate var ' + field_name_m + ': ' + field_type + ';\n'
 
     def _set_encode(self):
         self._str_encode = '\t\tpublic function Encode(): Packet {\n\t\t\tvar packet: Packet = new Packet();\n'
@@ -209,17 +209,17 @@ class ProtoActionScript(object):
             if field_op == 'repeated':
                 self._str_set_get += '\t\tpublic function get ' + field_name + '(): Array' + ' {return ' + field_name_m + '; }\n'
                 # self._str_set_get += '\t\tpublic function get ' + field_name + '(): ' + field_type + '[] {return ' + field_name_m + '; }\n'
-                self._str_set_get += '\t\tpublic function set ' + field_name + '(value: Array)' + ' { ' + field_name_m + ' = value; }\n'
+                self._str_set_get += '\t\tpublic function set ' + field_name + '(value: Array): void' + ' { ' + field_name_m + ' = value; }\n'
                 # self._str_set_get += '\t\tpublic function set ' + field_name + '(value: ' + field_type + '[])' + ' { ' + field_name_m + ' = value; }\n'
             elif field_op == 'optional':
                 self._str_set_get += '\t\tpublic function get ' + field_name + '(): ' + field_type + ' { return ' + field_name_m + '; }\n'
-                self._str_set_get += '\t\tpublic function set ' + field_name + '(value: ' + field_type + ')' + ' { this.' + field_name_flag + ' = 1; ' + field_name_m + ' = value; }\n'
+                self._str_set_get += '\t\tpublic function set ' + field_name + '(value: ' + field_type + '): void' + ' { this.' + field_name_flag + ' = 1; ' + field_name_m + ' = value; }\n'
             else:
                 self._str_set_get += '\t\tpublic function get ' + field_name + '(): ' + field_type + ' { return ' + field_name_m + '; }\n'
-                self._str_set_get += '\t\tpublic function set ' + field_name + '(value: ' + field_type + ')' + ' { ' + field_name_m + ' = value; }\n'
+                self._str_set_get += '\t\tpublic function set ' + field_name + '(value: ' + field_type + '): void' + ' { ' + field_name_m + ' = value; }\n'
 
     def _set_get_buffer(self):
-        self._str_get_buffer = '\t\tpublic function GetBuffer(): Byte\n\t{\n\t\treturn this.Encode().GetBuffer();\n\t}\n'
+        self._str_get_buffer = '\t\tpublic function GetBuffer(): Byte\n\t\t{\n\t\t\treturn this.Encode().GetBuffer();\n\t\t}\n'
 
     def _do_msg(self):
         _tmp_conn = ''

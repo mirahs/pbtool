@@ -1,7 +1,7 @@
 package com.data {
 	public class AckTestJsOk {
-		private _u64: Number;
-		private _i64: Number;
+		private var _u64: Number;
+		private var _i64: Number;
 
 
 		public function AckTestJsOk(packet: Packet = null) {
@@ -13,8 +13,8 @@ package com.data {
 
 
 		public function get u64(): Number { return this._u64; }
-		public function set u64(value: Number) { this._u64 = value; }
+		public function set u64(value: Number): void { this._u64 = value; }
 		public function get i64(): Number { return this._i64; }
-		public function set i64(value: Number) { this._i64 = value; }
+		public function set i64(value: Number): void { this._i64 = value; }
 	}
 }

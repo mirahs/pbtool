@@ -1,7 +1,7 @@
 package com.data {
 	public class MsgScenePlayer {
-		private _uid: uint;
-		private _scene_rot_pos: MsgSceneRotPos;
+		private var _uid: uint;
+		private var _scene_rot_pos: MsgSceneRotPos;
 
 
 		public function Encode(): Packet {
@@ -20,14 +20,14 @@ package com.data {
 		}
 
 		public function GetBuffer(): Byte
-	{
-		return this.Encode().GetBuffer();
-	}
+		{
+			return this.Encode().GetBuffer();
+		}
 
 
 		public function get uid(): uint { return this._uid; }
-		public function set uid(value: uint) { this._uid = value; }
+		public function set uid(value: uint): void { this._uid = value; }
 		public function get scene_rot_pos(): MsgSceneRotPos { return this._scene_rot_pos; }
-		public function set scene_rot_pos(value: MsgSceneRotPos) { this._scene_rot_pos = value; }
+		public function set scene_rot_pos(value: MsgSceneRotPos): void { this._scene_rot_pos = value; }
 	}
 }

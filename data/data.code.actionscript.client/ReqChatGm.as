@@ -1,6 +1,6 @@
 package com.data {
 	public class ReqChatGm {
-		private _content: String;
+		private var _content: String;
 
 
 		public function Encode(): Packet {
@@ -12,6 +12,6 @@ package com.data {
 
 
 		public function get content(): String { return this._content; }
-		public function set content(value: String) { this._content = value; }
+		public function set content(value: String): void { this._content = value; }
 	}
 }

@@ -1,6 +1,6 @@
 package com.data {
 	public class MsgTestPhp {
-		private _u16: uint;
+		private var _u16: uint;
 
 
 		public function Encode(): Packet {
@@ -17,12 +17,12 @@ package com.data {
 		}
 
 		public function GetBuffer(): Byte
-	{
-		return this.Encode().GetBuffer();
-	}
+		{
+			return this.Encode().GetBuffer();
+		}
 
 
 		public function get u16(): uint { return this._u16; }
-		public function set u16(value: uint) { this._u16 = value; }
+		public function set u16(value: uint): void { this._u16 = value; }
 	}
 }

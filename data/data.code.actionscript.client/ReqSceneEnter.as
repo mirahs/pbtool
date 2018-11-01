@@ -1,6 +1,6 @@
 package com.data {
 	public class ReqSceneEnter {
-		private _door_id: uint;
+		private var _door_id: uint;
 
 
 		public function Encode(): Packet {
@@ -12,6 +12,6 @@ package com.data {
 
 
 		public function get door_id(): uint { return this._door_id; }
-		public function set door_id(value: uint) { this._door_id = value; }
+		public function set door_id(value: uint): void { this._door_id = value; }
 	}
 }

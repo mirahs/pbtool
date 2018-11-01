@@ -1,9 +1,9 @@
 package com.data {
 	public class AckChatSendOk {
-		private _channel: uint;
-		private _uid: uint;
-		private _uname: String;
-		private _content: String;
+		private var _channel: uint;
+		private var _uid: uint;
+		private var _uname: String;
+		private var _content: String;
 
 
 		public function AckChatSendOk(packet: Packet = null) {
@@ -17,12 +17,12 @@ package com.data {
 
 
 		public function get channel(): uint { return this._channel; }
-		public function set channel(value: uint) { this._channel = value; }
+		public function set channel(value: uint): void { this._channel = value; }
 		public function get uid(): uint { return this._uid; }
-		public function set uid(value: uint) { this._uid = value; }
+		public function set uid(value: uint): void { this._uid = value; }
 		public function get uname(): String { return this._uname; }
-		public function set uname(value: String) { this._uname = value; }
+		public function set uname(value: String): void { this._uname = value; }
 		public function get content(): String { return this._content; }
-		public function set content(value: String) { this._content = value; }
+		public function set content(value: String): void { this._content = value; }
 	}
 }

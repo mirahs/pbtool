@@ -1,6 +1,6 @@
 package com.data {
 	public class AckSceneEnter {
-		private _player: MsgScenePlayer;
+		private var _player: MsgScenePlayer;
 
 
 		public function AckSceneEnter(packet: Packet = null) {
@@ -11,6 +11,6 @@ package com.data {
 
 
 		public function get player(): MsgScenePlayer { return this._player; }
-		public function set player(value: MsgScenePlayer) { this._player = value; }
+		public function set player(value: MsgScenePlayer): void { this._player = value; }
 	}
 }

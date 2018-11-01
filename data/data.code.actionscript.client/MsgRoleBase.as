@@ -1,7 +1,7 @@
 package com.data {
 	public class MsgRoleBase {
-		private _uid: uint;
-		private _uname: String;
+		private var _uid: uint;
+		private var _uname: String;
 
 
 		public function Encode(): Packet {
@@ -20,14 +20,14 @@ package com.data {
 		}
 
 		public function GetBuffer(): Byte
-	{
-		return this.Encode().GetBuffer();
-	}
+		{
+			return this.Encode().GetBuffer();
+		}
 
 
 		public function get uid(): uint { return this._uid; }
-		public function set uid(value: uint) { this._uid = value; }
+		public function set uid(value: uint): void { this._uid = value; }
 		public function get uname(): String { return this._uname; }
-		public function set uname(value: String) { this._uname = value; }
+		public function set uname(value: String): void { this._uname = value; }
 	}
 }

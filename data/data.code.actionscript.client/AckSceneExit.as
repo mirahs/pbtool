@@ -1,6 +1,6 @@
 package com.data {
 	public class AckSceneExit {
-		private _uid: uint;
+		private var _uid: uint;
 
 
 		public function AckSceneExit(packet: Packet = null) {
@@ -11,6 +11,6 @@ package com.data {
 
 
 		public function get uid(): uint { return this._uid; }
-		public function set uid(value: uint) { this._uid = value; }
+		public function set uid(value: uint): void { this._uid = value; }
 	}
 }

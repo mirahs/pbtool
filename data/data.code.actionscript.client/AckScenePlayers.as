@@ -1,6 +1,6 @@
 package com.data {
 	public class AckScenePlayers {
-		private _players: Array = [];
+		private var _players: Array = [];
 
 
 		public function AckScenePlayers(packet: Packet = null) {
@@ -16,6 +16,6 @@ package com.data {
 
 
 		public function get players(): Array {return this._players; }
-		public function set players(value: Array) { this._players = value; }
+		public function set players(value: Array): void { this._players = value; }
 	}
 }

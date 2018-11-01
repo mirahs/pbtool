@@ -18,9 +18,9 @@ package com.data {
 			{
 				packet.WriteBuffer(this._msg_opt.GetBuffer());
 			}
-			var msg_rep_count: Number = this._msg_rep.length;
+			var msg_rep_count: int = this._msg_rep.length;
 			packet.WriteUshort(msg_rep_count);
-			for (var i: Number = 0; i < msg_rep_count; i++)
+			for (var i: int = 0; i < msg_rep_count; i++)
 			{
 				var xxx: MsgTestPhp = this._msg_rep[i];
 				packet.WriteBuffer(xxx.GetBuffer());

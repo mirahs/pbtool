@@ -19,8 +19,8 @@ package com.data {
 					this._msg_opt = new MsgTestPhp(packet);
 				}
 				this._msg_rep = [];
-				var msg_rep_count: Number = packet.ReadUshort();
-				for (var i: Number = 0; i < msg_rep_count; i++)
+				var msg_rep_count: int = packet.ReadUshort();
+				for (var i: int = 0; i < msg_rep_count; i++)
 				{
 					this._msg_rep.push(new MsgTestPhp(packet));
 				}

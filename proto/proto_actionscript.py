@@ -131,9 +131,9 @@ class ProtoActionScript(object):
             field_name_m = 'this._' + field_name
             field_name_count = field_name + '_count'
             if field_op == 'repeated':
-                self._str_encode += '\t\t\tvar ' + field_name_count + ': Number = ' + field_name_m + '.length;\n'
+                self._str_encode += '\t\t\tvar ' + field_name_count + ': int = ' + field_name_m + '.length;\n'
                 self._str_encode += '\t\t\tpacket.WriteUshort(' + field_name_count + ');\n'
-                self._str_encode += '\t\t\tfor (var i: Number = 0; i < ' + field_name_count + '; i++)\n\t\t\t{\n'
+                self._str_encode += '\t\t\tfor (var i: int = 0; i < ' + field_name_count + '; i++)\n\t\t\t{\n'
                 self._str_encode += '\t\t\t\tvar xxx: ' + field_type + ' = ' + field_name_m + '[i];\n'
                 if field_type.startswith('Msg'):
                     self._str_encode += '\t\t\t\tpacket.WriteBuffer(xxx' + '.GetBuffer());\n\t\t\t}\n'
@@ -171,8 +171,8 @@ class ProtoActionScript(object):
             field_name_count = field_name + '_count'
             if field_op == 'repeated':
                 self._str_decode += '\t\t\t\t' + field_name_m + ' = [];\n'
-                self._str_decode += '\t\t\t\tvar ' + field_name_count + ': Number = packet.ReadUshort();\n'
-                self._str_decode += '\t\t\t\tfor (var i: Number = 0; i < ' + field_name_count + '; i++)\n\t\t\t\t{\n'
+                self._str_decode += '\t\t\t\tvar ' + field_name_count + ': int = packet.ReadUshort();\n'
+                self._str_decode += '\t\t\t\tfor (var i: int = 0; i < ' + field_name_count + '; i++)\n\t\t\t\t{\n'
                 if field_type.startswith('Msg'):
                     self._str_decode += '\t\t\t\t\t' + field_name_m + '.push(new ' + field_type + '(packet));\n\t\t\t\t}\n'
                 else:

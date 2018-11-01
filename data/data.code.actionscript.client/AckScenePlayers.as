@@ -6,8 +6,8 @@ package com.data {
 		public function AckScenePlayers(packet: Packet = null) {
 			if (packet) {
 				this._players = [];
-				var players_count: Number = packet.ReadUshort();
-				for (var i: Number = 0; i < players_count; i++)
+				var players_count: int = packet.ReadUshort();
+				for (var i: int = 0; i < players_count; i++)
 				{
 					this._players.push(new MsgScenePlayer(packet));
 				}

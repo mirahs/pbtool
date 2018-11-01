@@ -14,8 +14,8 @@ package com.data {
 				this._id_u8 = packet.ReadByte();
 				this._role_base = new MsgRoleBase(packet);
 				this._id_f32 = [];
-				var id_f32_count: Number = packet.ReadUshort();
-				for (var i: Number = 0; i < id_f32_count; i++)
+				var id_f32_count: int = packet.ReadUshort();
+				for (var i: int = 0; i < id_f32_count; i++)
 				{
 					this._id_f32.push(packet.ReadFloat());
 				}

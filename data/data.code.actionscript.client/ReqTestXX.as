@@ -13,9 +13,9 @@ package com.data {
 			packet.WriteByte(this._id_u8);
 			packet.WriteUshort(this._id_u16);
 			packet.WriteUint(this._id_u32);
-			var repeat_id_u8_count: Number = this._repeat_id_u8.length;
+			var repeat_id_u8_count: int = this._repeat_id_u8.length;
 			packet.WriteUshort(repeat_id_u8_count);
-			for (var i: Number = 0; i < repeat_id_u8_count; i++)
+			for (var i: int = 0; i < repeat_id_u8_count; i++)
 			{
 				var xxx: uint = this._repeat_id_u8[i];
 				packet.WriteByte(xxx);

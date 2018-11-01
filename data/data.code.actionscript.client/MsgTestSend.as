@@ -13,9 +13,9 @@ package com.data {
 			var packet: Packet = new Packet();
 			packet.WriteByte(this._id_u8);
 			packet.WriteBuffer(this._role_base.GetBuffer());
-			var id_f32_count: Number = this._id_f32.length;
+			var id_f32_count: int = this._id_f32.length;
 			packet.WriteUshort(id_f32_count);
-			for (var i: Number = 0; i < id_f32_count; i++)
+			for (var i: int = 0; i < id_f32_count; i++)
 			{
 				var xxx: Number = this._id_f32[i];
 				packet.WriteFloat(xxx);
@@ -39,8 +39,8 @@ package com.data {
 				this._id_u8 = packet.ReadByte();
 				this._role_base = new MsgRoleBase(packet);
 				this._id_f32 = [];
-				var id_f32_count: Number = packet.ReadUshort();
-				for (var i: Number = 0; i < id_f32_count; i++)
+				var id_f32_count: int = packet.ReadUshort();
+				for (var i: int = 0; i < id_f32_count; i++)
 				{
 					this._id_f32.push(packet.ReadFloat());
 				}

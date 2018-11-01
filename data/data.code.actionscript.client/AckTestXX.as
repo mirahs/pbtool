@@ -14,8 +14,8 @@ package com.data {
 				this._id_u16 = packet.ReadUshort();
 				this._id_u32 = packet.ReadUint();
 				this._repeat_id_u8 = [];
-				var repeat_id_u8_count: Number = packet.ReadUshort();
-				for (var i: Number = 0; i < repeat_id_u8_count; i++)
+				var repeat_id_u8_count: int = packet.ReadUshort();
+				for (var i: int = 0; i < repeat_id_u8_count; i++)
 				{
 					this._repeat_id_u8.push(packet.ReadByte());
 				}

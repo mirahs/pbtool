@@ -8,7 +8,7 @@ package com {
 
 
 		public function Packet(buffer: ArrayBuffer = null) {
-			this._byte = buffer ? new Byte() : new Byte(buffer);
+			this._byte = buffer ? new Byte(buffer): new Byte();
 			this._byte.endian = Byte.BIG_ENDIAN;//设置为大端；
 		}
 

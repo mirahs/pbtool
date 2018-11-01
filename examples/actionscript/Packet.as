@@ -67,7 +67,7 @@ package com {
 
 		public function WriteUlong(v: Number):void {
 			const zeros:String = "00000000";
-		    var str = v.toString(16);
+		    var str: String = v.toString(16);
 		    str = zeros.substr(0, 16 - str.length) + str;
 		    this.WriteUint(parseInt(str.substr(0,8),16));
 		    this.WriteUint(parseInt(str.substr(8,8),16));

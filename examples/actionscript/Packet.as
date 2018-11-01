@@ -114,7 +114,7 @@ package com {
 			return this._byte.getInt32();
 		}
 
-		public function ReadUlong(): int {
+		public function ReadUlong(): Number {
 			const zeros:String = "00000000";
 		    var s:String = this.ReadUint().toString(16);
 		    var str:String = zeros.substr(0,8-s.length) + s;
@@ -123,7 +123,7 @@ package com {
 		    return Number(parseInt(str, 16).toString());
 		}
 
-		public function ReadLong(): int {
+		public function ReadLong(): Number {
 			return this.ReadUlong();
 		}
 

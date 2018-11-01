@@ -9,12 +9,14 @@ package com {
 
 		public function Packet(buffer: ArrayBuffer = null) {
 			this._byte = buffer ? new Byte() : new Byte(buffer);
+			this._byte.endian = Byte.BIG_ENDIAN;//设置为大端；
 		}
 
 
 		public function Encode(packetId: uint):void 
 		{
 			var all:Byte = new Byte(4 + this._byte.pos);
+			all..endian = Byte.BIG_ENDIAN;//设置为大端；
 			all.writeUint16(this._byte.pos);
 			all.writeUint16(packetId);
 			all.writeArrayBuffer(this._byte.buffer, 0);

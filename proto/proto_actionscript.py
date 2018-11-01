@@ -52,7 +52,7 @@ def protocol_const(code_path, mess_name_ids):
             mess_id = mess_name_id['mess_id']
             mess_note = mess_name_id['mess_note']
             _str_msg += '\t\t/**' + mess_note + '*/\n\t\t' + 'public static const ' + (
-                        tool.javascript_proto_name_msg(mess_name) + ':Number').ljust(40, chr(32)) + '= ' + str(
+                        tool.javascript_proto_name_msg(mess_name) + ':uint').ljust(40, chr(32)) + '= ' + str(
                 mess_id) + ',\n\n'
 
     _str_msg = _str_msg_head + _str_msg[:-1] + _str_msg_end

@@ -40,6 +40,7 @@ data_xml			= data_dir + 'data.xml/'
     php_client
     javascript_client
     typescript_client
+    actionscript_client
 
 配置格式:
     lang:       需要导出的语言
@@ -53,7 +54,7 @@ langs_proto = [
         'common':   'data.code.erlang.common.server',
     },
     {
-        'lang':     'erlang_server',
+        'lang':     'erlang_server',  # 暂时没有erlang_client
         'code':     'data.code.erlang.client',
         'common':   'data.code.erlang.common.client',
     },
@@ -145,6 +146,10 @@ langs_proto = [
     {
         'lang':     'typescript_client',
         'code':     'data.code.typescript.client',
+    },
+    {
+        'lang':     'actionscript_client',
+        'code':     'data.code.actionscript.client',
     },
 ]
 

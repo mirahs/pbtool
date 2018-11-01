@@ -1,8 +1,10 @@
-package proto {
-	public class Packet {
-		public packetId: uint = 0;
+package com {
+	import laya.utils.Byte;
 
-		private _byte: Byte;
+	public class Packet {
+		public var packetId: uint = 0;
+
+		private var _byte: Byte;
 
 
 		public function Packet(buffer: ArrayBuffer = null) {
@@ -10,8 +12,9 @@ package proto {
 		}
 
 
-		public function Encode(packetId: uint) {
-			var all = new Byte(4 + this._byte.pos);
+		public function Encode(packetId: uint):void 
+		{
+			var all:Byte = new Byte(4 + this._byte.pos);
 			all.writeUint16(this._byte.pos);
 			all.writeUint16(packetId);
 			all.writeArrayBuffer(this._byte.buffer, 0);
@@ -27,7 +30,7 @@ package proto {
 			return this._byte;
 		}
 
-		public function WriteBuffer(v: Byte) {
+		public function WriteBuffer(v: Byte):void {
 			this._byte.writeArrayBuffer(v.buffer, 0);
 		}
 
@@ -36,48 +39,52 @@ package proto {
 		}
 
 
-		public function WriteByte(v: int) {
+		public function WriteByte(v: int):void {
 			this._byte.writeByte(v);
 		}
 
-		public function WriteSbyte(v: int) {
+		public function WriteSbyte(v: int):void {
 			this._byte.writeUint8(v);
 		}
 
-		public function WriteUshort(v: int) {
+		public function WriteUshort(v: int):void {
 			this._byte.writeUint16(v);
 		}
 
-		public function WriteShort(v: int) {
+		public function WriteShort(v: int):void {
 			this._byte.writeInt16(v);
 		}
 
-		public function WriteUint(v: int) {
+		public function WriteUint(v: int):void {
 			this._byte.writeUint32(v);
 		}
 
-		public function WriteInt(v: int) {
+		public function WriteInt(v: int):void {
 			this._byte.writeInt32(v);
 		}
 
-		public function WriteUlong(v: int) {
-			this._byte.writeUint64(v);
+		public function WriteUlong(v: Number):void {
+			const zeros:String = "00000000";
+		    var str = v.toString(16);
+		    str = zeros.substr(0, 16 - str.length) + str;
+		    this.WriteUint(parseInt(str.substr(0,8),16));
+		    this.WriteUint(parseInt(str.substr(8,8),16));
 		}
 
-		public function WriteLong(v: int) {
-			this._byte.writeInt64(v);
+		public function WriteLong(v: Number):void {
+			this.WriteUlong(v);
 		}
 
-		public function WriteFloat(v: Number) {
+		public function WriteFloat(v: Number):void {
 			this._byte.writeFloat32(v);
 		}
 
-		public function WriteDouble(v: Number) {
+		public function WriteDouble(v: Number):void {
 			this._byte.writeFloat64(v);
 		}
 
-		public function WriteString(v: String) {
-			var len = v.length;
+		public function WriteString(v: String):void {
+			var len:int = v.length;
 			this.WriteUshort(len);
 			this._byte.writeUTFBytes(v);
 		}
@@ -108,11 +115,16 @@ package proto {
 		}
 
 		public function ReadUlong(): int {
-			return this._byte.readUint64();
+			const zeros:String = "00000000";
+		    var s:String = this.ReadUint().toString(16);
+		    var str:String = zeros.substr(0,8-s.length) + s;
+		    s = this.ReadUint().toString(16);
+		    str += zeros.substr(0,8-s.length) + s ;
+		    return Number(parseInt(str, 16).toString());
 		}
 
 		public function ReadLong(): int {
-			return this._byte.readInt64();
+			return this.ReadUlong();
 		}
 
 		public function ReadFloat(): Number {
@@ -124,8 +136,30 @@ package proto {
 		}
 
 		public function ReadString(): String {
-			var len = this.ReadUshort();
+			var len:int = this.ReadUshort();
 			return this._byte.getUTFBytes(len);
+		}
+		
+		//Int64转换成ByteArray
+		public function writeInt64(bigInt:Number):ArrayBuffer {
+			const zeros:String = "00000000";
+			var bytes:ArrayBuffer = new ArrayBuffer();
+			var str:* = bigInt.toString(16);
+			str = zeros.substr(0,16-str.length)+str;
+			bytes.writeUnsignedInt(parseInt(str.substr(0,8),16));
+			bytes.writeUnsignedInt(parseInt(str.substr(8,8),16));
+			bytes.position = 0;
+			return bytes;
+		}
+		
+		//ByteArray转换成Int64
+		public function readInt64(bytes:ArrayBuffer):Number {
+			const zeros:String = "00000000";
+			var s:String = bytes.readUnsignedInt().toString(16);
+			var str:String = zeros.substr(0,8-s.length) + s;
+			s = bytes.readUnsignedInt().toString(16);
+			str += zeros.substr(0,8-s.length) + s ;
+			return Number(parseInt(str, 16).toString());
 		}
 	}
 }

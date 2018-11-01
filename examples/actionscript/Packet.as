@@ -16,7 +16,7 @@ package com {
 		public function Encode(packetId: uint):void 
 		{
 			var all:Byte = new Byte(4 + this._byte.pos);
-			all..endian = Byte.BIG_ENDIAN;//设置为大端；
+			all.endian = Byte.BIG_ENDIAN;//设置为大端；
 			all.writeUint16(this._byte.pos);
 			all.writeUint16(packetId);
 			all.writeArrayBuffer(this._byte.buffer, 0);

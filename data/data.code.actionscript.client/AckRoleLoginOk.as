@@ -1,9 +1,9 @@
-package proto {
+package com.data {
 	public class AckRoleLoginOk {
 		private _uname: String;
 
 
-		constructor(packet: Packet = null) {
+		public function AckRoleLoginOk(packet: Packet = null) {
 			if (packet) {
 				this._uname = packet.ReadString();
 			}

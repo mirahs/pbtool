@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class ReqRoleCreate {
 		private _uid: Number;
 		private _uuid: Number;

@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class ReqTestSend {
 		private _id_u8: Number;
 		private _role_base: MsgRoleBase;

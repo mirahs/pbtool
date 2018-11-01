@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class MsgSceneRotPos {
 		private _rot_x: Number;
 		private _rot_y: Number;
@@ -20,7 +20,7 @@ package proto {
 		}
 
 
-		constructor(packet: Packet = null) {
+		public function MsgSceneRotPos(packet: Packet = null) {
 			if (packet) {
 				this._rot_x = packet.ReadShort();
 				this._rot_y = packet.ReadShort();
@@ -31,7 +31,7 @@ package proto {
 			}
 		}
 
-		public function GetBuffer(): ByteBuffer
+		public function GetBuffer(): Byte
 	{
 		return this.Encode().GetBuffer();
 	}

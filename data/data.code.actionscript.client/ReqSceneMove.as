@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class ReqSceneMove {
 		private _scene_rot_pos: MsgSceneRotPos;
 		private _forward: MsgSceneVector3;

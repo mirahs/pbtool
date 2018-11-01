@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class MsgTestXX {
 		private _id_u8: Number;
 		private _id_f32: Array = [];
@@ -25,7 +25,7 @@ package proto {
 		}
 
 
-		constructor(packet: Packet = null) {
+		public function MsgTestXX(packet: Packet = null) {
 			if (packet) {
 				this._id_u8 = packet.ReadByte();
 				this._id_f32 = [];
@@ -42,7 +42,7 @@ package proto {
 			}
 		}
 
-		public function GetBuffer(): ByteBuffer
+		public function GetBuffer(): Byte
 	{
 		return this.Encode().GetBuffer();
 	}

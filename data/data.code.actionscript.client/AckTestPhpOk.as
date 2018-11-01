@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class AckTestPhpOk {
 		private _u64: Number;
 		private _strxx: String;
@@ -8,7 +8,7 @@ package proto {
 		private _msg_rep: Array = [];
 
 
-		constructor(packet: Packet = null) {
+		public function AckTestPhpOk(packet: Packet = null) {
 			if (packet) {
 				this._u64 = packet.ReadUlong();
 				this._strxx = packet.ReadString();

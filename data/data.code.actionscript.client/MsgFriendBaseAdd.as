@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class MsgFriendBaseAdd {
 		private _uid: Number;
 		private _uname: String;
@@ -12,14 +12,14 @@ package proto {
 		}
 
 
-		constructor(packet: Packet = null) {
+		public function MsgFriendBaseAdd(packet: Packet = null) {
 			if (packet) {
 				this._uid = packet.ReadUint();
 				this._uname = packet.ReadString();
 			}
 		}
 
-		public function GetBuffer(): ByteBuffer
+		public function GetBuffer(): Byte
 	{
 		return this.Encode().GetBuffer();
 	}

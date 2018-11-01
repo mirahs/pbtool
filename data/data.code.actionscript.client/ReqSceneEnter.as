@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class ReqSceneEnter {
 		private _door_id: Number;
 

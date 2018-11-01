@@ -1,9 +1,9 @@
-package proto {
+package com.data {
 	public class AckSceneExit {
 		private _uid: Number;
 
 
-		constructor(packet: Packet = null) {
+		public function AckSceneExit(packet: Packet = null) {
 			if (packet) {
 				this._uid = packet.ReadUint();
 			}

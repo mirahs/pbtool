@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class Msg {
 		/**聊天信息返回*/
 		public static const ACK_CHAT_SEND_OK:Number                 = 1520,

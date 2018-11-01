@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class MsgScenePlayer {
 		private _uid: Number;
 		private _scene_rot_pos: MsgSceneRotPos;
@@ -12,14 +12,14 @@ package proto {
 		}
 
 
-		constructor(packet: Packet = null) {
+		public function MsgScenePlayer(packet: Packet = null) {
 			if (packet) {
 				this._uid = packet.ReadUint();
 				this._scene_rot_pos = new MsgSceneRotPos(packet);
 			}
 		}
 
-		public function GetBuffer(): ByteBuffer
+		public function GetBuffer(): Byte
 	{
 		return this.Encode().GetBuffer();
 	}

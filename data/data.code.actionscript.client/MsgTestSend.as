@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class MsgTestSend {
 		private _id_u8: Number;
 		private _role_base: MsgRoleBase;
@@ -34,7 +34,7 @@ package proto {
 		}
 
 
-		constructor(packet: Packet = null) {
+		public function MsgTestSend(packet: Packet = null) {
 			if (packet) {
 				this._id_u8 = packet.ReadByte();
 				this._role_base = new MsgRoleBase(packet);
@@ -57,7 +57,7 @@ package proto {
 			}
 		}
 
-		public function GetBuffer(): ByteBuffer
+		public function GetBuffer(): Byte
 	{
 		return this.Encode().GetBuffer();
 	}

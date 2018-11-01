@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class ReqChatSend {
 		private _channel: Number;
 		private _dest_uid: Number;

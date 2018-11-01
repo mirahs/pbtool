@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class AckChatSendOk {
 		private _channel: Number;
 		private _uid: Number;
@@ -6,7 +6,7 @@ package proto {
 		private _content: String;
 
 
-		constructor(packet: Packet = null) {
+		public function AckChatSendOk(packet: Packet = null) {
 			if (packet) {
 				this._channel = packet.ReadByte();
 				this._uid = packet.ReadUint();

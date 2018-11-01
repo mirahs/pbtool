@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class ReqTestPhp {
 		private _u64: Number;
 		private _strxx: String;

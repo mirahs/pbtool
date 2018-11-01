@@ -1,8 +1,8 @@
-package proto {
+package com.data {
 	public class AckRoleLoginOkNoRole {
 
 
-		constructor(packet: Packet = null) {
+		public function AckRoleLoginOkNoRole(packet: Packet = null) {
 			if (packet) {
 			}
 		}

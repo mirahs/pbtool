@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class MsgSceneVector3 {
 		private _x: Number;
 		private _y: Number;
@@ -14,7 +14,7 @@ package proto {
 		}
 
 
-		constructor(packet: Packet = null) {
+		public function MsgSceneVector3(packet: Packet = null) {
 			if (packet) {
 				this._x = packet.ReadShort();
 				this._y = packet.ReadShort();
@@ -22,7 +22,7 @@ package proto {
 			}
 		}
 
-		public function GetBuffer(): ByteBuffer
+		public function GetBuffer(): Byte
 	{
 		return this.Encode().GetBuffer();
 	}

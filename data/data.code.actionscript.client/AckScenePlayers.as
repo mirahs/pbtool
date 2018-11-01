@@ -1,9 +1,9 @@
-package proto {
+package com.data {
 	public class AckScenePlayers {
 		private _players: Array = [];
 
 
-		constructor(packet: Packet = null) {
+		public function AckScenePlayers(packet: Packet = null) {
 			if (packet) {
 				this._players = [];
 				var players_count: Number = packet.ReadUshort();

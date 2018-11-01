@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class ReqTestXX {
 		private _id_u8: Number;
 		private _id_u16: Number;

@@ -1,9 +1,9 @@
-package proto {
+package com.data {
 	public class AckSceneEnter {
 		private _player: MsgScenePlayer;
 
 
-		constructor(packet: Packet = null) {
+		public function AckSceneEnter(packet: Packet = null) {
 			if (packet) {
 				this._player = new MsgScenePlayer(packet);
 			}

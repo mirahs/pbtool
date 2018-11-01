@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class AckSceneMove {
 		private _scene_rot_pos: MsgSceneRotPos;
 		private _forward: MsgSceneVector3;
@@ -7,7 +7,7 @@ package proto {
 		private _uid: Number;
 
 
-		constructor(packet: Packet = null) {
+		public function AckSceneMove(packet: Packet = null) {
 			if (packet) {
 				this._scene_rot_pos = new MsgSceneRotPos(packet);
 				this._forward = new MsgSceneVector3(packet);

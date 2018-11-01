@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class AckTestXX {
 		private _id_u8: Number;
 		private _id_u16: Number;
@@ -8,7 +8,7 @@ package proto {
 		private _optional_id_u8: Number;
 
 
-		constructor(packet: Packet = null) {
+		public function AckTestXX(packet: Packet = null) {
 			if (packet) {
 				this._id_u8 = packet.ReadByte();
 				this._id_u16 = packet.ReadUshort();

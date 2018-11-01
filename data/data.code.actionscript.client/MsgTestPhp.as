@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class MsgTestPhp {
 		private _u16: Number;
 
@@ -10,13 +10,13 @@ package proto {
 		}
 
 
-		constructor(packet: Packet = null) {
+		public function MsgTestPhp(packet: Packet = null) {
 			if (packet) {
 				this._u16 = packet.ReadUshort();
 			}
 		}
 
-		public function GetBuffer(): ByteBuffer
+		public function GetBuffer(): Byte
 	{
 		return this.Encode().GetBuffer();
 	}

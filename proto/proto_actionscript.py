@@ -43,7 +43,7 @@ def trans_mess_type(mess_body):
 def protocol_const(code_path, mess_name_ids):
     file_name = code_path + 'Msg.as'
 
-    _str_msg_head = 'package proto {\n\tpublic class Msg {\n'
+    _str_msg_head = 'package com.data {\n\tpublic class Msg {\n'
     _str_msg_end = '\t}\n}\n'
     _str_msg = ''
     for mess_name_id in mess_name_ids:
@@ -91,7 +91,7 @@ class ProtoActionScript(object):
         self._filename = self._code_path + self._str_class_name + '.as'
 
     def _set_head(self):
-        self._str_head = 'package proto {'
+        self._str_head = 'package com.data {'
 
     def _set_end(self):
         self._str_end = '\n\t}\n}\n'
@@ -156,7 +156,7 @@ class ProtoActionScript(object):
         self._str_encode += '\t\t\treturn packet;\n\t\t}\n'
 
     def _set_decode(self):
-        self._str_decode = '\t\tconstructor(packet: Packet = null) {\n'
+        self._str_decode = '\t\tpublic function ' + self._str_class_name + '(packet: Packet = null) {\n'
         self._str_decode += '\t\t\tif (packet) {\n'
         for mess_field in self._proto['mess_fields']:
             field_op = mess_field['field_op']
@@ -219,7 +219,7 @@ class ProtoActionScript(object):
                 self._str_set_get += '\t\tpublic function set ' + field_name + '(value: ' + field_type + ')' + ' { ' + field_name_m + ' = value; }\n'
 
     def _set_get_buffer(self):
-        self._str_get_buffer = '\t\tpublic function GetBuffer(): ByteBuffer\n\t{\n\t\treturn this.Encode().GetBuffer();\n\t}\n'
+        self._str_get_buffer = '\t\tpublic function GetBuffer(): Byte\n\t{\n\t\treturn this.Encode().GetBuffer();\n\t}\n'
 
     def _do_msg(self):
         _tmp_conn = ''

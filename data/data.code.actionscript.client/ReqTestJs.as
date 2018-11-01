@@ -1,4 +1,4 @@
-package proto {
+package com.data {
 	public class ReqTestJs {
 		private _u64: Number;
 		private _i64: Number;

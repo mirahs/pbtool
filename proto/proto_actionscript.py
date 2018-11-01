@@ -7,14 +7,14 @@ path.append(r'../')
 from utils import tool
 
 lan_types = {
-    'u8': ('byte', 'Number'),
-    'i8': ('sbyte', 'Number'),
-    'u16': ('ushort', 'Number'),
-    'i16': ('short', 'Number'),
-    'u32': ('uint', 'Number'),
-    'i32': ('int', 'Number'),
-    'u64': ('ulong', 'Number'),
-    'i64': ('long', 'Number'),
+    'u8': ('byte', 'uint'),
+    'i8': ('sbyte', 'int'),
+    'u16': ('ushort', 'uint'),
+    'i16': ('short', 'int'),
+    'u32': ('uint', 'uint'),
+    'i32': ('int', 'int'),
+    'u64': ('ulong', 'uint'),
+    'i64': ('long', 'int'),
     'f32': ('float', 'Number'),
     'f64': ('double', 'Number'),
     'string': ('string', 'String'),

@@ -1,7 +1,7 @@
 package com.data {
 	public class ReqChatSend {
-		private _channel: Number;
-		private _dest_uid: Number;
+		private _channel: uint;
+		private _dest_uid: uint;
 		private _content: String;
 
 
@@ -15,10 +15,10 @@ package com.data {
 		}
 
 
-		public function get channel(): Number { return this._channel; }
-		public function set channel(value: Number) { this._channel = value; }
-		public function get dest_uid(): Number { return this._dest_uid; }
-		public function set dest_uid(value: Number) { this._dest_uid = value; }
+		public function get channel(): uint { return this._channel; }
+		public function set channel(value: uint) { this._channel = value; }
+		public function get dest_uid(): uint { return this._dest_uid; }
+		public function set dest_uid(value: uint) { this._dest_uid = value; }
 		public function get content(): String { return this._content; }
 		public function set content(value: String) { this._content = value; }
 	}

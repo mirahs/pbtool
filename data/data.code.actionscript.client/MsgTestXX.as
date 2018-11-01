@@ -1,9 +1,9 @@
 package com.data {
 	public class MsgTestXX {
-		private _id_u8: Number;
+		private _id_u8: uint;
 		private _id_f32: Array = [];
 		private id_op_u8_flag: Number = 0;
-		private _id_op_u8: Number;
+		private _id_op_u8: uint;
 
 
 		public function Encode(): Packet {
@@ -48,11 +48,11 @@ package com.data {
 	}
 
 
-		public function get id_u8(): Number { return this._id_u8; }
-		public function set id_u8(value: Number) { this._id_u8 = value; }
+		public function get id_u8(): uint { return this._id_u8; }
+		public function set id_u8(value: uint) { this._id_u8 = value; }
 		public function get id_f32(): Array {return this._id_f32; }
 		public function set id_f32(value: Array) { this._id_f32 = value; }
-		public function get id_op_u8(): Number { return this._id_op_u8; }
-		public function set id_op_u8(value: Number) { this.id_op_u8_flag = 1; this._id_op_u8 = value; }
+		public function get id_op_u8(): uint { return this._id_op_u8; }
+		public function set id_op_u8(value: uint) { this.id_op_u8_flag = 1; this._id_op_u8 = value; }
 	}
 }

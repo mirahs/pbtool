@@ -1,6 +1,6 @@
 package com.data {
 	public class MsgFriendBaseAdd {
-		private _uid: Number;
+		private _uid: uint;
 		private _uname: String;
 
 
@@ -25,8 +25,8 @@ package com.data {
 	}
 
 
-		public function get uid(): Number { return this._uid; }
-		public function set uid(value: Number) { this._uid = value; }
+		public function get uid(): uint { return this._uid; }
+		public function set uid(value: uint) { this._uid = value; }
 		public function get uname(): String { return this._uname; }
 		public function set uname(value: String) { this._uname = value; }
 	}

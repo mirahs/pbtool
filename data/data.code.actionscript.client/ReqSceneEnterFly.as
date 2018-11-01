@@ -1,6 +1,6 @@
 package com.data {
 	public class ReqSceneEnterFly {
-		private _map_id: Number;
+		private _map_id: uint;
 
 
 		public function Encode(): Packet {
@@ -11,7 +11,7 @@ package com.data {
 		}
 
 
-		public function get map_id(): Number { return this._map_id; }
-		public function set map_id(value: Number) { this._map_id = value; }
+		public function get map_id(): uint { return this._map_id; }
+		public function set map_id(value: uint) { this._map_id = value; }
 	}
 }

@@ -1,6 +1,6 @@
 package com.data {
 	public class MsgScenePlayer {
-		private _uid: Number;
+		private _uid: uint;
 		private _scene_rot_pos: MsgSceneRotPos;
 
 
@@ -25,8 +25,8 @@ package com.data {
 	}
 
 
-		public function get uid(): Number { return this._uid; }
-		public function set uid(value: Number) { this._uid = value; }
+		public function get uid(): uint { return this._uid; }
+		public function set uid(value: uint) { this._uid = value; }
 		public function get scene_rot_pos(): MsgSceneRotPos { return this._scene_rot_pos; }
 		public function set scene_rot_pos(value: MsgSceneRotPos) { this._scene_rot_pos = value; }
 	}

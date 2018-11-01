@@ -1,13 +1,13 @@
 package com.data {
 	public class ReqRoleLogin {
-		private _uid: Number;
-		private _uuid: Number;
-		private _sid: Number;
-		private _cid: Number;
-		private _login_time: Number;
+		private _uid: uint;
+		private _uuid: uint;
+		private _sid: uint;
+		private _cid: uint;
+		private _login_time: uint;
 		private _pwd: String;
-		private _relink: Number;
-		private _debug: Number;
+		private _relink: uint;
+		private _debug: uint;
 		private _os: String;
 		private _version: String;
 
@@ -29,22 +29,22 @@ package com.data {
 		}
 
 
-		public function get uid(): Number { return this._uid; }
-		public function set uid(value: Number) { this._uid = value; }
-		public function get uuid(): Number { return this._uuid; }
-		public function set uuid(value: Number) { this._uuid = value; }
-		public function get sid(): Number { return this._sid; }
-		public function set sid(value: Number) { this._sid = value; }
-		public function get cid(): Number { return this._cid; }
-		public function set cid(value: Number) { this._cid = value; }
-		public function get login_time(): Number { return this._login_time; }
-		public function set login_time(value: Number) { this._login_time = value; }
+		public function get uid(): uint { return this._uid; }
+		public function set uid(value: uint) { this._uid = value; }
+		public function get uuid(): uint { return this._uuid; }
+		public function set uuid(value: uint) { this._uuid = value; }
+		public function get sid(): uint { return this._sid; }
+		public function set sid(value: uint) { this._sid = value; }
+		public function get cid(): uint { return this._cid; }
+		public function set cid(value: uint) { this._cid = value; }
+		public function get login_time(): uint { return this._login_time; }
+		public function set login_time(value: uint) { this._login_time = value; }
 		public function get pwd(): String { return this._pwd; }
 		public function set pwd(value: String) { this._pwd = value; }
-		public function get relink(): Number { return this._relink; }
-		public function set relink(value: Number) { this._relink = value; }
-		public function get debug(): Number { return this._debug; }
-		public function set debug(value: Number) { this._debug = value; }
+		public function get relink(): uint { return this._relink; }
+		public function set relink(value: uint) { this._relink = value; }
+		public function get debug(): uint { return this._debug; }
+		public function set debug(value: uint) { this._debug = value; }
 		public function get os(): String { return this._os; }
 		public function set os(value: String) { this._os = value; }
 		public function get version(): String { return this._version; }

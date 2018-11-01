@@ -3,7 +3,7 @@ package com.data {
 		private _scene_rot_pos: MsgSceneRotPos;
 		private _forward: MsgSceneVector3;
 		private _ani_name: String;
-		private _x_axis: Number;
+		private _x_axis: int;
 
 
 		public function Encode(): Packet {
@@ -23,7 +23,7 @@ package com.data {
 		public function set forward(value: MsgSceneVector3) { this._forward = value; }
 		public function get ani_name(): String { return this._ani_name; }
 		public function set ani_name(value: String) { this._ani_name = value; }
-		public function get x_axis(): Number { return this._x_axis; }
-		public function set x_axis(value: Number) { this._x_axis = value; }
+		public function get x_axis(): int { return this._x_axis; }
+		public function set x_axis(value: int) { this._x_axis = value; }
 	}
 }

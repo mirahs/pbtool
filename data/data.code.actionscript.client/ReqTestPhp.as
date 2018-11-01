@@ -1,6 +1,6 @@
 package com.data {
 	public class ReqTestPhp {
-		private _u64: Number;
+		private _u64: uint;
 		private _strxx: String;
 		private _msg_req: MsgTestPhp;
 		private msg_opt_flag: Number = 0;
@@ -30,8 +30,8 @@ package com.data {
 		}
 
 
-		public function get u64(): Number { return this._u64; }
-		public function set u64(value: Number) { this._u64 = value; }
+		public function get u64(): uint { return this._u64; }
+		public function set u64(value: uint) { this._u64 = value; }
 		public function get strxx(): String { return this._strxx; }
 		public function set strxx(value: String) { this._strxx = value; }
 		public function get msg_req(): MsgTestPhp { return this._msg_req; }

@@ -1,6 +1,6 @@
 package com.data {
 	public class MsgTestPhp {
-		private _u16: Number;
+		private _u16: uint;
 
 
 		public function Encode(): Packet {
@@ -22,7 +22,7 @@ package com.data {
 	}
 
 
-		public function get u16(): Number { return this._u16; }
-		public function set u16(value: Number) { this._u16 = value; }
+		public function get u16(): uint { return this._u16; }
+		public function set u16(value: uint) { this._u16 = value; }
 	}
 }

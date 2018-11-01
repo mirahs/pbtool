@@ -1,16 +1,16 @@
 package proto {
 	public class MsgTestPhp {
-		private _u16: number;
+		private _u16: Number;
 
 
-		public function Encode(): game.util.Packet {
-		let packet: game.util.Packet = new game.util.Packet();
+		public function Encode(): Packet {
+			var packet: Packet = new Packet();
 			packet.WriteUshort(this._u16);
 			return packet;
-	}
+		}
 
 
-		constructor(packet?: game.util.Packet) {
+		constructor(packet: Packet = null) {
 			if (packet) {
 				this._u16 = packet.ReadUshort();
 			}
@@ -22,7 +22,7 @@ package proto {
 	}
 
 
-		public function get u16(): number { return this._u16; }
-		public function set u16(value: number) { this._u16 = value; }
+		public function get u16(): Number { return this._u16; }
+		public function set u16(value: Number) { this._u16 = value; }
 	}
 }

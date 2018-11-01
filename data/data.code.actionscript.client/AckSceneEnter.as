@@ -3,7 +3,7 @@ package proto {
 		private _player: MsgScenePlayer;
 
 
-		constructor(packet?: game.util.Packet) {
+		constructor(packet: Packet = null) {
 			if (packet) {
 				this._player = new MsgScenePlayer(packet);
 			}

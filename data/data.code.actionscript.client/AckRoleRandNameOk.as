@@ -3,7 +3,7 @@ package proto {
 		private _uname: String;
 
 
-		constructor(packet?: game.util.Packet) {
+		constructor(packet: Packet = null) {
 			if (packet) {
 				this._uname = packet.ReadString();
 			}

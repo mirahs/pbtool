@@ -2,7 +2,7 @@ package proto {
 	public class AckRoleLoginOkNoRole {
 
 
-		constructor(packet?: game.util.Packet) {
+		constructor(packet: Packet = null) {
 			if (packet) {
 			}
 		}

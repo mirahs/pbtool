@@ -1,21 +1,21 @@
 package proto {
 	public class AckScenePlayers {
-		private _players: MsgScenePlayer[] = [];
+		private _players: Array = [];
 
 
-		constructor(packet?: game.util.Packet) {
+		constructor(packet: Packet = null) {
 			if (packet) {
 				this._players = [];
-				let players_count: number = packet.ReadUshort();
-				for (var i: number = 0; i < players_count; i++)
-		{
+				var players_count: Number = packet.ReadUshort();
+				for (var i: Number = 0; i < players_count; i++)
+				{
 					this._players.push(new MsgScenePlayer(packet));
-		}
+				}
 			}
 		}
 
 
-		public function get players(): MsgScenePlayer[] {return this._players; }
-		public function set players(value: MsgScenePlayer[]) { this._players = value; }
+		public function get players(): Array {return this._players; }
+		public function set players(value: Array) { this._players = value; }
 	}
 }

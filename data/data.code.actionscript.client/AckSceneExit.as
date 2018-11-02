@@ -3,7 +3,7 @@ package com.data {
 		private var _uid: uint;
 
 
-		public function AckSceneExit(packet: Packet = null) {
+		public function AckSceneExit(packet: Packet = null): void {
 			if (packet) {
 				this._uid = packet.ReadUint();
 			}

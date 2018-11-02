@@ -12,7 +12,7 @@ package com.data {
 		}
 
 
-		public function MsgRoleBase(packet: Packet = null) {
+		public function MsgRoleBase(packet: Packet = null): void {
 			if (packet) {
 				this._uid = packet.ReadUint();
 				this._uname = packet.ReadString();

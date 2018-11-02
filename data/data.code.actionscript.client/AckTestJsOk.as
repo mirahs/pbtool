@@ -4,7 +4,7 @@ package com.data {
 		private var _i64: Number;
 
 
-		public function AckTestJsOk(packet: Packet = null) {
+		public function AckTestJsOk(packet: Packet = null): void {
 			if (packet) {
 				this._u64 = packet.ReadUlong();
 				this._i64 = packet.ReadLong();

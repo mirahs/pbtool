@@ -53,7 +53,7 @@ def protocol_const(code_path, mess_name_ids):
             mess_note = mess_name_id['mess_note']
             _str_msg += '\t\t/**' + mess_note + '*/\n\t\t' + 'public static const ' + (
                         tool.javascript_proto_name_msg(mess_name) + ':uint').ljust(40, chr(32)) + '= ' + str(
-                mess_id) + ',\n\n'
+                mess_id) + ';\n\n'
 
     _str_msg = _str_msg_head + _str_msg[:-1] + _str_msg_end
     with open(file_name, 'w+') as fd:
@@ -156,7 +156,7 @@ class ProtoActionScript(object):
         self._str_encode += '\t\t\treturn packet;\n\t\t}\n'
 
     def _set_decode(self):
-        self._str_decode = '\t\tpublic function ' + self._str_class_name + '(packet: Packet = null) {\n'
+        self._str_decode = '\t\tpublic function ' + self._str_class_name + '(packet: Packet = null): void {\n'
         self._str_decode += '\t\t\tif (packet) {\n'
         for mess_field in self._proto['mess_fields']:
             field_op = mess_field['field_op']

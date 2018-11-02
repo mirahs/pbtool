@@ -25,7 +25,7 @@ package com.data {
 		}
 
 
-		public function MsgTestXX(packet: Packet = null) {
+		public function MsgTestXX(packet: Packet = null): void {
 			if (packet) {
 				this._id_u8 = packet.ReadByte();
 				this._id_f32 = [];

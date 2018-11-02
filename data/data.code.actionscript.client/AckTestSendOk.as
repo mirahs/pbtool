@@ -9,7 +9,7 @@ package com.data {
 		private var _op_role_base: MsgRoleBase;
 
 
-		public function AckTestSendOk(packet: Packet = null) {
+		public function AckTestSendOk(packet: Packet = null): void {
 			if (packet) {
 				this._id_u8 = packet.ReadByte();
 				this._role_base = new MsgRoleBase(packet);

@@ -12,7 +12,7 @@ package com.data {
 		}
 
 
-		public function MsgFriendBaseAdd(packet: Packet = null) {
+		public function MsgFriendBaseAdd(packet: Packet = null): void {
 			if (packet) {
 				this._uid = packet.ReadUint();
 				this._uname = packet.ReadString();

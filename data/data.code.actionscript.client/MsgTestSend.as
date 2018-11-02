@@ -34,7 +34,7 @@ package com.data {
 		}
 
 
-		public function MsgTestSend(packet: Packet = null) {
+		public function MsgTestSend(packet: Packet = null): void {
 			if (packet) {
 				this._id_u8 = packet.ReadByte();
 				this._role_base = new MsgRoleBase(packet);

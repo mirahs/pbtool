@@ -8,7 +8,7 @@ package com.data {
 		private var _optional_id_u8: uint;
 
 
-		public function AckTestXX(packet: Packet = null) {
+		public function AckTestXX(packet: Packet = null): void {
 			if (packet) {
 				this._id_u8 = packet.ReadByte();
 				this._id_u16 = packet.ReadUshort();

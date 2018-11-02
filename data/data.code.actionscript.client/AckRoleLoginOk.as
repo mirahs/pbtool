@@ -3,7 +3,7 @@ package com.data {
 		private var _uname: String;
 
 
-		public function AckRoleLoginOk(packet: Packet = null) {
+		public function AckRoleLoginOk(packet: Packet = null): void {
 			if (packet) {
 				this._uname = packet.ReadString();
 			}

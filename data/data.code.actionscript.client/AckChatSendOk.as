@@ -6,7 +6,7 @@ package com.data {
 		private var _content: String;
 
 
-		public function AckChatSendOk(packet: Packet = null) {
+		public function AckChatSendOk(packet: Packet = null): void {
 			if (packet) {
 				this._channel = packet.ReadByte();
 				this._uid = packet.ReadUint();

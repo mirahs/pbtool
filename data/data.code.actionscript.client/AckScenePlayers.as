@@ -3,7 +3,7 @@ package com.data {
 		private var _players: Array = [];
 
 
-		public function AckScenePlayers(packet: Packet = null): void {
+		public function AckScenePlayers(packet: Packet = null) {
 			if (packet) {
 				this._players = [];
 				var players_count: int = packet.ReadUshort();

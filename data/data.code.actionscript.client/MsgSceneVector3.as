@@ -14,7 +14,7 @@ package com.data {
 		}
 
 
-		public function MsgSceneVector3(packet: Packet = null): void {
+		public function MsgSceneVector3(packet: Packet = null) {
 			if (packet) {
 				this._x = packet.ReadShort();
 				this._y = packet.ReadShort();

@@ -8,7 +8,7 @@ package com.data {
 		private var _msg_rep: Array = [];
 
 
-		public function AckTestPhpOk(packet: Packet = null): void {
+		public function AckTestPhpOk(packet: Packet = null) {
 			if (packet) {
 				this._u64 = packet.ReadUlong();
 				this._strxx = packet.ReadString();

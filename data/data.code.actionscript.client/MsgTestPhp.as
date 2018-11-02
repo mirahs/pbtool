@@ -10,7 +10,7 @@ package com.data {
 		}
 
 
-		public function MsgTestPhp(packet: Packet = null): void {
+		public function MsgTestPhp(packet: Packet = null) {
 			if (packet) {
 				this._u16 = packet.ReadUshort();
 			}

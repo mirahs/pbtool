@@ -20,7 +20,7 @@ package com.data {
 		}
 
 
-		public function MsgSceneRotPos(packet: Packet = null): void {
+		public function MsgSceneRotPos(packet: Packet = null) {
 			if (packet) {
 				this._rot_x = packet.ReadShort();
 				this._rot_y = packet.ReadShort();

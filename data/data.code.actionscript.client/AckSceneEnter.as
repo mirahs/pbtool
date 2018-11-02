@@ -3,7 +3,7 @@ package com.data {
 		private var _player: MsgScenePlayer;
 
 
-		public function AckSceneEnter(packet: Packet = null): void {
+		public function AckSceneEnter(packet: Packet = null) {
 			if (packet) {
 				this._player = new MsgScenePlayer(packet);
 			}

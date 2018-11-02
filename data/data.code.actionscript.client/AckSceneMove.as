@@ -7,7 +7,7 @@ package com.data {
 		private var _uid: uint;
 
 
-		public function AckSceneMove(packet: Packet = null): void {
+		public function AckSceneMove(packet: Packet = null) {
 			if (packet) {
 				this._scene_rot_pos = new MsgSceneRotPos(packet);
 				this._forward = new MsgSceneVector3(packet);

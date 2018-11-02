@@ -156,7 +156,7 @@ class ProtoActionScript(object):
         self._str_encode += '\t\t\treturn packet;\n\t\t}\n'
 
     def _set_decode(self):
-        self._str_decode = '\t\tpublic function ' + self._str_class_name + '(packet: Packet = null): void {\n'
+        self._str_decode = '\t\tpublic function ' + self._str_class_name + '(packet: Packet = null) {\n'
         self._str_decode += '\t\t\tif (packet) {\n'
         for mess_field in self._proto['mess_fields']:
             field_op = mess_field['field_op']

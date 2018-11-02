@@ -12,7 +12,7 @@ package com.data {
 		}
 
 
-		public function MsgScenePlayer(packet: Packet = null): void {
+		public function MsgScenePlayer(packet: Packet = null) {
 			if (packet) {
 				this._uid = packet.ReadUint();
 				this._scene_rot_pos = new MsgSceneRotPos(packet);

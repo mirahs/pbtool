@@ -89,9 +89,10 @@ package proto {
 		}
 
 		public function WriteString(v: String):void {
-			var len:int = v.length;
-			this.WriteUshort(len);
-			this._byte.writeUTFBytes(v);
+			// var len:int = v.length;
+			// this.WriteUshort(len);
+			// this._byte.writeUTFBytes(v);
+			this._byte.writeUTFString(v);
 		}
 
 
@@ -141,8 +142,9 @@ package proto {
 		}
 
 		public function ReadString(): String {
-			var len:int = this.ReadUshort();
-			return this._byte.getUTFBytes(len);
+			// var len:int = this.ReadUshort();
+			// return this._byte.getUTFBytes(len);
+			return this._byte.getUTFString();
 		}
 		
 		//Int64转换成ByteArray

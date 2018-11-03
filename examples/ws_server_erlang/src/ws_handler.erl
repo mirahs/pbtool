@@ -97,6 +97,7 @@ rpc(?c_test_x_x, Data, State) ->?DEBUG("xxxxx"),
 rpc(?c_test_send, Data, State) ->?DEBUG("xxxxx"),
 	?DEBUG("c_test_send Data:~p~n", [Data]),
     send(pack(?s_test_send_ok, Data)),
+    send(pack(?s_test_send_ok, Data)),
     State;
 rpc(?c_test_js, Data, State) ->?DEBUG("xxxxx"),
 	?DEBUG("P_C_TEST_JS Data:~p~n", [Data]),

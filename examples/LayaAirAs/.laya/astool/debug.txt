@@ -13,7 +13,7 @@ Project configuration:d:\cy.worker\study\lang\python\pytools\examples\LayaAirAs/
 1,0.00,d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/libs/laya/src,0,Collect
 1,2.00,,0,read class message
 1,89.74,,0,Disable Flash3D d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/src/LayaSample.as
-12,89.74,d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/bin/h5/LayaSample.max.js,854481,
+12,89.74,d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/bin/h5/LayaSample.max.js,854417,
 11,89.74,d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/bin/h5/LayaSample.max.html,893,
 ******************************************************************************
 14,89.74,,0,

@@ -149,7 +149,7 @@ package manager {
 					this._bufferLen -= 4 + bodyLen;
 					var newBuffer:Byte = new Byte();
 					newBuffer.endian = Byte.BIG_ENDIAN;//设置为大端；
-					newBuffer.writeArrayBuffer(this._buffer, 4 + bodyLen, bufferLenTmp);
+					newBuffer.writeArrayBuffer(this._buffer.buffer, 4 + bodyLen, bufferLenTmp);
 					newBuffer.pos = 0;
 					this._buffer = newBuffer;
 					

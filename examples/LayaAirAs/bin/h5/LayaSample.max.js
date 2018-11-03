@@ -456,7 +456,7 @@ var LayaSample=(function(){
 		this._netMgr.send(reqTestXX.Encode());
 		var roleBase=new proto.MsgRoleBase();
 		roleBase.uid=110;
-		roleBase.uname='mirahs';
+		roleBase.uname='mirahs 你好';
 		var reqTestSend=new proto.ReqTestSend();
 		reqTestSend.id_u8=111;
 		reqTestSend.role_base=roleBase;
@@ -603,7 +603,7 @@ var NetMgr=(function(){
 				this._bufferLen-=4+bodyLen;
 				var newBuffer=new Byte();
 				newBuffer.endian="bigEndian";
-				newBuffer.writeArrayBuffer(this._buffer,4+bodyLen,bufferLenTmp);
+				newBuffer.writeArrayBuffer(this._buffer.buffer,4+bodyLen,bufferLenTmp);
 				newBuffer.pos=0;
 				this._buffer=newBuffer;
 				this.dispatch(packetId,packetBuffer.buffer);
@@ -901,9 +901,7 @@ var Packet=(function(){
 	}
 
 	__proto.WriteString=function(v){
-		var len=v.length;
-		this.WriteUshort(len);
-		this._byte.writeUTFBytes(v);
+		this._byte.writeUTFString(v);
 	}
 
 	__proto.ReadByte=function(){
@@ -952,8 +950,7 @@ var Packet=(function(){
 	}
 
 	__proto.ReadString=function(){
-		var len=this.ReadUshort();
-		return this._byte.getUTFBytes(len);
+		return this._byte.getUTFString();
 	}
 
 	//Int64转换成ByteArray

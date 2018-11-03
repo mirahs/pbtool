@@ -36,7 +36,7 @@
 
             var roleBase: proto.MsgRoleBase = new proto.MsgRoleBase();
             roleBase.uid = 110;
-            roleBase.uname = 'mirahs';
+            roleBase.uname = 'mirahs 你好';
             var reqTestSend: proto.ReqTestSend = new proto.ReqTestSend();
             reqTestSend.id_u8 = 111;
             reqTestSend.role_base = roleBase;

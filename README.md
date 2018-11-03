@@ -18,6 +18,7 @@
 * [php](examples/php)
 * [javascript](examples/javascript)
 * typescript([LayaAir](examples/LayaAir) [CocosCreator](examples/CocosCreator))
+* [actionscript](examples/LayaAirAs)
 
 ## 使用方法
 找到 conf.py 文件, 修改 data_proto 配置(原始协议文件目录) 例:  
@@ -66,7 +67,7 @@ python doproto.py
 * optional		可选字段, 一个字节标志, 1表示有数据, 后为具体数据, 0表示无数据  
 
 具体协议字段 字段选项 字段类型 字段名称: 如 required string uname  
-协议类型有: u8 i8 u16 i16 u32 i32 u64 i64 string Msg自定义  
+协议类型有: u8 i8 u16 i16 u32 i32 u64 i64 f32 f64 string Msg自定义  
 
 具体协议:  
 ```python
@@ -89,5 +90,4 @@ message MsgTestXX(50000)
 	required	string		uname
 }
 ```
-
 具体还是看支持语言的具体例子吧, 每个都写了socket服务端和客户端, 粘包也做了处理

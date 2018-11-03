@@ -32,7 +32,10 @@ func main() {
 	reqTestSend.SetRoleBase(msgRoleBase)
 	reqTestSend.SetOpRoleBase(msgRoleBase)
 
-	conn.Write(reqTestSend.Encode())
+	//conn.Write(reqTestSend.Encode())
+	bytes := reqTestSend.Encode()
+	bytes = append(bytes, bytes...)
+	conn.Write(bytes)
 }
 
 func checkError(err error) {

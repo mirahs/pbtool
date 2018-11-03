@@ -96,8 +96,8 @@ rpc(?c_test_x_x, Data, State) ->?DEBUG("xxxxx"),
     State;
 rpc(?c_test_send, Data, State) ->?DEBUG("xxxxx"),
 	?DEBUG("c_test_send Data:~p~n", [Data]),
-    send(pack(?s_test_send_ok, Data)),
-    send(pack(?s_test_send_ok, Data)),
+	{ok, Bin} = pack(?s_test_send_ok, Data),
+    send(<<Bin/binary, Bin/binary>>),
     State;
 rpc(?c_test_js, Data, State) ->?DEBUG("xxxxx"),
 	?DEBUG("P_C_TEST_JS Data:~p~n", [Data]),
@@ -108,9 +108,11 @@ rpc(PacketId, Data, State) ->?DEBUG("xxxxx"),
 	State.
 
 %% 发送消息给客户端
-send({ok, Bin}) ->?DEBUG("xxxxx"),
+send({ok, Bin}) ->
 	self() ! {send_data, Bin};
-send(_Err) ->?DEBUG("xxxxx"),
+send(Bin) when is_binary(Bin) ->
+	self() ! {send_data, Bin};
+send(_Err) ->
 	?DEBUG("_Err:~p~n", [_Err]).
 
 

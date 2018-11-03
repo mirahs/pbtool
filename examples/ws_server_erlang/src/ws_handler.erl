@@ -27,7 +27,7 @@ init(Req = #{peer := {IpTmp, Port}}, _Opts) ->
 	{cowboy_websocket, Req, #state{ip = Ip, port = Port}}.
 
 websocket_init(State) ->
-	erlang:send_after(timer:seconds(?heart_time), self(), check_heartbeat), %% 检查心跳
+	%erlang:send_after(timer:seconds(?heart_time), self(), check_heartbeat), %% 检查心跳
 	{ok, State#state{connect_time = unixtime()}}.
 
 websocket_handle({binary, Bin}, State = #state{recv_count = RecvCount, bin = BinAcc}) ->

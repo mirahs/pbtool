@@ -1,0 +1,19 @@
+1,0.00,,0,Project command:d:\cy.worker\study\lang\python\pytools\examples\LayaAirAs/.actionScriptProperties;iflash=false;windowshow=false;chromerun=false;quickcompile=true
+Project configuration:d:\cy.worker\study\lang\python\pytools\examples\LayaAirAs/.actionScriptProperties.
+1,0.00,,0,output path:d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/bin/h5/
+1,0.00,,0,Main Class:d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/src/LayaSample.as
+1,0.00,,0,output file:LayaSample
+1,0.00,,0,compilerSourcePath d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/libs/laya/src/
+
+1,0.00,,0,Compile Path:d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/src/
+
+1,0.00,,0,Compile Path:d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/libs/laya/src/
+
+1,0.00,d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/src,0,Collect
+1,0.00,d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/libs/laya/src,0,Collect
+1,2.00,,0,read class message
+1,89.74,,0,Disable Flash3D d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/src/LayaSample.as
+12,89.74,d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/bin/h5/LayaSample.max.js,854454,
+11,89.74,d:/cy.worker/study/lang/python/pytools/examples/LayaAirAs/bin/h5/LayaSample.max.html,893,
+******************************************************************************
+14,89.74,,0,

@@ -6,6 +6,9 @@ path.append(r'../')
 
 from utils import tool
 
+import conf
+
+
 lan_types = {
     'u8': ('byte', 'uint'),
     'i8': ('sbyte', 'int'),
@@ -43,7 +46,8 @@ def trans_mess_type(mess_body):
 def protocol_const(code_path, mess_name_ids):
     file_name = code_path + 'Msg.as'
 
-    _str_msg_head = 'package com.data {\n\tpublic class Msg {\n'
+    # _str_msg_head = 'package com.data {\n\tpublic class Msg {\n'
+    _str_msg_head = 'package ' + conf.as_package_name + ' {\n\tpublic class Msg {\n'
     _str_msg_end = '\t}\n}\n'
     _str_msg = ''
     for mess_name_id in mess_name_ids:
@@ -91,7 +95,7 @@ class ProtoActionScript(object):
         self._filename = self._code_path + self._str_class_name + '.as'
 
     def _set_head(self):
-        self._str_head = 'package com.data {'
+        self._str_head = 'package ' + conf.as_package_name + ' {'
 
     def _set_end(self):
         self._str_end = '\n\t}\n}\n'

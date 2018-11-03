@@ -15,6 +15,11 @@ data_exl			= data_dir + 'data.exl/'
 data_xml			= data_dir + 'data.xml/'
 
 
+# action script相关配置
+as_package_name     = 'proto'  # 协议文件包名
+as_packet_package   = 'proto'  # Packet.as类路径
+
+
 '''
 需要导出协议文件的语言选项
 现支持:

@@ -3,17 +3,10 @@
 import os
 
 
-DEBUG				= True
-
-data_dir            = os.path.join(os.path.dirname(__file__), '../')
-if DEBUG:
-	data_dir        = os.path.join(os.path.dirname(__file__), './data/')
-
-data_proto			= data_dir + 'data.proto/'
-data_exl			= data_dir + 'data.exl/'
-
-data_xml			= data_dir + 'data.xml/'
-
+# 数据目录
+data_dir    = os.path.join(os.path.dirname(__file__), './data/')
+# 协议文件目录
+data_proto  = data_dir + 'data.proto/'
 
 # action script相关配置
 as_package_name     = 'proto'  # 协议文件包名
@@ -156,24 +149,4 @@ langs_proto = [
         'lang':     'actionscript_client',
         'code':     'data.code.actionscript.client',
     },
-]
-
-'''
-需要导出excel文件的语言选项
-现支持导出成xml数据
-现支持语言数据:
-    erlang
-    csharp(常量跟错误常量)
-'''
-langs_xml = [
-    {
-        'lang':     'erlang',
-        'data':     'data.erl',
-        'common':   'data.code.erlang.common.server'
-    },
-    {
-        'lang':     'csharp',
-        'data':     '',
-        'common':   'data.code.csharp.common'
-    }
 ]

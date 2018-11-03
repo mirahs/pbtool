@@ -17,6 +17,7 @@ package proto {
 
 		public function Encode(packetId: uint):void 
 		{
+			this.packetId = packetId;
 			var all:Byte = new Byte(4 + this._byte.pos);
 			all.endian = Byte.BIG_ENDIAN;//设置为大端；
 			all.writeUint16(this._byte.pos);

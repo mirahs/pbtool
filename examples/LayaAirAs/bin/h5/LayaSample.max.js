@@ -831,6 +831,7 @@ var Packet=(function(){
 	var __proto=Packet.prototype;
 	//设置为大端；
 	__proto.Encode=function(packetId){
+		this.packetId=packetId;
 		var all=new Byte(4+this._byte.pos);
 		all.endian="bigEndian";
 		all.writeUint16(this._byte.pos);

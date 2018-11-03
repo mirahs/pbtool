@@ -28,7 +28,7 @@ func main() {
 	reqTestSend.SetIdOpU8(222)
 	msgRoleBase := &proto.MsgRoleBase{}
 	msgRoleBase.SetUid(12306)
-	msgRoleBase.SetUname("mirahs")
+	msgRoleBase.SetUname("mirahs 你好")
 	reqTestSend.SetRoleBase(msgRoleBase)
 	reqTestSend.SetOpRoleBase(msgRoleBase)
 

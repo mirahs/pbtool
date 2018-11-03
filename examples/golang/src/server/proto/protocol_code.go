@@ -69,4 +69,10 @@ const (
 
 	// 
 	P_ACK_TEST_PHP_OK              uint16 = 40070
+
+	// 
+	P_REQ_TEST_JS                  uint16 = 40080
+
+	// 
+	P_ACK_TEST_JS_OK               uint16 = 40090
 )

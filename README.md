@@ -23,13 +23,8 @@
 ## 使用方法
 找到 conf.py 文件, 修改 data_proto 配置(原始协议文件目录) 例:  
 ```python
-DEBUG				= True
-
-data_dir            = os.path.join(os.path.dirname(__file__), '../')
-if DEBUG:
-	data_dir        = os.path.join(os.path.dirname(__file__), './data/')	# data目录
-
-data_proto			= data_dir + 'data.proto/'	# data/data.proto目录
+data_dir    = os.path.join(os.path.dirname(__file__), './data/') # 数据目录
+data_proto  = data_dir + 'data.proto/' # 原始协议文件目录
 ```
 修改 langs_proto 这个配置(导出语言), 例:  
 ```python

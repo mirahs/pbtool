@@ -5,7 +5,7 @@ import os
 
 # 数据目录
 data_dir    = os.path.join(os.path.dirname(__file__), './data/')
-# 协议文件目录
+# 原始协议文件目录
 data_proto  = data_dir + 'data.proto/'
 
 # action script相关配置

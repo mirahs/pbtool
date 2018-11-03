@@ -17,7 +17,7 @@ data_xml			= data_dir + 'data.xml/'
 
 # action script相关配置
 as_package_name     = 'proto'  # 协议文件包名
-as_packet_package   = 'proto'  # Packet.as类路径
+as_packet_package   = ''       # Packet.as类路径(为空或者等于as_package_name则Packet.as和协议文件一个包，不会import)
 
 
 '''

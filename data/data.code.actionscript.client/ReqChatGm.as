@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class ReqChatGm {
 		private var _content: String;
 

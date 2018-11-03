@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class MsgSceneVector3 {
 		private var _x: int;
 		private var _y: int;

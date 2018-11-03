@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class MsgTestXX {
 		private var _id_u8: uint;
 		private var _id_f32: Array = [];

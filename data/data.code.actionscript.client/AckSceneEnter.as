@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class AckSceneEnter {
 		private var _player: MsgScenePlayer;
 

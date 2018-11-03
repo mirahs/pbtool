@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class MsgScenePlayer {
 		private var _uid: uint;
 		private var _scene_rot_pos: MsgSceneRotPos;

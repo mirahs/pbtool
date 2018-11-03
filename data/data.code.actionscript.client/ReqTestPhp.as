@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class ReqTestPhp {
 		private var _u64: Number;
 		private var _strxx: String;

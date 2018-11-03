@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class AckChatSendOk {
 		private var _channel: uint;
 		private var _uid: uint;

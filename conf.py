@@ -10,7 +10,7 @@ data_proto  = data_dir + 'data.proto/'
 
 # action script相关配置
 as_package_name     = 'proto'  # 协议文件包名
-as_packet_package   = ''       # Packet.as类路径(为空或者等于as_package_name则Packet.as和协议文件一个包，不会import)
+as_extra_packages   = 'laya.utils.Byte'  # 额外引入的包，多个包空格分隔
 
 
 '''

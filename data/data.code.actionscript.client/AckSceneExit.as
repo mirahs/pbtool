@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class AckSceneExit {
 		private var _uid: uint;
 

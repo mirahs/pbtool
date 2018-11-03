@@ -96,8 +96,8 @@ class ProtoActionScript(object):
 
     def _set_head(self):
         self._str_head = 'package ' + conf.as_package_name + ' {'
-        if conf.as_packet_package != '' and conf.as_packet_package != conf.as_package_name:
-            self._str_head += '\n\t' + 'import ' + conf.as_packet_package + '.Packet;'
+        for package in conf.as_extra_packages.split(','):
+            self._str_head += '\n\t' + 'import ' + package + ';'
 
     def _set_end(self):
         self._str_end = '\n\t}\n}\n'

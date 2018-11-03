@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class ReqRoleLogin {
 		private var _uid: uint;
 		private var _uuid: uint;

@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class MsgTestPhp {
 		private var _u16: uint;
 

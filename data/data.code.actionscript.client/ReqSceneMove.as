@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class ReqSceneMove {
 		private var _scene_rot_pos: MsgSceneRotPos;
 		private var _forward: MsgSceneVector3;

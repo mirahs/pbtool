@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class AckRoleRandNameOk {
 		private var _uname: String;
 

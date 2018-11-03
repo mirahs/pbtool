@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class ReqChatSend {
 		private var _channel: uint;
 		private var _dest_uid: uint;

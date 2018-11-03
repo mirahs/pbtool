@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class ReqSceneEnter {
 		private var _door_id: uint;
 

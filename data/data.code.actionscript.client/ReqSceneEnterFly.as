@@ -1,4 +1,5 @@
 package proto {
+	import laya.utils.Byte;
 	public class ReqSceneEnterFly {
 		private var _map_id: uint;
 

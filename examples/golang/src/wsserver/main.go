@@ -93,7 +93,8 @@ func dispatch(packetId uint16, buf []byte, conn *websocket.Conn) {
 		ackTestXX.SetIdU32(30)
 		ackTestXX.SetOptionalIdU8(60)
 
-		conn.Write(ackTestXX.Encode())
+		//conn.Write(ackTestXX.Encode())
+		websocket.Message.Send(conn, ackTestXX.Encode())
 	case proto.P_REQ_TEST_SEND:
 		reqTestSend := proto.ReqTestSendDecode(packet)
 		fmt.Println("reqTestXX:", reqTestSend)
@@ -113,7 +114,8 @@ func dispatch(packetId uint16, buf []byte, conn *websocket.Conn) {
 
 		bytes := ackTestSendOk.Encode()
 		bytes = append(bytes, bytes...)
-		conn.Write(bytes)
+		//conn.Write(bytes)
+		websocket.Message.Send(conn, bytes)
 	default:
 		fmt.Println("unknown packetId:", packetId)
 	}

@@ -6,7 +6,7 @@
 %% 协议编码
 msg(MsgId, BinData) ->
 	Len	= byte_size(BinData),
-	<<Len:16/big-integer-unsigned, MsgId:16/big-integer-unsigned, BinData/binary>>.
+	<<(Len + 2):16/big-integer-unsigned, MsgId:16/big-integer-unsigned, BinData/binary>>.
 
 
 %% 数据编码

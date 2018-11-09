@@ -131,41 +131,35 @@ namespace core.manager {
 		private processRecive(data: ArrayBuffer): void {
 			//console.log('data:', data);
 			this._bufferLen += data.byteLength;
-			// 新收的包加进去
+			//console.log('this._bufferLen:', this._bufferLen)
 			this._buffer.append(data);
-			// 是否有4个字节的长度(2个字节包体长度，2个字节协议号) while处理粘包
-			while (this._bufferLen >= 4) {
+			//console.log('this._buffer:', this._buffer)
+			// 2个字节表示包体长度
+			while (this._bufferLen >= 2) {
 				// 包体长度
-				let bodyLen = this._buffer.readUint16(0);
-				//console.log('bodyLen: ' + bodyLen);
-				// 至少有1个完整包
-				if (this._bufferLen >= 4 + bodyLen) {
-					// 从第3个字节开始读取2个字节的协议号
-					let packetId = this._buffer.readUint16(2);
-					// 包体开始位置从第5个字节开始到整个协议包结束
-					let packetBuffer = this._buffer.slice(4, 4 + bodyLen);
+				const bodyLen = this._buffer.readUint16(0);
+				//console.log('bodyLen:', bodyLen)
+				// 1个完整包(包括2个字节表示包体长度)
+				if (this._bufferLen >= 2 + bodyLen) {
+					// 包体
+					const bodyBuffer = this._buffer.copy(2, 2 + bodyLen)
 
-					// 这2行代码会报错，所以用下面那段代码，估计是bytebuffer.js没处理好
-					// this._buffer = this._buffer.copy(4 + bodyLen, this._bufferLen);
-					// this._bufferLen = this._bufferLen - (4 + bodyLen);
-
-					// 减去当前协议包后的包体
-					var bufferLenTmp = this._bufferLen - (4 + bodyLen);
-					if (bufferLenTmp == 0) {
-						this._buffer = new ByteBuffer();// 这里只能为1，不能为0，不然会报错
-					} else {
-						this._buffer = this._buffer.copy(4 + bodyLen, this._bufferLen);
-					}
-					this._bufferLen = bufferLenTmp;
+					// 删除1个完整包
+					this._buffer = this._buffer.copy(2 + bodyLen, this._bufferLen)
+					// 减去1个完整包长度
+					this._bufferLen = this._bufferLen - (2 + bodyLen)
+					this._buffer = this._bufferLen == 0 ? new ByteBuffer() : this._buffer
 
 					// 派发协议
-					this.dispatch(packetId, packetBuffer);
+					this.dispatch(bodyBuffer);
 				}
 			}
 		}
 
-		private dispatch(packetId: number = 0, packetBuffer: ByteBuffer = null): void {
-			//console.log('packetId: ' + packetId);
+		private dispatch(bodyBuffer: ByteBuffer = null): void {
+			const packetId = bodyBuffer.readUint16(0)
+			//console.log('packetId:', packetId)
+			const packetBuffer = bodyBuffer.slice(2)
 			if (this._handlers[packetId]) {
 				const handlers = this._handlers[packetId];
 				for (let i = 0; i < handlers.length; i++) {

@@ -11,8 +11,9 @@ namespace game.util {
 
 
 		public Encode(packetId: number) {
+			this.packetId = packetId
 			var all = new ByteBuffer(4 + this._buffer.offset);
-			all.writeUint16(this._buffer.offset);
+			all.writeUint16(this._buffer.offset + 2);
 			all.writeUint16(packetId);
 			all.append(this._buffer.slice(0, this._buffer.offset));
 			this._buffer = all;

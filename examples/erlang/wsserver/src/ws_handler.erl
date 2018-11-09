@@ -64,9 +64,10 @@ terminate(Reason, PartialReq, State) ->
 %% ----------------------------------------------------
 
 %% 解包
-work(<<Len:16/big-integer-unsigned, PacketId:16/big-integer-unsigned, BinData:Len/binary, Bin/binary>>, State) ->
+work(<<Len:16/big-integer-unsigned, BinData:Len/binary, Bin/binary>>, State) ->
+	<<PacketId:16/big-integer-unsigned, BinData2/binary>> = BinData,
 	?DEBUG("收到消息PacketId:~w", [PacketId]),
-	State2 = routing(PacketId, BinData, State#state{bin = Bin}),
+	State2 = routing(PacketId, BinData2, State#state{bin = Bin}),
 	self() ! read_next,
 	{ok, State2};
 work(_Bin, State) ->
@@ -92,7 +93,9 @@ routing(PacketId, BinData, State) ->
 %% rpc处理
 rpc(?c_test_x_x, Data, State) ->?DEBUG("xxxxx"),
 	?DEBUG("c_test_x_x Data:~p~n", [Data]),
-    send(pack(?s_test_x_x, Data)),
+    %send(pack(?s_test_x_x, Data)),
+    {ok, Bin} = pack(?s_test_x_x, Data),
+     send(<<Bin/binary, Bin/binary>>),
     State;
 rpc(?c_test_send, Data, State) ->?DEBUG("xxxxx"),
 	?DEBUG("c_test_send Data:~p~n", [Data]),

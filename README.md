@@ -7,7 +7,6 @@
 
 ## 支持语言
 * [erlang](examples/erlang)
-* [erlang旧版](examples/erlang_old)
 * [c#](examples/csharp)
 * [golang](examples/golang)
 * [c++](examples/cpp)

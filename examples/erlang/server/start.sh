@@ -1,13 +1,13 @@
 #!/bin/bash
+export PATH=/d/apps/erl10.1/bin:${PATH}
 
+
+mkdir -p ebin
 
 \cp ../../../data/data.code.erlang.common.server/const.pb.hrl include/
-\cp ../../../data/data.code.erlang.common.server/record.pb.hrl include/
-
-\cp ../../../data/data.code.erlang.server/pb.erl src/mod_pb
-
+\cp ../../../data/data.code.erlang.server/* src/mod_pb/
 
 erl -noshell -s make all -s init stop
 
-
-erl -pa ebin +P 1024000 -smp enable -s server
+#erl -pa ebin -s server
+werl -pa ebin -s server &

@@ -1,20 +1,4 @@
 ## 依赖环境
-* erlang
+* [erlang](https://www.baidu.com/)
 
-server运行, 进入server目录: 
-
-windows:  
-双击 start.bat  
-linux:  
-```shell
-sh start.sh
-```
-
-client运行, 进入client目录:  
-
-windows:  
-双击 start.bat  
-linux:  
-```shell
-sh start.sh
-```
+目录下start.sh脚本 "export PATH=/d/apps/erl10.1/bin:${PATH}" 修改erlang安装路径，windows使用werl，linux使用erl，双击运行

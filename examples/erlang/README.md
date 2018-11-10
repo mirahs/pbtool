@@ -1,5 +1,5 @@
 ## 依赖环境
-* [erlang](https://www.baidu.com/)
+* [erlang](http://www.erlang.org/downloads/21.1/)
 
 ## 目录说明
 * wsserver websocket服务端

@@ -435,7 +435,7 @@ var ___Laya=(function(){
 var LayaSample=(function(){
 	function LayaSample(){
 		this._netMgr=null;
-		Laya.init(1136,640,WebGL);
+		Laya.init(1136,640);
 		this._netMgr=new NetMgr(this,this.onNetOpen,this.onNetClose,this.onNetError);
 		this._netMgr.connect('127.0.0.1',8080);
 	}
@@ -591,38 +591,41 @@ var NetMgr=(function(){
 		this._bufferLen+=data.byteLength;
 		this._buffer.writeArrayBuffer(data);
 		this._buffer.pos=0;
-		while (this._bufferLen >=4){
+		while (this._bufferLen >=2){
 			var bodyLen=this._buffer.getUint16();
-			if (this._bufferLen >=4+bodyLen){
-				var packetId=this._buffer.getUint16();
-				var packetBuffer=new Byte();
-				packetBuffer.endian="bigEndian";
-				packetBuffer.writeArrayBuffer(this._buffer.buffer,4,4+bodyLen);
-				packetBuffer.pos=0;
-				var bufferLenTmp=this._bufferLen-(4+bodyLen);
-				this._bufferLen-=4+bodyLen;
+			if (this._bufferLen >=2+bodyLen){
+				var bodyBuffer=new Byte();
+				bodyBuffer.endian="bigEndian";
+				bodyBuffer.writeArrayBuffer(this._buffer.buffer,2,bodyLen);
+				bodyBuffer.pos=0;
+				var bufferLenTmp=this._bufferLen-(2+bodyLen);
+				this._bufferLen-=2+bodyLen;
 				var newBuffer=new Byte();
 				newBuffer.endian="bigEndian";
-				newBuffer.writeArrayBuffer(this._buffer.buffer,4+bodyLen,bufferLenTmp);
+				newBuffer.writeArrayBuffer(this._buffer.buffer,2+bodyLen,bufferLenTmp);
 				newBuffer.pos=0;
 				this._buffer=newBuffer;
-				this.dispatch(packetId,packetBuffer.buffer);
+				this.dispatch(bodyBuffer);
 			}
 		}
 	}
 
-	__proto.dispatch=function(packetId,packetBuffer){
-		(packetId===void 0)&& (packetId=0);
+	__proto.dispatch=function(bodyBuffer){
+		var packetId=bodyBuffer.getUint16();
 		console.log('NetMgr.as packetId: '+packetId);
+		var packetBuffer=new Byte();
+		packetBuffer.endian="bigEndian";
+		packetBuffer.writeArrayBuffer(bodyBuffer.buffer,2,bodyBuffer.length-2);
+		packetBuffer.pos=0;
 		if (this._handlers.get(packetId)){
 			this._handlerArr=this._handlers.get(packetId);
 			var i;
 			for(var $each_i in this._handlerArr){
 				i=this._handlerArr[$each_i];
-				var packet=new Packet(packetBuffer);
+				var packet=new Packet(packetBuffer.buffer);
 				i(packetId,packet);
 			}
-			}else{
+			}else {
 			console.log('packetId: '+packetId+' 没有注册');
 		}
 	}
@@ -832,9 +835,9 @@ var Packet=(function(){
 	//设置为大端；
 	__proto.Encode=function(packetId){
 		this.packetId=packetId;
-		var all=new Byte(4+this._byte.pos);
+		var all=new Byte(4+this._byte.length);
 		all.endian="bigEndian";
-		all.writeUint16(this._byte.pos+2);
+		all.writeUint16(this._byte.length+2);
 		all.writeUint16(packetId);
 		all.writeArrayBuffer(this._byte.buffer);
 		this._byte=all;
@@ -905,11 +908,11 @@ var Packet=(function(){
 	}
 
 	__proto.ReadByte=function(){
-		return this._byte.getByte();
+		return this._byte.getUint8();
 	}
 
 	__proto.ReadSbyte=function(){
-		return this._byte.getUint8();
+		return this._byte.getByte();
 	}
 
 	__proto.ReadUshort=function(){
@@ -12106,14 +12109,14 @@ var Shader2D=(function(){
 	}
 
 	Shader2D.__init__=function(){
-		Shader.addInclude("parts/ColorFilter_ps_uniform.glsl","uniform vec4 colorAlpha;\nuniform mat4 colorMat;");
-		Shader.addInclude("parts/ColorFilter_ps_logic.glsl","mat4 alphaMat =colorMat;\n\nalphaMat[0][3] *= gl_FragColor.a;\nalphaMat[1][3] *= gl_FragColor.a;\nalphaMat[2][3] *= gl_FragColor.a;\n\ngl_FragColor = gl_FragColor * alphaMat;\ngl_FragColor += colorAlpha/255.0*gl_FragColor.a;\n");
-		Shader.addInclude("parts/GlowFilter_ps_uniform.glsl","uniform vec4 u_color;\nuniform float u_strength;\nuniform float u_blurX;\nuniform float u_blurY;\nuniform float u_offsetX;\nuniform float u_offsetY;\nuniform float u_textW;\nuniform float u_textH;");
-		Shader.addInclude("parts/GlowFilter_ps_logic.glsl","const float c_IterationTime = 10.0;\nfloat floatIterationTotalTime = c_IterationTime * c_IterationTime;\nvec4 vec4Color = vec4(0.0,0.0,0.0,0.0);\nvec2 vec2FilterDir = vec2(-(u_offsetX)/u_textW,-(u_offsetY)/u_textH);\nvec2 vec2FilterOff = vec2(u_blurX/u_textW/c_IterationTime * 2.0,u_blurY/u_textH/c_IterationTime * 2.0);\nfloat maxNum = u_blurX * u_blurY;\nvec2 vec2Off = vec2(0.0,0.0);\nfloat floatOff = c_IterationTime/2.0;\nfor(float i = 0.0;i<=c_IterationTime; ++i){\n	for(float j = 0.0;j<=c_IterationTime; ++j){\n		vec2Off = vec2(vec2FilterOff.x * (i - floatOff),vec2FilterOff.y * (j - floatOff));\n		vec4Color += texture2D(texture, v_texcoord + vec2FilterDir + vec2Off)/floatIterationTotalTime;\n	}\n}\ngl_FragColor = vec4(u_color.rgb,vec4Color.a * u_strength);\ngl_FragColor.rgb *= gl_FragColor.a;");
-		Shader.addInclude("parts/BlurFilter_ps_logic.glsl","gl_FragColor =   blur();\ngl_FragColor.w*=alpha;");
-		Shader.addInclude("parts/BlurFilter_ps_uniform.glsl","uniform vec4 strength_sig2_2sig2_gauss1;\nuniform vec2 blurInfo;\n\n#define PI 3.141593\n\n//float sigma=strength/3.0;//3σ以外影响很小。即当σ=1的时候，半径为3\n//float sig2 = sigma*sigma;\n//float _2sig2 = 2.0*sig2;\n//return 1.0/(2*PI*sig2)*exp(-(x*x+y*y)/_2sig2)\n//float gauss1 = 1.0/(2.0*PI*sig2);\n\nfloat getGaussian(float x, float y){\n    return strength_sig2_2sig2_gauss1.w*exp(-(x*x+y*y)/strength_sig2_2sig2_gauss1.z);\n}\n\nvec4 blur(){\n    const float blurw = 9.0;\n    vec4 vec4Color = vec4(0.0,0.0,0.0,0.0);\n    vec2 halfsz=vec2(blurw,blurw)/2.0/blurInfo;    \n    vec2 startpos=v_texcoord-halfsz;\n    vec2 ctexcoord = startpos;\n    vec2 step = 1.0/blurInfo;  //每个像素      \n    \n    for(float y = 0.0;y<=blurw; ++y){\n        ctexcoord.x=startpos.x;\n        for(float x = 0.0;x<=blurw; ++x){\n            //TODO 纹理坐标的固定偏移应该在vs中处理\n            vec4Color += texture2D(texture, ctexcoord)*getGaussian(x-blurw/2.0,y-blurw/2.0);\n            ctexcoord.x+=step.x;\n        }\n        ctexcoord.y+=step.y;\n    }\n    return vec4Color;\n}");
-		Shader.addInclude("parts/ColorAdd_ps_uniform.glsl","uniform vec4 colorAdd;\n");
-		Shader.addInclude("parts/ColorAdd_ps_logic.glsl","gl_FragColor = vec4(colorAdd.rgb,colorAdd.a*gl_FragColor.a);\ngl_FragColor.xyz *= colorAdd.a;");
+		Shader.addInclude("parts/ColorFilter_ps_uniform.glsl",);
+		Shader.addInclude("parts/ColorFilter_ps_logic.glsl",);
+		Shader.addInclude("parts/GlowFilter_ps_uniform.glsl",);
+		Shader.addInclude("parts/GlowFilter_ps_logic.glsl",);
+		Shader.addInclude("parts/BlurFilter_ps_logic.glsl",);
+		Shader.addInclude("parts/BlurFilter_ps_uniform.glsl",);
+		Shader.addInclude("parts/ColorAdd_ps_uniform.glsl",);
+		Shader.addInclude("parts/ColorAdd_ps_logic.glsl",);
 		var vs,ps;
 		vs="attribute vec4 position;\nattribute vec2 texcoord;\nuniform vec2 size;\n\n#ifdef WORLDMAT\nuniform mat4 mmat;\n#endif\nvarying vec2 v_texcoord;\nvoid main() {\n  #ifdef WORLDMAT\n  vec4 pos=mmat*position;\n  gl_Position =vec4((pos.x/size.x-0.5)*2.0,(0.5-pos.y/size.y)*2.0,pos.z,1.0);\n  #else\n  gl_Position =vec4((position.x/size.x-0.5)*2.0,(0.5-position.y/size.y)*2.0,position.z,1.0);\n  #endif\n  \n  v_texcoord = texcoord;\n}";
 		ps="precision mediump float;\n//precision highp float;\nvarying vec2 v_texcoord;\nuniform sampler2D texture;\nuniform float alpha;\n#include?BLUR_FILTER  \"parts/BlurFilter_ps_uniform.glsl\";\n#include?COLOR_FILTER \"parts/ColorFilter_ps_uniform.glsl\";\n#include?GLOW_FILTER \"parts/GlowFilter_ps_uniform.glsl\";\n#include?COLOR_ADD \"parts/ColorAdd_ps_uniform.glsl\";\n\nvoid main() {\n   vec4 color= texture2D(texture, v_texcoord);\n   color.a*=alpha;\n   color.rgb*=alpha;\n   gl_FragColor=color;\n   #include?COLOR_ADD \"parts/ColorAdd_ps_logic.glsl\";   \n   #include?BLUR_FILTER  \"parts/BlurFilter_ps_logic.glsl\";\n   #include?COLOR_FILTER \"parts/ColorFilter_ps_logic.glsl\";\n   #include?GLOW_FILTER \"parts/GlowFilter_ps_logic.glsl\";\n}";

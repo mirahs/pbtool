@@ -12,7 +12,8 @@
 
 		public function LayaSample() {
 			//初始化引擎
-			Laya.init(1136, 640, WebGL);
+			//Laya.init(1136, 640, WebGL);
+            Laya.init(1136, 640);
 
 			this._netMgr = new NetMgr(this, this.onNetOpen, this.onNetClose, this.onNetError);
         	this._netMgr.connect('127.0.0.1', 8080);

@@ -135,7 +135,7 @@ package manager {
 				// console.log('bodyLen: ' + bodyLen);
 				// 1个完整包(包括2个字节表示包体长度)
 				if (this._bufferLen >= 2 + bodyLen) {
-					// 包体
+					// 协议号+包体
 					var bodyBuffer: Byte = new Byte();
 					bodyBuffer.endian = Byte.BIG_ENDIAN;//设置为大端；
 					bodyBuffer.writeArrayBuffer(this._buffer.buffer, 2, bodyLen);
@@ -144,32 +144,39 @@ package manager {
 					// 减去当前协议包后的包体
 					var bufferLenTmp: int = this._bufferLen - (2 + bodyLen);
 					this._bufferLen -= 2 + bodyLen;
+
 					var newBuffer: Byte = new Byte();
 					newBuffer.endian = Byte.BIG_ENDIAN;//设置为大端；
 					newBuffer.writeArrayBuffer(this._buffer.buffer, 2 + bodyLen, bufferLenTmp);
 					newBuffer.pos = 0;
+					
 					this._buffer = newBuffer;
 					
 					// 派发协议
-					//this.dispatch(packetId, packetBuffer.buffer);
 					this.dispatch(bodyBuffer);
 				}
 			}
 		}
 		
-		private function dispatch(packetId:uint = 0, packetBuffer:ArrayBuffer = null):void 
+		private function dispatch(bodyBuffer: Byte = null): void 
 		{
+			var packetId: uint = bodyBuffer.getUint16();
 			console.log('NetMgr.as packetId: ' + packetId);
+			// 包体
+			var packetBuffer: Byte = new Byte();
+			packetBuffer.endian = Byte.BIG_ENDIAN;//设置为大端；
+			packetBuffer.writeArrayBuffer(bodyBuffer.buffer, 2, bodyBuffer.length - 2);
+			packetBuffer.pos = 0;
+
 			if (_handlers.get(packetId)) 
 			{
 				_handlerArr = _handlers.get(packetId);
-				for each (var i:Function in _handlerArr) 
+				for each (var i: Function in _handlerArr) 
 				{
-					const packet: Packet = new Packet(packetBuffer);
-					//i.apply(null,packet);
+					const packet: Packet = new Packet(packetBuffer.buffer);
 					i(packetId, packet);
 				}
-			}else{
+			} else {
 				console.log('packetId: ' + packetId + ' 没有注册');
 			}
 		}

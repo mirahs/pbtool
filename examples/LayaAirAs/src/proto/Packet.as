@@ -18,16 +18,15 @@ package proto {
 		public function Encode(packetId: uint):void 
 		{
 			this.packetId = packetId;
-			var all:Byte = new Byte(4 + this._byte.pos);
+			var all:Byte = new Byte(4 + this._byte.length);
 			all.endian = Byte.BIG_ENDIAN;//设置为大端；
-			all.writeUint16(this._byte.pos + 2);
+			all.writeUint16(this._byte.length + 2);
 			all.writeUint16(packetId);
 			all.writeArrayBuffer(this._byte.buffer);
 			this._byte = all;
 		}
 
 		public function Buffer(): ArrayBuffer {
-			// return this._byte.slice(0, this._byte.pos).buffer
 			return this._byte.buffer
 		}
 
@@ -97,11 +96,11 @@ package proto {
 
 
 		public function ReadByte(): int {
-			return this._byte.getByte();
+			return this._byte.getUint8();
 		}
 
 		public function ReadSbyte(): int {
-			return this._byte.getUint8();
+			return this._byte.getByte();
 		}
 
 		public function ReadUshort(): int {

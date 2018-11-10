@@ -1,24 +1,7 @@
 ## 依赖环境
-* go
+* golang
 
-server运行: 
-
-windows:  
-双击 make.bat  
-双击 start_server.bat  
-linux:  
-```shell
-sh make.sh
-sh start_server.sh
-```
-
-client运行:  
-
-windows:  
-双击 make.bat  
-双击 start_client.bat  
-linux:  
-```shell
-sh make.sh
-sh start_client.sh
-```
+## 目录说明
+* wsserver websocket服务端
+* server 服务端
+* client 客户端

@@ -28,22 +28,23 @@ func NewReadBuff(buf []byte) *Packet {
 }
 
 func (pack *Packet) Encode(packetId uint16) []byte {
-	// 以前的格式
-	// msgbuf := make([]byte, 4+len(pack.data))
-
-	// binary.BigEndian.PutUint16(msgbuf, uint16(len(pack.data))+2)
-	// binary.BigEndian.PutUint16(msgbuf[2:4], packetId)
-	// copy(msgbuf[4:], pack.data)
-
-	// return msgbuf
-
+	// len:packetId:body len = len(body) + 2
 	msgbuf := make([]byte, 4+len(pack.data))
 
-	binary.BigEndian.PutUint16(msgbuf, uint16(len(pack.data)))
+	binary.BigEndian.PutUint16(msgbuf, uint16(len(pack.data))+2)
 	binary.BigEndian.PutUint16(msgbuf[2:4], packetId)
 	copy(msgbuf[4:], pack.data)
 
 	return msgbuf
+
+	// len:packetId:body len = len(body)
+	// msgbuf := make([]byte, 4+len(pack.data))
+
+	// binary.BigEndian.PutUint16(msgbuf, uint16(len(pack.data)))
+	// binary.BigEndian.PutUint16(msgbuf[2:4], packetId)
+	// copy(msgbuf[4:], pack.data)
+
+	// return msgbuf
 }
 
 func (pack *Packet) Append(p ...byte) {

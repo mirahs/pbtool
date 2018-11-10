@@ -19,6 +19,8 @@ func (this *WSServer) handler(conn *websocket.Conn) {
 	defer conn.Close()
 
     fmt.Printf("a new ws conn: %s->%s\n", conn.RemoteAddr().String(), conn.LocalAddr().String())
+
+    headLen := 2
 	buffers := make([]byte, 51200)
 	buffersLen := 0
 	buffersTmp := make([]byte, 512)
@@ -38,17 +40,14 @@ func (this *WSServer) handler(conn *websocket.Conn) {
 		buffersLen += readLen
 
 		for {
-			if buffersLen > 4 {
-				packageLen := int(packetutil.ReadU16(buffers))
-				if buffersLen >= 4 + packageLen {
-					packetIdBuff := buffers[2:4]
-					packetId := packetutil.ReadU16(packetIdBuff)
+			if buffersLen >= headLen + 2 {
+				bodyLen := int(packetutil.ReadU16(buffers))
+				if buffersLen >= headLen + bodyLen {
+					bodyBuff := buffers[headLen:bodyLen+headLen]
+					buffers = buffers[headLen+bodyLen:]
+					buffersLen -= int(bodyLen) + headLen
 
-					packetBuff := buffers[4 : packageLen+4]
-					buffers = buffers[4+packageLen:]
-					buffersLen -= int(packageLen) + 4
-
-					dispatch(packetId, packetBuff, conn)
+					dispatch(bodyBuff, conn)
 				} else {
 					break
 				}
@@ -79,8 +78,11 @@ func main(){
 }
 
 
-func dispatch(packetId uint16, buf []byte, conn *websocket.Conn) {
+func dispatch(bodyBuff []byte, conn *websocket.Conn) {
+	packetIdBuff := bodyBuff[:2]
+	packetId := packetutil.ReadU16(packetIdBuff)
 	println("packetId: ", packetId)
+	buf := bodyBuff[2:]
 	packet := packet.NewReadBuff(buf)
 	switch packetId {
 	case proto.P_REQ_TEST_X_X:

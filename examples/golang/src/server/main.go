@@ -48,18 +48,14 @@ func handleClient(conn net.Conn) {
 		buffersLen += readLen
 
 		for {
-			if buffersLen > headLen {
-				packageLen := packetutil.ReadU16(buffers)
-				if buffersLen >= headLen+int(packageLen) {
-					packetIdBuff := buffers[2:4]
-					packetBuff := buffers[4 : packageLen+2]
+			if buffersLen >= headLen + 2 {
+				bodyLen := int(packetutil.ReadU16(buffers))
+				if buffersLen >= headLen + bodyLen {
+					bodyBuff := buffers[headLen:bodyLen+headLen]
+					buffers = buffers[headLen+bodyLen:]
+					buffersLen -= int(bodyLen) + headLen
 
-					packetId := packetutil.ReadU16(packetIdBuff)
-
-					buffers = buffers[2+packageLen:]
-					buffersLen -= int(packageLen) + headLen
-
-					dispatch(packetId, packetBuff)
+					dispatch(bodyBuff)
 				} else {
 					break
 				}
@@ -77,8 +73,11 @@ func checkError(err error) {
 	}
 }
 
-func dispatch(packetId uint16, buf []byte) {
+func dispatch(bodyBuff []byte) {
+	packetIdBuff := bodyBuff[:2]
+	packetId := packetutil.ReadU16(packetIdBuff)
 	println("packetId: ", packetId)
+	buf := bodyBuff[2:]
 	packet := packet.NewReadBuff(buf)
 	switch packetId {
 	case proto.P_REQ_TEST_X_X:

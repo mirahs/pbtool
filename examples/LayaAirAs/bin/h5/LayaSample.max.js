@@ -834,7 +834,7 @@ var Packet=(function(){
 		this.packetId=packetId;
 		var all=new Byte(4+this._byte.pos);
 		all.endian="bigEndian";
-		all.writeUint16(this._byte.pos);
+		all.writeUint16(this._byte.pos+2);
 		all.writeUint16(packetId);
 		all.writeArrayBuffer(this._byte.buffer);
 		this._byte=all;

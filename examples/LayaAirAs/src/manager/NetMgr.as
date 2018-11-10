@@ -128,33 +128,31 @@ package manager {
 			// 新收的包加进去
 			this._buffer.writeArrayBuffer(data);
 			this._buffer.pos = 0;
-			// 是否有4个字节的长度(2个字节包体长度，2个字节协议号) while处理粘包
-			while (this._bufferLen >= 4) {
+			// 2个字节表示包体长度
+			while (this._bufferLen >= 2) {
 				// 包体长度
 				var bodyLen: uint = this._buffer.getUint16();
 				// console.log('bodyLen: ' + bodyLen);
-				// 至少有1个完整包
-				if (this._bufferLen >= 4 + bodyLen) {
-					// 从第3个字节开始读取2个字节的协议号
-					var packetId: uint = this._buffer.getUint16();
-					// 包体开始位置从第5个字节开始到整个协议包结束
-					// var packetBuffer = this._buffer.slice(4, 4 + bodyLen);
-					var packetBuffer: Byte = new Byte();
-					packetBuffer.endian = Byte.BIG_ENDIAN;//设置为大端；
-					packetBuffer.writeArrayBuffer(this._buffer.buffer, 4, 4 + bodyLen);
-					packetBuffer.pos = 0;
+				// 1个完整包(包括2个字节表示包体长度)
+				if (this._bufferLen >= 2 + bodyLen) {
+					// 包体
+					var bodyBuffer: Byte = new Byte();
+					bodyBuffer.endian = Byte.BIG_ENDIAN;//设置为大端；
+					bodyBuffer.writeArrayBuffer(this._buffer.buffer, 2, bodyLen);
+					bodyBuffer.pos = 0;
 					
 					// 减去当前协议包后的包体
-					var bufferLenTmp:int = this._bufferLen - (4 + bodyLen);
-					this._bufferLen -= 4 + bodyLen;
-					var newBuffer:Byte = new Byte();
+					var bufferLenTmp: int = this._bufferLen - (2 + bodyLen);
+					this._bufferLen -= 2 + bodyLen;
+					var newBuffer: Byte = new Byte();
 					newBuffer.endian = Byte.BIG_ENDIAN;//设置为大端；
-					newBuffer.writeArrayBuffer(this._buffer.buffer, 4 + bodyLen, bufferLenTmp);
+					newBuffer.writeArrayBuffer(this._buffer.buffer, 2 + bodyLen, bufferLenTmp);
 					newBuffer.pos = 0;
 					this._buffer = newBuffer;
 					
 					// 派发协议
-					this.dispatch(packetId, packetBuffer.buffer);
+					//this.dispatch(packetId, packetBuffer.buffer);
+					this.dispatch(bodyBuffer);
 				}
 			}
 		}

@@ -50,7 +50,7 @@ langs_proto = [
 ```shell
 python doproto.py
 ```
-就会在langs_proto配置的 code 项的目录下面生成特定语言的协议文件
+就会在langs_proto配置的 code 项的目录下面生成语言的协议文件
 
 ## 原始协议文件约定
 每条协议都以 message 协议名(协议ID) 开头, 然后回车后以左大括号 { 加回车, 然后是具体的协议字段, 最后以右大括号 } 加回车结束  

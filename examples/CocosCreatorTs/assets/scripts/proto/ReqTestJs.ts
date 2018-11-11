@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class ReqTestJs
+export default class ReqTestJs
 {
 	private _u64: Long;
 	private _i64: Long;

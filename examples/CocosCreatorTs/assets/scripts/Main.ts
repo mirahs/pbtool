@@ -1,14 +1,14 @@
 const { ccclass } = cc._decorator
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 import { Msg } from './proto/Msg'
-import { ReqTestXX } from './proto/ReqTestXX'
-import { AckTestXX } from './proto/AckTestXX'
-import { NetMgr } from '@mi/manager/NetMgr'
-import { MsgRoleBase } from './proto/MsgRoleBase'
-import { ReqTestSend } from './proto/ReqTestSend'
-import { ReqTestJs } from './proto/ReqTestJs'
-import { AckTestSendOk } from './proto/AckTestSendOk'
-import { AckTestJsOk } from './proto/AckTestJsOk'
+import ReqTestXX from './proto/ReqTestXX'
+import AckTestXX from './proto/AckTestXX'
+import NetMgr from '@mi/manager/NetMgr'
+import MsgRoleBase from './proto/MsgRoleBase'
+import ReqTestSend from './proto/ReqTestSend'
+import ReqTestJs from './proto/ReqTestJs'
+import AckTestSendOk from './proto/AckTestSendOk'
+import AckTestJsOk from './proto/AckTestJsOk'
 
 
 @ccclass

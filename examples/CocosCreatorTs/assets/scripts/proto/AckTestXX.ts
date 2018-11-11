@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class AckTestXX
+export default class AckTestXX
 {
 	private _id_u8: number;
 	private _id_u16: number;

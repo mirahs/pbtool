@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class ReqRoleLogin
+export default class ReqRoleLogin
 {
 	private _uid: number;
 	private _uuid: number;

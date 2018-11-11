@@ -1,8 +1,8 @@
-import { Packet } from '@mi/mod/Packet'
-import { MsgScenePlayer } from './MsgScenePlayer'
+import Packet from '@mi/mod/Packet'
+import MsgScenePlayer from './MsgScenePlayer'
 
 
-export class AckSceneEnter
+export default class AckSceneEnter
 {
 	private _player: MsgScenePlayer;
 

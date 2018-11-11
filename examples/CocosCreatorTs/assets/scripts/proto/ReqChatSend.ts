@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class ReqChatSend
+export default class ReqChatSend
 {
 	private _channel: number;
 	private _dest_uid: number;

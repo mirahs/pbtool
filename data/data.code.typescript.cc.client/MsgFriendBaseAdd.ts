@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class MsgFriendBaseAdd
+export default class MsgFriendBaseAdd
 {
 	private _uid: number;
 	private _uname: string;

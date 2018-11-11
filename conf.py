@@ -13,7 +13,7 @@ as_package_name     = 'proto'  # 协议文件包名
 as_extra_packages   = 'laya.utils.Byte'  # 额外引入的包，多个包空格分隔
 
 # typescript cocos creator相关配置
-ts_cc_extra_packages= 'import { Packet } from \'@mi/mod/Packet\''  # 额外引入的包，多个包空格分隔
+ts_cc_extra_packages= 'import Packet from \'@mi/mod/Packet\''  # 额外引入的包，多个包空格分隔
 
 
 '''

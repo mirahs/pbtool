@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class ReqSceneReqPlayers
+export default class ReqSceneReqPlayers
 {
 
 

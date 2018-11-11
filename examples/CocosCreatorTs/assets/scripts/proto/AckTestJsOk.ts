@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class AckTestJsOk
+export default class AckTestJsOk
 {
 	private _u64: Long;
 	private _i64: Long;

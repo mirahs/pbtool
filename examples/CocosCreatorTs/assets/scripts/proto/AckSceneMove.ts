@@ -1,9 +1,9 @@
-import { Packet } from '@mi/mod/Packet'
-import { MsgSceneRotPos } from './MsgSceneRotPos'
-import { MsgSceneVector3 } from './MsgSceneVector3'
+import Packet from '@mi/mod/Packet'
+import MsgSceneRotPos from './MsgSceneRotPos'
+import MsgSceneVector3 from './MsgSceneVector3'
 
 
-export class AckSceneMove
+export default class AckSceneMove
 {
 	private _scene_rot_pos: MsgSceneRotPos;
 	private _forward: MsgSceneVector3;

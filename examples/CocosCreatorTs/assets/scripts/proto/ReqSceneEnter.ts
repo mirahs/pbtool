@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class ReqSceneEnter
+export default class ReqSceneEnter
 {
 	private _door_id: number;
 

@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class MsgSceneVector3
+export default class MsgSceneVector3
 {
 	private _x: number;
 	private _y: number;

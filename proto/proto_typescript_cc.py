@@ -102,7 +102,7 @@ class ProtoTypeScript(object):
                 msg_types.append(field_type)
 
         for msg_type in msg_types:
-            self._str_head += 'import { ' + msg_type + ' } from \'./' + msg_type + '\'\n'
+            self._str_head += 'import ' + msg_type + ' from \'./' + msg_type + '\'\n'
 
         self._str_head += '\n'
 
@@ -110,7 +110,7 @@ class ProtoTypeScript(object):
         self._str_end = '\n}\n'
 
     def _set_priv_var(self):
-        self._str_priv_var = 'export class ' + self._str_class_name + '\n{\n'
+        self._str_priv_var = 'export default class ' + self._str_class_name + '\n{\n'
         for mess_field in self._proto['mess_fields']:
             field_op 		= mess_field['field_op']
             field_type 		= mess_field['field_type']

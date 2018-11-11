@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class AckChatSendOk
+export default class AckChatSendOk
 {
 	private _channel: number;
 	private _uid: number;

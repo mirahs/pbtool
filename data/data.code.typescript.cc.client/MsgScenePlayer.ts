@@ -1,8 +1,8 @@
-import { Packet } from '@mi/mod/Packet'
-import { MsgSceneRotPos } from './MsgSceneRotPos'
+import Packet from '@mi/mod/Packet'
+import MsgSceneRotPos from './MsgSceneRotPos'
 
 
-export class MsgScenePlayer
+export default class MsgScenePlayer
 {
 	private _uid: number;
 	private _scene_rot_pos: MsgSceneRotPos;

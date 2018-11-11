@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class MsgSceneRotPos
+export default class MsgSceneRotPos
 {
 	private _rot_x: number;
 	private _rot_y: number;

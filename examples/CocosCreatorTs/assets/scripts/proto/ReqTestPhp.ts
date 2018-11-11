@@ -1,8 +1,8 @@
-import { Packet } from '@mi/mod/Packet'
-import { MsgTestPhp } from './MsgTestPhp'
+import Packet from '@mi/mod/Packet'
+import MsgTestPhp from './MsgTestPhp'
 
 
-export class ReqTestPhp
+export default class ReqTestPhp
 {
 	private _u64: Long;
 	private _strxx: string;

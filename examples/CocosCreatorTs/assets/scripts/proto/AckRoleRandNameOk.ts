@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class AckRoleRandNameOk
+export default class AckRoleRandNameOk
 {
 	private _uname: string;
 

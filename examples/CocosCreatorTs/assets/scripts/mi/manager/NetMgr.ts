@@ -1,5 +1,5 @@
 const ByteBuffer = require("bytebuffer")
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
 interface Handler {
@@ -8,7 +8,7 @@ interface Handler {
 }
 
 
-export class NetMgr {
+export default class NetMgr {
     private _host: string = '';
     private _port: number = 0;
     private _socket: WebSocket = null;

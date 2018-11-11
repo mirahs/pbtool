@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class ReqChatGm
+export default class ReqChatGm
 {
 	private _content: string;
 

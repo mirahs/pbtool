@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class ReqSceneEnterFly
+export default class ReqSceneEnterFly
 {
 	private _map_id: number;
 

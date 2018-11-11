@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class ReqTestXX
+export default class ReqTestXX
 {
 	private _id_u8: number;
 	private _id_u16: number;

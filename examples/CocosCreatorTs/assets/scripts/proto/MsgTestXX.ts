@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class MsgTestXX
+export default class MsgTestXX
 {
 	private _id_u8: number;
 	private _id_f32: number[] = [];

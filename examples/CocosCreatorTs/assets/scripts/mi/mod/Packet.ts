@@ -1,5 +1,7 @@
 const ByteBuffer = require("bytebuffer")
-export class Packet {
+
+
+export default class Packet {
 	public packetId: number = 0;
 
 	private _buffer: ByteBuffer;
@@ -127,4 +129,3 @@ export class Packet {
 		return this._buffer.readString(len, ByteBuffer.METRICS_BYTES);
 	}
 }
-// (<any>window).Packet = Packet

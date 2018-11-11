@@ -1,8 +1,8 @@
-import { Packet } from '@mi/mod/Packet'
-import { MsgRoleBase } from './MsgRoleBase'
+import Packet from '@mi/mod/Packet'
+import MsgRoleBase from './MsgRoleBase'
 
 
-export class AckTestSendOk
+export default class AckTestSendOk
 {
 	private _id_u8: number;
 	private _role_base: MsgRoleBase;

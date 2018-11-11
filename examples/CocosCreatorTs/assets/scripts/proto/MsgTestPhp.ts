@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class MsgTestPhp
+export default class MsgTestPhp
 {
 	private _u16: number;
 

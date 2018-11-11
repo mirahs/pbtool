@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class AckRoleLoginOkNoRole
+export default class AckRoleLoginOkNoRole
 {
 
 

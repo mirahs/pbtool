@@ -1,9 +1,9 @@
-import { Packet } from '@mi/mod/Packet'
-import { MsgSceneRotPos } from './MsgSceneRotPos'
-import { MsgSceneVector3 } from './MsgSceneVector3'
+import Packet from '@mi/mod/Packet'
+import MsgSceneRotPos from './MsgSceneRotPos'
+import MsgSceneVector3 from './MsgSceneVector3'
 
 
-export class ReqSceneMove
+export default class ReqSceneMove
 {
 	private _scene_rot_pos: MsgSceneRotPos;
 	private _forward: MsgSceneVector3;

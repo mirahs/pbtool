@@ -1,7 +1,7 @@
-import { Packet } from '@mi/mod/Packet'
+import Packet from '@mi/mod/Packet'
 
 
-export class AckSceneExit
+export default class AckSceneExit
 {
 	private _uid: number;
 

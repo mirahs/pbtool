@@ -69,6 +69,5 @@ quick_gen_project_*_autogen.sh.meta
 
 creator.d.ts
 jsconfig.json
-tsconfig.json
 
 node_modules

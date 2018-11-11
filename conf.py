@@ -56,7 +56,7 @@ langs_proto = [
         'common':   'data.code.erlang.common.server',
     },
     {
-        'lang':     'erlang_server',  # 暂时没有erlang_client
+        'lang':     'erlang_client',
         'code':     'data.code.erlang.client',
         'common':   'data.code.erlang.common.client',
     },

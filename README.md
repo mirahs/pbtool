@@ -16,8 +16,8 @@
 * [python](examples/python)
 * [php](examples/php)
 * [javascript](examples/javascript)
-* typescript([LayaAirTs](examples/LayaAirTs) [CocosCreator](examples/CocosCreator))
-* actionscript([LayaAirAs](examples/LayaAirAs))
+* typescript([LayaAir](examples/LayaAirTs) [CocosCreator](examples/CocosCreatorTs))
+* actionscript([LayaAir](examples/LayaAirAs))
 
 ## 使用方法
 找到 conf.py 文件, 修改 data_proto 配置(原始协议文件目录) 例:  

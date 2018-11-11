@@ -12,6 +12,9 @@ data_proto  = data_dir + 'data.proto/'
 as_package_name     = 'proto'  # 协议文件包名
 as_extra_packages   = 'laya.utils.Byte'  # 额外引入的包，多个包空格分隔
 
+# typescript cocos creator相关配置
+ts_cc_extra_packages= 'import { Packet } from \'@mi/mod/Packet\''  # 额外引入的包，多个包空格分隔
+
 
 '''
 需要导出协议文件的语言选项
@@ -38,6 +41,7 @@ as_extra_packages   = 'laya.utils.Byte'  # 额外引入的包，多个包空格�
     php_client
     javascript_client
     typescript_client
+    typescript_cc_client
     actionscript_client
 
 配置格式:
@@ -144,6 +148,10 @@ langs_proto = [
     {
         'lang':     'typescript_client',
         'code':     'data.code.typescript.client',
+    },
+    {
+        'lang':     'typescript_cc_client',
+        'code':     'data.code.typescript.cc.client',
     },
     {
         'lang':     'actionscript_client',

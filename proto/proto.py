@@ -13,13 +13,13 @@ def parse(filename):
 	_protos         = []
 	_mess_body		= dict()
 
-	_include_com	= re.compile(r'include:(.*)')  # 头文件包含(erlang)
+	_include_com	= re.compile(r'include:(.*)')  # 头文件包含(erlang) include:role,map
 	_mess_com       = re.compile(r'\s*message\s*(\w+)\((\d+)\)\s*(.*)')  # 协议格式(协议名称,协议id,协议注释)
 	_note_com       = re.compile(r'\s*/.*')     # 注释行
 	_left_com       = re.compile(r'\s*\{.*')    # 左大括号
 	_right_com      = re.compile(r'\s*}.*')     # 右大括号
 	_field_com		= re.compile(r'\s*(\w+)\s*([\w\d]+)\s*([\w\d]+)\s*(.*)')	 # 协议每个字段
-	_proto_spec_com	= re.compile(r'\[(.*)\](.*)')  # 协议特殊标识
+	_proto_spec_com	= re.compile(r'\[(.*)\](.*)')  # 协议特殊标识 //[record:play_idx_result]这是协议注释
 
 	for line in fileinput.input(filename):
 		if _mess_body:

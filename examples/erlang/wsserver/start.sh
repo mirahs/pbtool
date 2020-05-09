@@ -1,5 +1,5 @@
 #!/bin/bash
-export PATH=/d/apps/erl10.1/bin:${PATH}
+export PATH=/d/apps/erl9.3/bin:${PATH}
 
 
 \cp ../../../data/data.code.erlang.common.server/const.pb.hrl include/

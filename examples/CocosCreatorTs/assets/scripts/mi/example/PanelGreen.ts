@@ -4,7 +4,7 @@ import { TipMgr } from '@mi/tip/TipMgr'
 
 export class PanelGreen extends PanelBase {
     public onInit(): void {
-        this.skinPath = 'mi/example/PanelYellow';
+        this.skinPath = 'mi/example/PanelGreen';
         this.cache = true;
 
         //this.PanelMaskStyle = cy.AppConst.PanelMaskStyle.Through;//可以穿透

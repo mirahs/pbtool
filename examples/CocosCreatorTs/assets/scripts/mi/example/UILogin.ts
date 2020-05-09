@@ -14,7 +14,7 @@ export class UILogin extends UIBase {
     }
 
     public onButtonClick(button: cc.Button): void {
-        cc.log('button.node.name: ' + button.node.name);
+        cc.log('button.node.name:' + button.node.name);
         if (button.node.name == 'BtnLogin') {
             UIMgr.open(UIHall)
         }

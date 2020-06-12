@@ -19,7 +19,8 @@ send(Socket) ->
 
 	MsgRoleBase = {111, <<"mirahs">>},
 	{ok, BinTestSend} = pack(?c_test_send, {123, MsgRoleBase, [1.23,12.3,123.4], 111, MsgRoleBase}),
-	pb_msg:send(Socket, <<BinMsg/binary,BinTestSend/binary>>).
+	{ok, BinTestJs} = pack(?c_test_js, {999999999, -999999999}),
+	pb_msg:send(Socket, <<BinMsg/binary,BinTestSend/binary,BinTestJs/binary>>).
 
 
 recv(Socket) ->
@@ -69,7 +70,9 @@ routing(PacketId, BinData, Socket) ->
 rpc(?s_test_x_x, Data, _Socket) ->?DEBUG("xxxxx"),
 	?DEBUG("c_test_x_x Data:~p~n", [Data]);
 rpc(?s_test_send_ok, Data, _Socket) ->?DEBUG("xxxxx"),
-	?DEBUG("c_test_send Data:~p~n", [Data]);
+	?DEBUG("s_test_send_ok Data:~p~n", [Data]);
+rpc(?s_test_js_ok, Data, _Socket) ->?DEBUG("xxxxx"),
+	?DEBUG("s_test_js_ok Data:~p~n", [Data]);
 rpc(PacketId, Data, _Socket) ->?DEBUG("xxxxx"),
 	?DEBUG("Unknow PacketId:~w Data:~w~n", [PacketId, Data]).
 

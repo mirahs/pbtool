@@ -14,7 +14,8 @@ start() ->
 	accept(ListenSocket).
 
 accept(ListenSocket) ->
-	{ok, Socket} = gen_tcp:accept(ListenSocket),
+	{ok, Socket} = gen_tcp:accept(ListenSocket),?DEBUG("客户端连接"),
+	send(Socket, pack(?s_test_js_ok, {123456789, -123456789})),
 	Pid = spawn(?MODULE, recv, [Socket]),
 	gen_tcp:controlling_process(Socket, Pid),
 	accept(ListenSocket).
@@ -27,7 +28,7 @@ recv(Socket, Bin) ->
 		{tcp, Socket, BinRecv} ->
 			Bin2 = work(Socket, <<Bin/binary,BinRecv/binary>>),
 			recv(Socket, Bin2);
-		{tcp_closed, Socket} ->
+		{tcp_closed, Socket} ->?DEBUG("客户端断开"),
 			gen_tcp:close(Socket);
 		_ ->
 			recv(Socket, Bin)

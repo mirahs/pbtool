@@ -16,8 +16,8 @@ end
 
 function encode(self)
 	pack = packet.new()
-	pack:writeu64(self.u64)
-	pack:writei64(self.i64)
+	pack:writeU64(self.u64)
+	pack:writeI64(self.i64)
 	return pack:encode(Msg.P_REQ_TEST_JS)
 end
 

@@ -21,7 +21,7 @@ end
 
 
 function decode(self, pack)
-	self.u64 = pack:readu64()
+	self.u64 = pack:readU64()
 	self.strxx = pack:readString()
 	self.msg_req = MsgTestPhp.new():decode(pack)
 	self.msg_opt_flag = pack:readU8()

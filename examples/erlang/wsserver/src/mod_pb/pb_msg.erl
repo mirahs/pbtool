@@ -35,9 +35,15 @@ encode(string, Val) ->
 	<<Len:16/big-integer-unsigned, Val:Len/binary>>.
 
 %% 数据解码
+decode(i8, <<Val:8/big-integer-signed,Rest/binary>>) ->
+	{Val,Rest};
 decode(u8, <<Val:8/big-integer-unsigned,Rest/binary>>) ->
 	{Val,Rest};
+decode(i16, <<Val:16/big-integer-signed,Rest/binary>>) ->
+	{Val,Rest};
 decode(u16, <<Val:16/big-integer-unsigned,Rest/binary>>) ->
+	{Val,Rest};
+decode(i32, <<Val:32/big-integer-signed,Rest/binary>>) ->
 	{Val,Rest};
 decode(u32, <<Val:32/big-integer-unsigned,Rest/binary>>) ->
 	{Val,Rest};

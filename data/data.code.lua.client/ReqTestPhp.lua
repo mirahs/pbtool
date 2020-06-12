@@ -20,7 +20,7 @@ end
 
 function encode(self)
 	pack = packet.new()
-	pack:writeu64(self.u64)
+	pack:writeU64(self.u64)
 	pack:writeString(self.strxx)
 	pack:writeBytes(self.msg_req:getBytes())
 	pack:writeU8(self.msg_opt_flag)

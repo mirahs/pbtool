@@ -15,8 +15,8 @@ end
 
 
 function decode(self, pack)
-	self.u64 = pack:readu64()
-	self.i64 = pack:readi64()
+	self.u64 = pack:readU64()
+	self.i64 = pack:readI64()
 	return self
 end
 

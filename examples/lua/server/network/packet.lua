@@ -92,7 +92,7 @@ function readU32(self)
 	self.pos, ru32 = string.unpack(self.buffers, ">I", self.pos)
 	return tonumber(ru32)
 end
-function readU32(self)
+function readI32(self)
 	self.pos, ri32 = string.unpack(self.buffers, ">i", self.pos)
 	return tonumber(ri32)
 end

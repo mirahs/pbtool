@@ -19,7 +19,7 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	 local pack = packet.new()
 	pack:writeI16(self.rot_x)
 	pack:writeI16(self.rot_y)
 	pack:writeI16(self.rot_z)
@@ -42,47 +42,3 @@ end
 function getBytes(self)
 	return self:encode()
 end
-
-
-function setRotX(self, rot_x)
-	self.rot_x = rot_x
-end
-function getRotX(self)
-	return self.rot_x
-end
-
-function setRotY(self, rot_y)
-	self.rot_y = rot_y
-end
-function getRotY(self)
-	return self.rot_y
-end
-
-function setRotZ(self, rot_z)
-	self.rot_z = rot_z
-end
-function getRotZ(self)
-	return self.rot_z
-end
-
-function setPosX(self, pos_x)
-	self.pos_x = pos_x
-end
-function getPosX(self)
-	return self.pos_x
-end
-
-function setPosY(self, pos_y)
-	self.pos_y = pos_y
-end
-function getPosY(self)
-	return self.pos_y
-end
-
-function setPosZ(self, pos_z)
-	self.pos_z = pos_z
-end
-function getPosZ(self)
-	return self.pos_z
-end
-

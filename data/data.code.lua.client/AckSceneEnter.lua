@@ -18,8 +18,4 @@ function decode(self, pack)
 	return self
 end
 
-
-function getPlayer(self)
-	return self.player
-end
-
+return AckSceneEnter

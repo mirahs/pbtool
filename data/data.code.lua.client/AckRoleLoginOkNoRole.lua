@@ -16,4 +16,4 @@ function decode(self, pack)
 	return self
 end
 
-
+return AckRoleLoginOkNoRole

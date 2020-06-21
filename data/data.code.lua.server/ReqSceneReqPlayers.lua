@@ -15,5 +15,3 @@ end
 function decode(self, pack)
 	return self
 end
-
-

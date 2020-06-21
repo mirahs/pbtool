@@ -14,8 +14,9 @@ function init(self)
 end
 
 
-function decode(self, pack)
-	self.u64 = pack:readU64()
-	self.i64 = pack:readI64()
-	return self
+function encode(self)
+	 local pack = packet.new()
+	pack:writeU32(self.u64)
+	pack:writeI32(self.i64)
+	return pack:encode(Msg.P_REQ_TEST_JS)
 end

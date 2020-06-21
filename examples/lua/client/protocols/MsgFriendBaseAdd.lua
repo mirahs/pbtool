@@ -15,7 +15,7 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	 local pack = packet.new()
 	pack:writeU32(self.uid)
 	pack:writeString(self.uname)
 	return pack:readBytes()
@@ -30,19 +30,3 @@ end
 function getBytes(self)
 	return self:encode()
 end
-
-
-function setUid(self, uid)
-	self.uid = uid
-end
-function getUid(self)
-	return self.uid
-end
-
-function setUname(self, uname)
-	self.uname = uname
-end
-function getUname(self)
-	return self.uname
-end
-

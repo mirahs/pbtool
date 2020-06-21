@@ -25,25 +25,3 @@ function decode(self, pack)
 	self.uid = pack:readU32()
 	return self
 end
-
-
-function getSceneRotPos(self)
-	return self.scene_rot_pos
-end
-
-function getForward(self)
-	return self.forward
-end
-
-function getAniName(self)
-	return self.ani_name
-end
-
-function getXAxis(self)
-	return self.x_axis
-end
-
-function getUid(self)
-	return self.uid
-end
-

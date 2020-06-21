@@ -14,13 +14,7 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	local pack = packet.new()
 	pack:writeBytes(self.player:getBytes())
 	return pack:encode(Msg.P_ACK_SCENE_ENTER)
 end
-
-
-function setPlayer(self, player)
-	self.player = player
-end
-

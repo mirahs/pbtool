@@ -17,9 +17,3 @@ function decode(self, pack)
 	self.door_id = pack:readU32()
 	return self
 end
-
-
-function getDoorId(self)
-	return self.door_id
-end
-

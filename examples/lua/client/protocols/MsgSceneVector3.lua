@@ -16,7 +16,7 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	 local pack = packet.new()
 	pack:writeI16(self.x)
 	pack:writeI16(self.y)
 	pack:writeI16(self.z)
@@ -33,26 +33,3 @@ end
 function getBytes(self)
 	return self:encode()
 end
-
-
-function setX(self, x)
-	self.x = x
-end
-function getX(self)
-	return self.x
-end
-
-function setY(self, y)
-	self.y = y
-end
-function getY(self)
-	return self.y
-end
-
-function setZ(self, z)
-	self.z = z
-end
-function getZ(self)
-	return self.z
-end
-

@@ -17,28 +17,10 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	local pack = packet.new()
 	pack:writeU8(self.channel)
 	pack:writeU32(self.uid)
 	pack:writeString(self.uname)
 	pack:writeString(self.content)
 	return pack:encode(Msg.P_ACK_CHAT_SEND_OK)
 end
-
-
-function setChannel(self, channel)
-	self.channel = channel
-end
-
-function setUid(self, uid)
-	self.uid = uid
-end
-
-function setUname(self, uname)
-	self.uname = uname
-end
-
-function setContent(self, content)
-	self.content = content
-end
-

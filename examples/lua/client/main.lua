@@ -17,31 +17,31 @@ require "controller/TestController"
 
 function sendTestXX()
 	reqTestXX = ReqTestXX.new()
-	reqTestXX:setIdU8(110)
-	reqTestXX:setIdU16(111)
-	reqTestXX:setIdU32(112)
+	reqTestXX.id_u8 = 110
+	reqTestXX.id_u16 = 111
+	reqTestXX.id_u32  = 250250
 	repU8Table = {}
 	table.insert(repU8Table, 12)
-	reqTestXX:setRepeatIdU8(repU8Table)
-	reqTestXX:setOptionalIdU8(123)
+	reqTestXX.repeat_id_u8 = repU8Table
+	reqTestXX.option_id_u8 = 123
 
 	g_net:send(reqTestXX:encode())
 end
 
 function sendTestSend()
 	roleBase 	= MsgRoleBase.new()
-	roleBase:setUid(110)
-	roleBase:setUname("mirahs")
+	roleBase.uid = 110
+	roleBase.uname  = "mirahsxx"
 
 	idF32Table = {}
 	table.insert(idF32Table, 12.34)
 
 	reqTestSend = ReqTestSend.new()
-	reqTestSend:setIdU8(111)
-	reqTestSend:setRoleBase(roleBase)
-	reqTestSend:setIdF32(idF32Table)
-	reqTestSend:setIdOpU8(123)
-	reqTestSend:setOpRoleBase(roleBase)
+	reqTestSend.id_u8 = 111
+	reqTestSend.role_base = roleBase
+	reqTestSend.id_f32 = idF32Table
+	reqTestSend.id_op_u8 = 123
+	reqTestSend.op_role_base = roleBase
 
 	g_net:send(reqTestSend:encode())
 end

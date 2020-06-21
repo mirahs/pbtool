@@ -20,9 +20,3 @@ function decode(self, pack)
 	end
 	return self
 end
-
-
-function getPlayers(self)
-	return self.players
-end
-

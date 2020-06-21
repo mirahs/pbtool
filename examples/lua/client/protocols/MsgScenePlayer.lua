@@ -15,7 +15,7 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	 local pack = packet.new()
 	pack:writeU32(self.uid)
 	pack:writeBytes(self.scene_rot_pos:getBytes())
 	return pack:readBytes()
@@ -30,19 +30,3 @@ end
 function getBytes(self)
 	return self:encode()
 end
-
-
-function setUid(self, uid)
-	self.uid = uid
-end
-function getUid(self)
-	return self.uid
-end
-
-function setSceneRotPos(self, scene_rot_pos)
-	self.scene_rot_pos = scene_rot_pos
-end
-function getSceneRotPos(self)
-	return self.scene_rot_pos
-end
-

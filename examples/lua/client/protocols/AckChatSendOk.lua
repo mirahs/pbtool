@@ -23,21 +23,3 @@ function decode(self, pack)
 	self.content = pack:readString()
 	return self
 end
-
-
-function getChannel(self)
-	return self.channel
-end
-
-function getUid(self)
-	return self.uid
-end
-
-function getUname(self)
-	return self.uname
-end
-
-function getContent(self)
-	return self.content
-end
-

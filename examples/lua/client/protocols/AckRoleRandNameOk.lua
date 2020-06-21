@@ -17,9 +17,3 @@ function decode(self, pack)
 	self.uname = pack:readString()
 	return self
 end
-
-
-function getUname(self)
-	return self.uname
-end
-

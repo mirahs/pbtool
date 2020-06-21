@@ -13,8 +13,6 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	local pack = packet.new()
 	return pack:encode(Msg.P_ACK_ROLE_LOGIN_OK_NO_ROLE)
 end
-
-

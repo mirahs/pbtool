@@ -14,13 +14,9 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	local pack = packet.new()
 	pack:writeString(self.content)
 	return pack:encode(Msg.P_REQ_CHAT_GM)
 end
 
-
-function setContent(self, content)
-	self.content = content
-end
-
+return ReqChatGm

@@ -14,13 +14,7 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	local pack = packet.new()
 	pack:writeU32(self.uid)
 	return pack:encode(Msg.P_ACK_SCENE_EXIT)
 end
-
-
-function setUid(self, uid)
-	self.uid = uid
-end
-

@@ -14,13 +14,7 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	local pack = packet.new()
 	pack:writeString(self.uname)
 	return pack:encode(Msg.P_ACK_ROLE_RAND_NAME_OK)
 end
-
-
-function setUname(self, uname)
-	self.uname = uname
-end
-

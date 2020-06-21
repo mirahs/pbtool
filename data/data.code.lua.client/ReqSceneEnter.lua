@@ -14,13 +14,9 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	local pack = packet.new()
 	pack:writeU32(self.door_id)
 	return pack:encode(Msg.P_REQ_SCENE_ENTER)
 end
 
-
-function setDoorId(self, door_id)
-	self.door_id = door_id
-end
-
+return ReqSceneEnter

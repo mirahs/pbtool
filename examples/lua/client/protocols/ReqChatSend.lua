@@ -16,23 +16,9 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	 local pack = packet.new()
 	pack:writeU8(self.channel)
 	pack:writeU32(self.dest_uid)
 	pack:writeString(self.content)
 	return pack:encode(Msg.P_REQ_CHAT_SEND)
 end
-
-
-function setChannel(self, channel)
-	self.channel = channel
-end
-
-function setDestUid(self, dest_uid)
-	self.dest_uid = dest_uid
-end
-
-function setContent(self, content)
-	self.content = content
-end
-

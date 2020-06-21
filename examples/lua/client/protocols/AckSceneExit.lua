@@ -17,9 +17,3 @@ function decode(self, pack)
 	self.uid = pack:readU32()
 	return self
 end
-
-
-function getUid(self)
-	return self.uid
-end
-

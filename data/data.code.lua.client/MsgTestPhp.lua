@@ -14,7 +14,7 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	local pack = packet.new()
 	pack:writeU16(self.u16)
 	return pack:readBytes()
 end
@@ -28,11 +28,4 @@ function getBytes(self)
 	return self:encode()
 end
 
-
-function setU16(self, u16)
-	self.u16 = u16
-end
-function getU16(self)
-	return self.u16
-end
-
+return MsgTestPhp

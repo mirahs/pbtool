@@ -14,13 +14,9 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	local pack = packet.new()
 	pack:writeU32(self.map_id)
 	return pack:encode(Msg.P_REQ_SCENE_ENTER_FLY)
 end
 
-
-function setMapId(self, map_id)
-	self.map_id = map_id
-end
-
+return ReqSceneEnterFly

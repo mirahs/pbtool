@@ -18,8 +18,4 @@ function decode(self, pack)
 	return self
 end
 
-
-function getUid(self)
-	return self.uid
-end
-
+return AckSceneExit

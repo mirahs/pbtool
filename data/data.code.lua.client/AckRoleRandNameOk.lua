@@ -18,8 +18,4 @@ function decode(self, pack)
 	return self
 end
 
-
-function getUname(self)
-	return self.uname
-end
-
+return AckRoleRandNameOk

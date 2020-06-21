@@ -17,9 +17,3 @@ function decode(self, pack)
 	self.player = MsgScenePlayer.new():decode(pack)
 	return self
 end
-
-
-function getPlayer(self)
-	return self.player
-end
-

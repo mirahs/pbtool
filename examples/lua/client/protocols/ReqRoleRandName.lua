@@ -13,8 +13,6 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	 local pack = packet.new()
 	return pack:encode(Msg.P_REQ_ROLE_RAND_NAME)
 end
-
-

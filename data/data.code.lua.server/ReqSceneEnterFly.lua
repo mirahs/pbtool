@@ -17,9 +17,3 @@ function decode(self, pack)
 	self.map_id = pack:readU32()
 	return self
 end
-
-
-function getMapId(self)
-	return self.map_id
-end
-

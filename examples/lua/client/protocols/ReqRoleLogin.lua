@@ -23,7 +23,7 @@ end
 
 
 function encode(self)
-	pack = packet.new()
+	 local pack = packet.new()
 	pack:writeU32(self.uid)
 	pack:writeU32(self.uuid)
 	pack:writeU16(self.sid)
@@ -36,45 +36,3 @@ function encode(self)
 	pack:writeString(self.version)
 	return pack:encode(Msg.P_REQ_ROLE_LOGIN)
 end
-
-
-function setUid(self, uid)
-	self.uid = uid
-end
-
-function setUuid(self, uuid)
-	self.uuid = uuid
-end
-
-function setSid(self, sid)
-	self.sid = sid
-end
-
-function setCid(self, cid)
-	self.cid = cid
-end
-
-function setLoginTime(self, login_time)
-	self.login_time = login_time
-end
-
-function setPwd(self, pwd)
-	self.pwd = pwd
-end
-
-function setRelink(self, relink)
-	self.relink = relink
-end
-
-function setDebug(self, debug)
-	self.debug = debug
-end
-
-function setOs(self, os)
-	self.os = os
-end
-
-function setVersion(self, version)
-	self.version = version
-end
-

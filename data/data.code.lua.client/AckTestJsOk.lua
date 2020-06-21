@@ -20,12 +20,4 @@ function decode(self, pack)
 	return self
 end
 
-
-function getU64(self)
-	return self.u64
-end
-
-function getI64(self)
-	return self.i64
-end
-
+return AckTestJsOk

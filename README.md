@@ -1,6 +1,6 @@
 # pbtool
 
-## socket通讯自定义协议生成工具
+## 类google protobuffer协议及生成工具
 
 ## 依赖环境
 * python 2.7.x

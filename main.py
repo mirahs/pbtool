@@ -20,13 +20,21 @@ for dirpath, dirnames, filenames in os.walk(conf.data_proto):
                 protos_file[filetmp.split('.')[0]] = file_proto
 
 for lang in conf.langs_proto:
+    _lang = lang['lang']
+    _code_path = conf.data_dir + lang['code'] + '/'
+    if not os.path.exists(_code_path):
+        print _code_path + ' 目录不存在'
+        continue
+
+    _common_path = ''
+    if 'common' in lang:
+        _common_path = conf.data_dir + lang['common'] + '/'
+        if not os.path.exists(_common_path):
+            print _common_path + ' 目录不存在'
+            continue
+
     _tmp_protos_all = copy.deepcopy(protos_all)
     _tmp_protos_file= copy.deepcopy(protos_file)
-    _lang           = lang['lang']
-    _code_path      = conf.data_dir + lang['code'] + '/'
-    _common_path    = ''
-    if 'common' in lang:
-        _common_path= conf.data_dir + lang['common'] + '/'
 
     lang_module     = 'proto_' + _lang
     exec('from proto import %s' % lang_module)

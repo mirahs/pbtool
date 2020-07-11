@@ -13,11 +13,11 @@ function init(self)
 	self.uuid = 0
 	self.sid = 0
 	self.cid = 0
-	self.os = 0
-	self.version = 0
-	self.uname = 0
-	self.source = 0
-	self.source_sub = 0
+	self.os = ""
+	self.version = ""
+	self.uname = ""
+	self.source = ""
+	self.source_sub = ""
 	self.login_time = 0
 end
 

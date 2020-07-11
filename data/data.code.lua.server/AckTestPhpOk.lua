@@ -10,7 +10,7 @@ end
 
 function init(self)
 	self.u64 = 0
-	self.strxx = 0
+	self.strxx = ""
 	self.msg_req = nil
 	self.msg_opt = nil
 	self.msg_rep = {}

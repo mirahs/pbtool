@@ -11,8 +11,8 @@ end
 function init(self)
 	self.channel = 0
 	self.uid = 0
-	self.uname = 0
-	self.content = 0
+	self.uname = ""
+	self.content = ""
 end
 
 

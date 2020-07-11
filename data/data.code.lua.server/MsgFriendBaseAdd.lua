@@ -10,7 +10,7 @@ end
 
 function init(self)
 	self.uid = 0
-	self.uname = 0
+	self.uname = ""
 end
 
 

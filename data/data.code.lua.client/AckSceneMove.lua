@@ -11,7 +11,7 @@ end
 function init(self)
 	self.scene_rot_pos = nil
 	self.forward = nil
-	self.ani_name = 0
+	self.ani_name = ""
 	self.x_axis = 0
 	self.uid = 0
 end

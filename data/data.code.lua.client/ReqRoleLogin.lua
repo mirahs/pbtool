@@ -14,11 +14,11 @@ function init(self)
 	self.sid = 0
 	self.cid = 0
 	self.login_time = 0
-	self.pwd = 0
+	self.pwd = ""
 	self.relink = 0
 	self.debug = 0
-	self.os = 0
-	self.version = 0
+	self.os = ""
+	self.version = ""
 end
 
 

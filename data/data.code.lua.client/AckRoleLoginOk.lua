@@ -9,7 +9,7 @@ function new()
 end
 
 function init(self)
-	self.uname = 0
+	self.uname = ""
 end
 
 

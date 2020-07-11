@@ -66,7 +66,7 @@ def protocol_msg(code_path, mess_name_ids):
 def get_check_option(field_name, field_type):
 	if field_type.startswith('Msg'):
 		return field_name + ' ~= nil'
-	elif field_type == 'string':
+	elif field_type == 'String':
 		return field_name + ' ~= ""'
 	else:
 		return field_name + ' ~= 0'
@@ -108,7 +108,7 @@ class ProtoLua(object):
 			if 'required' == field_op:
 				if field_type.startswith('Msg'):
 					self._str_init += '\tself.' + field_name + ' = nil\n'
-				elif field_type == 'string':
+				elif field_type == 'String':
 					self._str_init += '\tself.' + field_name + ' = ""\n'
 				else:
 					self._str_init += '\tself.' + field_name + ' = 0\n'
@@ -117,7 +117,7 @@ class ProtoLua(object):
 			elif 'optional' == field_op:
 				if field_type.startswith('Msg'):
 					self._str_init += '\tself.' + field_name + ' = nil\n'
-				elif field_type == 'string':
+				elif field_type == 'String':
 					self._str_init += '\tself.' + field_name + ' = ""\n'
 				else:
 					self._str_init += '\tself.' + field_name + ' = 0\n'

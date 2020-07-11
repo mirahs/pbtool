@@ -9,7 +9,7 @@ function new()
 end
 
 function init(self)
-	self.content = 0
+	self.content = ""
 end
 
 

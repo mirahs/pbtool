@@ -2,6 +2,9 @@
 
 ## 类google protobuffer协议及生成工具
 
+## Thanks JetBrains
+[JetBrains PyCharm](https://www.jetbrains.com/?from=pbtool)
+
 ## 依赖环境
 * python 2.7.x
 

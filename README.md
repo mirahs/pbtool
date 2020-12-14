@@ -51,7 +51,7 @@ langs_proto = [
 ```
 运行导出脚本  
 ```shell
-python doproto.py
+python main.py
 ```
 就会在langs_proto配置的 code 项的目录下面生成协议文件
 

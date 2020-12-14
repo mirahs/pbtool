@@ -1,57 +1,40 @@
 # pbtool
 
 ## 类 google protobuf 协议及生成工具
+当前为 2.0 版本，如果找不到支持的语言，请先查看和使用 [1.0](https://github.com/mirahs/pbtool/tree/1.0) 版本
 
 ## Thanks JetBrains
 [JetBrains PyCharm](https://www.jetbrains.com/?from=pbtool)
 
-## 依赖环境
-* python 2.7.x
+## 依赖
+* python
 
 ## 支持语言
-* [erlang](examples/erlang)
-* [c#](examples/csharp)
 * [golang](examples/golang)
-* [c++](examples/cpp)
-* [java](examples/java)
-* [lua](examples/lua)
-* [lua53](examples/lua53)
-* [python](examples/python)
-* [php](examples/php)
-* [javascript](examples/javascript)
-* typescript([LayaAir](examples/LayaAirTs) [CocosCreator](examples/CocosCreatorTs))
-* actionscript([LayaAir](examples/LayaAirAs))
+* typescript([CocosCreator](examples/CocosCreatorTs))
 
 ## 使用方法
 找到 conf.py 文件, 修改 data_proto 配置(原始协议文件目录) 例:  
 ```python
-data_dir    = os.path.join(os.path.dirname(__file__), './data/') # 数据目录
-data_proto  = data_dir + 'data.proto/' # 原始协议文件目录
+data_dir    = os.path.join(os.path.dirname(__file__), './data/') # 导出目录
+data_proto  = data_dir + 'data.proto/' # 协议文件目录
 ```
 修改 langs_proto 这个配置(导出语言), 例:  
 ```python
 langs_proto = [
     {
-        'lang':     'csharp_client',
-        'code':     'data.code.csharp.client',
+        'lang':     'golang',
+        'code':     'golang',
     },
     {
-        'lang':     'csharp_server',
-        'code':     'data.code.csharp.server',
-    },
-    {
-        'lang':     'golang_server',
-        'code':     'data.code.golang.server',
-    },
-    {
-        'lang':     'golang_client',
-        'code':     'data.code.golang.client',
+        'lang':     'typescript_cc',
+        'code':     'typescript_cc',
     },
 ]
 ```
 运行导出脚本  
 ```shell
-python doproto.py
+python main.py
 ```
 就会在langs_proto配置的 code 项的目录下面生成协议文件
 

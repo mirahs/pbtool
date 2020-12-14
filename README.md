@@ -1,6 +1,6 @@
 # pbtool
 
-## 类google protobuffer协议及生成工具
+## 类 google protobuf 协议及生成工具
 
 ## Thanks JetBrains
 [JetBrains PyCharm](https://www.jetbrains.com/?from=pbtool)

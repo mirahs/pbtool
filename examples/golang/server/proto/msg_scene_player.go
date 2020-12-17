@@ -5,15 +5,15 @@ import (
 )
 
 type MsgScenePlayer struct {
-	uid                      uint32
-	sceneRotPos              *MsgSceneRotPos
+	Uid                      uint32
+	SceneRotPos              *MsgSceneRotPos
 }
 
 func (this *MsgScenePlayer) Encode() []byte {
 	pack := packet.NewWriteBuff(64)
 
-	pack.WriteUint32(this.uid)
-	pack.WriteBytes(this.sceneRotPos.Encode())
+	pack.WriteUint32(this.Uid)
+	pack.WriteBytes(this.SceneRotPos.Encode())
 
 	return pack.ReadBytes()
 }
@@ -21,23 +21,7 @@ func (this *MsgScenePlayer) Encode() []byte {
 func MsgScenePlayerDecode(pack *packet.Packet) *MsgScenePlayer {
 	msgScenePlayer := &MsgScenePlayer{}
 
-	msgScenePlayer.uid = pack.ReadUint32()
-	msgScenePlayer.sceneRotPos = MsgSceneRotPosDecode(pack)
+	msgScenePlayer.Uid = pack.ReadUint32()
+	msgScenePlayer.SceneRotPos = MsgSceneRotPosDecode(pack)
 	return msgScenePlayer
-}
-
-func (this *MsgScenePlayer) SetUid(uid uint32) {
-	this.uid = uid
-}
-
-func (this *MsgScenePlayer) GetUid() uint32 {
-	return this.uid
-}
-
-func (this *MsgScenePlayer) SetSceneRotPos(sceneRotPos *MsgSceneRotPos) {
-	this.sceneRotPos = sceneRotPos
-}
-
-func (this *MsgScenePlayer) GetSceneRotPos() *MsgSceneRotPos {
-	return this.sceneRotPos
 }

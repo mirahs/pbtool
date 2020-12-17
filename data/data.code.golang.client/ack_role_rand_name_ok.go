@@ -5,16 +5,12 @@ import (
 )
 
 type AckRoleRandNameOk struct {
-	uname                    string
+	Uname                    string
 }
 
 func AckRoleRandNameOkDecode(pack *packet.Packet) *AckRoleRandNameOk {
 	ackRoleRandNameOk := &AckRoleRandNameOk{}
 
-	ackRoleRandNameOk.uname = pack.ReadString()
+	ackRoleRandNameOk.Uname = pack.ReadString()
 	return ackRoleRandNameOk
-}
-
-func (this *AckRoleRandNameOk) GetUname() string {
-	return this.uname
 }

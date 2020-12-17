@@ -5,16 +5,12 @@ import (
 )
 
 type AckSceneEnter struct {
-	player                   *MsgScenePlayer
+	Player                   *MsgScenePlayer
 }
 
 func AckSceneEnterDecode(pack *packet.Packet) *AckSceneEnter {
 	ackSceneEnter := &AckSceneEnter{}
 
-	ackSceneEnter.player = MsgScenePlayerDecode(pack)
+	ackSceneEnter.Player = MsgScenePlayerDecode(pack)
 	return ackSceneEnter
-}
-
-func (this *AckSceneEnter) GetPlayer() *MsgScenePlayer {
-	return this.player
 }

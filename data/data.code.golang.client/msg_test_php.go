@@ -5,13 +5,13 @@ import (
 )
 
 type MsgTestPhp struct {
-	u16                      uint16
+	U16                      uint16
 }
 
 func (this *MsgTestPhp) Encode() []byte {
 	pack := packet.NewWriteBuff(64)
 
-	pack.WriteUint16(this.u16)
+	pack.WriteUint16(this.U16)
 
 	return pack.ReadBytes()
 }
@@ -19,14 +19,6 @@ func (this *MsgTestPhp) Encode() []byte {
 func MsgTestPhpDecode(pack *packet.Packet) *MsgTestPhp {
 	msgTestPhp := &MsgTestPhp{}
 
-	msgTestPhp.u16 = pack.ReadUint16()
+	msgTestPhp.U16 = pack.ReadUint16()
 	return msgTestPhp
-}
-
-func (this *MsgTestPhp) SetU16(u16 uint16) {
-	this.u16 = u16
-}
-
-func (this *MsgTestPhp) GetU16() uint16 {
-	return this.u16
 }

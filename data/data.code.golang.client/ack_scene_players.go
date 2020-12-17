@@ -5,19 +5,15 @@ import (
 )
 
 type AckScenePlayers struct {
-	players                  []*MsgScenePlayer
+	Players                  []*MsgScenePlayer
 }
 
 func AckScenePlayersDecode(pack *packet.Packet) *AckScenePlayers {
 	ackScenePlayers := &AckScenePlayers{}
 
-	playersCount := pack.ReadUint16()
-	for ;playersCount > 0; playersCount-- {
-		ackScenePlayers.players = append(ackScenePlayers.players, MsgScenePlayerDecode(pack))
+	PlayersCount := pack.ReadUint16()
+	for ;PlayersCount > 0; PlayersCount-- {
+		ackScenePlayers.Players = append(ackScenePlayers.Players, MsgScenePlayerDecode(pack))
 	}
 	return ackScenePlayers
-}
-
-func (this *AckScenePlayers) GetPlayers() []*MsgScenePlayer {
-	return this.players
 }

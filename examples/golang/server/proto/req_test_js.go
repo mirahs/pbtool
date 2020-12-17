@@ -5,22 +5,14 @@ import (
 )
 
 type ReqTestJs struct {
-	u64                      uint64
-	i64                      int64
+	U64                      uint64
+	I64                      int64
 }
 
 func ReqTestJsDecode(pack *packet.Packet) *ReqTestJs {
 	reqTestJs := &ReqTestJs{}
 
-	reqTestJs.u64 = pack.ReadUint64()
-	reqTestJs.i64 = pack.ReadInt64()
+	reqTestJs.U64 = pack.ReadUint64()
+	reqTestJs.I64 = pack.ReadInt64()
 	return reqTestJs
-}
-
-func (this *ReqTestJs) GetU64() uint64 {
-	return this.u64
-}
-
-func (this *ReqTestJs) GetI64() int64 {
-	return this.i64
 }

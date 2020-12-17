@@ -88,8 +88,8 @@ func dispatch(bodyBuff []byte) {
 	case proto.P_REQ_TEST_SEND:
 		reqTestSend := proto.ReqTestSendDecode(packet)
 		fmt.Println("reqTestXX:", reqTestSend)
-		fmt.Println(reqTestSend.GetOpRoleBase().GetUid())
-		fmt.Println(reqTestSend.GetOpRoleBase().GetUname())
+		fmt.Println(reqTestSend.OpRoleBase.Uid)
+		fmt.Println(reqTestSend.OpRoleBase.Uname)
 	default:
 		fmt.Println("unknown packetId:", packetId)
 	}

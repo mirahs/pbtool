@@ -5,17 +5,13 @@ import (
 )
 
 type ReqSceneEnterFly struct {
-	mapId                    uint32
+	MapId                    uint32
 }
 
 func (this *ReqSceneEnterFly) Encode() []byte {
 	pack := packet.NewWriteBuff(64)
 
-	pack.WriteUint32(this.mapId)
+	pack.WriteUint32(this.MapId)
 
 	return pack.Encode(P_REQ_SCENE_ENTER_FLY)
-}
-
-func (this *ReqSceneEnterFly) SetMapId(mapId uint32) {
-	this.mapId = mapId
 }

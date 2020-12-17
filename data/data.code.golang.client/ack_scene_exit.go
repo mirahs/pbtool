@@ -5,16 +5,12 @@ import (
 )
 
 type AckSceneExit struct {
-	uid                      uint32
+	Uid                      uint32
 }
 
 func AckSceneExitDecode(pack *packet.Packet) *AckSceneExit {
 	ackSceneExit := &AckSceneExit{}
 
-	ackSceneExit.uid = pack.ReadUint32()
+	ackSceneExit.Uid = pack.ReadUint32()
 	return ackSceneExit
-}
-
-func (this *AckSceneExit) GetUid() uint32 {
-	return this.uid
 }

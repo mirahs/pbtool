@@ -5,51 +5,29 @@ import (
 )
 
 type AckTestSendOk struct {
-	idU8                     uint8
-	roleBase                 *MsgRoleBase
-	idF32                    []float32
-	idOpU8Flag               uint8
-	idOpU8                   uint8
-	opRoleBaseFlag           uint8
-	opRoleBase               *MsgRoleBase
+	IdU8                     uint8
+	RoleBase                 *MsgRoleBase
+	IdF32                    []float32
+	IdOpU8                   uint8
+	OpRoleBase               *MsgRoleBase
 }
 
 func AckTestSendOkDecode(pack *packet.Packet) *AckTestSendOk {
 	ackTestSendOk := &AckTestSendOk{}
 
-	ackTestSendOk.idU8 = pack.ReadUint8()
-	ackTestSendOk.roleBase = MsgRoleBaseDecode(pack)
-	idF32Count := pack.ReadUint16()
-	for ;idF32Count > 0; idF32Count-- {
-		ackTestSendOk.idF32 = append(ackTestSendOk.idF32, pack.ReadFloat32())
+	ackTestSendOk.IdU8 = pack.ReadUint8()
+	ackTestSendOk.RoleBase = MsgRoleBaseDecode(pack)
+	IdF32Count := pack.ReadUint16()
+	for ;IdF32Count > 0; IdF32Count-- {
+		ackTestSendOk.IdF32 = append(ackTestSendOk.IdF32, pack.ReadFloat32())
 	}
-	ackTestSendOk.idOpU8Flag = pack.ReadUint8()
-	if ackTestSendOk.idOpU8Flag == 1 {
-		ackTestSendOk.idOpU8 = pack.ReadUint8()
+	IdOpU8Flag := pack.ReadUint8()
+	if IdOpU8Flag == 1 {
+		ackTestSendOk.IdOpU8 = pack.ReadUint8()
 	}
-	ackTestSendOk.opRoleBaseFlag = pack.ReadUint8()
-	if ackTestSendOk.opRoleBaseFlag == 1 {
-		ackTestSendOk.opRoleBase = MsgRoleBaseDecode(pack)
+	OpRoleBaseFlag := pack.ReadUint8()
+	if OpRoleBaseFlag == 1 {
+		ackTestSendOk.OpRoleBase = MsgRoleBaseDecode(pack)
 	}
 	return ackTestSendOk
-}
-
-func (this *AckTestSendOk) GetIdU8() uint8 {
-	return this.idU8
-}
-
-func (this *AckTestSendOk) GetRoleBase() *MsgRoleBase {
-	return this.roleBase
-}
-
-func (this *AckTestSendOk) GetIdF32() []float32 {
-	return this.idF32
-}
-
-func (this *AckTestSendOk) GetIdOpU8() uint8 {
-	return this.idOpU8
-}
-
-func (this *AckTestSendOk) GetOpRoleBase() *MsgRoleBase {
-	return this.opRoleBase
 }

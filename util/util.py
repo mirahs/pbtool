@@ -6,11 +6,6 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
-# 协议名常量 AccountLogin -> P_ACCOUNT_LOGIN
-def proto_name_msg(mess_name):
-    return 'P_' + camel_to_underline(mess_name).upper()
-
-
 # 驼峰转下划线
 def camel_to_underline(camel_format):
     underline_format = ''
@@ -18,7 +13,8 @@ def camel_to_underline(camel_format):
         for _s_ in camel_format:
             underline_format += _s_ if _s_.islower() else '_' + _s_.lower()
     if underline_format.startswith('_'):
-        return underline_format[1:]
+        underline_format = underline_format[1:]
+
     return underline_format
 
 

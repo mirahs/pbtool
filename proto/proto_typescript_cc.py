@@ -3,7 +3,7 @@
 from sys import path
 path.append(r'../')
 
-from utils import tool
+from util import util
 
 import conf
 
@@ -53,7 +53,7 @@ def protocol_const(code_path, mess_name_ids):
         if mess_name.startswith('S'):
             mess_id = mess_name_id['mess_id']
             mess_note = mess_name_id['mess_note']
-            _str_msg += '\t/**' + mess_note + '*/\n\t' + (tool.javascript_proto_name_msg(mess_name)).ljust(30, chr(32)) + '= ' + str(mess_id) + ',\n'
+            _str_msg += '\t/**' + mess_note + '*/\n\t' + (util.javascript_proto_name_msg(mess_name)).ljust(30, chr(32)) + '= ' + str(mess_id) + ',\n'
 
     _str_msg = _str_msg_head + _str_msg[:-1] + _str_msg_end
     with open(file_name, 'w+') as fd:
@@ -81,8 +81,8 @@ class ProtoTypeScript(object):
         self._set_get_buffer()
 
     def _set_class_name(self):
-        self._str_msg_name 	= tool.python_proto_name_msg(self._mess_name)
-        self._str_class_name= tool.python_class_name(self._mess_name)
+        self._str_msg_name 	= util.python_proto_name_msg(self._mess_name)
+        self._str_class_name= util.python_class_name(self._mess_name)
 
     def _set_packet_id(self):
         self._packet_id = self._proto['mess_id']

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding:utf-8
-from utils import tool
+from util import util, util_proto
 
 lan_types = {
     'u8': 'uint8',
@@ -60,7 +60,7 @@ def protocol_const(code_path, mess_name_ids):
         mess_id = mess_name_id['mess_id']
         mess_note = mess_name_id['mess_note']
 
-        _str_msg += '\t// ' + mess_note + '\n\t' + tool.proto_name_msg(mess_name).ljust(30, chr(32)) + ' uint16 = ' + str(mess_id) + '\n'
+        _str_msg += '\t// ' + mess_note + '\n\t' + util_proto.proto_name_msg(mess_name).ljust(30, chr(32)) + ' uint16 = ' + str(mess_id) + '\n'
 
     _str_msg = _str_msg_head + _str_msg[:-1] + _str_msg_end
     with open(file_name, 'w+') as fd:
@@ -105,7 +105,7 @@ class ProtoGolang(object):
             field_op = mess_field['field_op']
             field_type = mess_field['field_type']
             field_name = mess_field['field_name']
-            field_name_var = tool.underline_to_camel(field_name)
+            field_name_var = util.underline_to_camel(field_name)
             field_name_mem = field_name_var
             if 'required' == field_op:
                 if field_type.startswith('Msg'):
@@ -134,7 +134,7 @@ class ProtoGolang(object):
             field_op = mess_field['field_op']
             field_type = mess_field['field_type']
             field_type_func = field_type[:1].upper() + field_type[1:]
-            field_name_var = tool.underline_to_camel(mess_field['field_name'])
+            field_name_var = util.underline_to_camel(mess_field['field_name'])
             field_name_mem = field_name_var
             field_name_count = field_name_mem + 'Count'
             if 'required' == field_op:
@@ -164,7 +164,7 @@ class ProtoGolang(object):
         if self._mess_name.startswith('Msg'):
             self._str_encode += '\n\treturn pack.ReadBytes()\n}\n'
         else:
-            self._str_encode += '\n\treturn pack.Encode(' + tool.proto_name_msg(self._mess_name) + ')\n}\n'
+            self._str_encode += '\n\treturn pack.Encode(' + util_proto.proto_name_msg(self._mess_name) + ')\n}\n'
 
     def _set_proto_decode(self):
         self._str_decode = 'func ' + self._str_class_name + 'Decode(pack *packet.Packet) *' + self._str_class_name + ' {\n'
@@ -173,7 +173,7 @@ class ProtoGolang(object):
             field_op = mess_field['field_op']
             field_type = mess_field['field_type']
             field_type_func = field_type[:1].upper() + field_type[1:]
-            field_name_var = tool.underline_to_camel(mess_field['field_name'])
+            field_name_var = util.underline_to_camel(mess_field['field_name'])
             field_name_mem = field_name_var[:1].upper() + field_name_var[1:]
             field_name_flag = field_name_mem + 'Flag'
             field_name_count = field_name_mem + 'Count'
@@ -201,7 +201,7 @@ class ProtoGolang(object):
         self._str_decode += '\treturn ' + self._str_class_name_var + '\n}\n'
 
     def do_parse(self):
-        file_name = self._code_path + tool.camel_to_underline(self._mess_name) + '.go'
+        file_name = self._code_path + util.camel_to_underline(self._mess_name) + '.go'
 
         str_content = self._str_head + '\n' + self._str_type_struct + '\n' + self._str_encode + '\n' + self._str_decode + '\n'
 

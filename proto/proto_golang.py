@@ -2,6 +2,8 @@
 # coding:utf-8
 from util import util, util_proto
 
+
+# 类型映射
 lan_types = {
     'u8': 'uint8',
     'i8': 'int8',
@@ -17,17 +19,39 @@ lan_types = {
 }
 
 
+# 解析入口
 def parse(code_path, common_path, protos, _tmp_protos_file):
     name_ids = list()
     for proto in protos:
         name_id = dict()
         name_id['mess_name'] = proto['mess_name']
-        name_id['mess_id'] = proto['mess_id']
+        name_id['mess_id']  = proto['mess_id']
         name_id['mess_note'] = proto['mess_note']
         name_ids.append(name_id)
-        ProtoGolang(code_path, proto).do_parse()
+
+        ProtoGolang(code_path, proto).parse()
 
     protocol_const(code_path, name_ids)
+
+
+# 协议常量
+def protocol_const(code_path, mess_name_ids):
+    file_name = code_path + 'msg.go'
+
+    _str_msg_head = 'package proto\n\nconst (\n'
+    _str_msg_end = ')\n'
+    _str_msg = ''
+
+    for mess_name_id in mess_name_ids:
+        mess_name = mess_name_id['mess_name']
+        mess_id = mess_name_id['mess_id']
+        mess_note = mess_name_id['mess_note']
+
+        _str_msg += '\t// ' + mess_note + '\n\t' + util_proto.proto_name_msg(mess_name).ljust(30, chr(32)) + ' uint16 = ' + str(mess_id) + '\n'
+
+    _str_msg = _str_msg_head + _str_msg + _str_msg_end
+    with open(file_name, 'w+') as fd:
+        fd.write(_str_msg)
 
 
 # 类型转换
@@ -49,31 +73,15 @@ def trans_mess_type(mess_body):
     return mess_body
 
 
-def protocol_const(code_path, mess_name_ids):
-    file_name = code_path + 'protocol_code.go'
-
-    _str_msg_head = 'package proto\n\nconst (\n'
-    _str_msg_end = '\n)\n'
-    _str_msg = ''
-    for mess_name_id in mess_name_ids:
-        mess_name = mess_name_id['mess_name']
-        mess_id = mess_name_id['mess_id']
-        mess_note = mess_name_id['mess_note']
-
-        _str_msg += '\t// ' + mess_note + '\n\t' + util_proto.proto_name_msg(mess_name).ljust(30, chr(32)) + ' uint16 = ' + str(mess_id) + '\n'
-
-    _str_msg = _str_msg_head + _str_msg[:-1] + _str_msg_end
-    with open(file_name, 'w+') as fd:
-        fd.write(_str_msg)
-
-
+# 可选类型判断语句
 def get_check_option(field_name, field_type):
-    if field_type.startswith('Msg'):
+    if not lan_types.get(field_type):
         return field_name + ' != nil'
-    elif field_type == 'string':
-        return field_name + ' != ""'
     else:
-        return field_name + ' != 0'
+        if field_type == 'string':
+            return field_name + ' != ""'
+        else:
+            return field_name + ' != 0'
 
 
 class ProtoGolang(object):
@@ -200,7 +208,7 @@ class ProtoGolang(object):
                 self._str_decode += '\t}\n'
         self._str_decode += '\treturn ' + self._str_class_name_var + '\n}\n'
 
-    def do_parse(self):
+    def parse(self):
         file_name = self._code_path + util.camel_to_underline(self._mess_name) + '.go'
 
         str_content = self._str_head + '\n' + self._str_type_struct + '\n' + self._str_encode + '\n' + self._str_decode + '\n'

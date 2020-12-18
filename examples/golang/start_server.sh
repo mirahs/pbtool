@@ -1,7 +1,6 @@
 #!/bin/bash
-export GOPATH=$(dirname $(readlink -f ${0}))
-
-
-\cp ${GOPATH}/../../data/data.code.golang.server/* ./src/server/proto
-go install server
-./bin/server
+rm -f ./server/server
+\cp ./../../data/data.code.golang.server/* ./server/proto
+cd server
+go build server
+./server

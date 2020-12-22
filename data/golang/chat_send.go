@@ -17,7 +17,7 @@ func (this *ChatSend) Encode() []byte {
 	pack.WriteUint32(this.DestUid)
 	pack.WriteString(this.Content)
 
-	return pack.Encode(P_CHAT_SEND)
+	return pack.Encode(uint16(1510))
 }
 
 func ChatSendDecode(pack *packet.Packet) *ChatSend {

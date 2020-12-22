@@ -55,22 +55,16 @@ def protocol_const(code_path, mess_name_ids):
 
 
 # 类型转换
-def trans_mess_type(mess_body):
-    for idx in xrange(len(mess_body['mess_fields'])):
-        mess_field = mess_body['mess_fields'][idx]
-        if mess_field['field_op'] == 'required':
-            if mess_field['field_type'] in lan_types:
-                mess_field['field_type'] = lan_types[mess_field['field_type']]
-        if mess_field['field_op'] == 'optional':
-            if mess_field['field_type'] in lan_types:
-                mess_field['field_type'] = lan_types[mess_field['field_type']]
-        if mess_field['field_op'] == 'repeated':
-            if mess_field['field_type'] in lan_types:
-                mess_field['field_type'] = lan_types[mess_field['field_type']]
+def trans_mess_type(proto):
+    for idx in xrange(len(proto['mess_fields'])):
+        mess_field = proto['mess_fields'][idx]
 
-        mess_body['mess_fields'][idx] = mess_field
+        if mess_field['field_type'] in lan_types:
+            mess_field['field_type'] = lan_types[mess_field['field_type']]
 
-    return mess_body
+        proto['mess_fields'][idx] = mess_field
+
+    return proto
 
 
 # 可选类型判断语句
@@ -86,57 +80,60 @@ def get_check_option(field_name, field_type):
 
 class ProtoGolang(object):
     def __init__(self, code_path, proto):
-        proto_tmp = trans_mess_type(proto)
-
-        self._proto = proto_tmp
-
         self._code_path = code_path
+        self._proto = trans_mess_type(proto)
+
         self._mess_name = self._proto['mess_name']
 
         self._set_class_name()
         self._set_packet_id()
-        self._set_type_struct()
+
         self._set_proto_head()
+        self._set_type_struct()
         self._set_proto_encode()
         self._set_proto_decode()
 
+    def parse(self):
+        file_name = self._code_path + util.camel_to_underline(self._mess_name) + '.go'
+        str_content = self._str_head + '\n' + self._str_type_struct + '\n' + self._str_encode + '\n' + self._str_decode
+
+        with open(file_name, 'w+') as fd:
+            fd.write(str_content)
+
     def _set_class_name(self):
-        self._str_class_name = self._mess_name
-        self._str_class_name_var = self._str_class_name[:1].lower() + self._str_class_name[1:]
+        self._class_name = self._mess_name
+        self._class_name_var = self._class_name[:1].lower() + self._class_name[1:]
 
     def _set_packet_id(self):
         self._packet_id = self._proto['mess_id']
 
+    def _set_proto_head(self):
+        self._str_head = 'package proto\n\nimport (\n\t"packet"\n)\n'
+
     def _set_type_struct(self):
-        self._str_type_struct = 'type ' + self._str_class_name + ' struct {\n'
+        self._str_type_struct = 'type ' + self._class_name + ' struct {\n'
         for mess_field in self._proto['mess_fields']:
             field_op = mess_field['field_op']
             field_type = mess_field['field_type']
             field_name = mess_field['field_name']
+
             field_name_var = util.underline_to_camel(field_name)
-            field_name_mem = field_name_var
-            if 'required' == field_op:
+            field_name_var_ljust = field_name_var.ljust(25, chr(32))
+
+            if 'repeated' == field_op:
                 if field_type.startswith('Msg'):
-                    self._str_type_struct += '\t' + field_name_mem.ljust(25, chr(32)) + '*' + field_type + '\n'
+                    self._str_type_struct += '\t' + field_name_var_ljust + '[]*' + field_type + '\n'
                 else:
-                    self._str_type_struct += '\t' + field_name_mem.ljust(25, chr(32)) + field_type + '\n'
-            elif 'repeated' == field_op:
+                    self._str_type_struct += '\t' + field_name_var_ljust + '[]' + field_type + '\n'
+            else:
                 if field_type.startswith('Msg'):
-                    self._str_type_struct += '\t' + field_name_mem.ljust(25, chr(32)) + '[]*' + field_type + '\n'
+                    self._str_type_struct += '\t' + field_name_var_ljust + '*' + field_type + '\n'
                 else:
-                    self._str_type_struct += '\t' + field_name_mem.ljust(25, chr(32)) + '[]' + field_type + '\n'
-            elif 'optional' == field_op:
-                if field_type.startswith('Msg'):
-                    self._str_type_struct += '\t' + field_name_mem.ljust(25, chr(32)) + '*' + field_type + '\n'
-                else:
-                    self._str_type_struct += '\t' + field_name_mem.ljust(25, chr(32)) + field_type + '\n'
+                    self._str_type_struct += '\t' + field_name_var_ljust + field_type + '\n'
         self._str_type_struct += '}\n'
 
-    def _set_proto_head(self):
-        self._str_head = 'package proto\n\nimport (\n\t"packet"\n)\n'
-
     def _set_proto_encode(self):
-        self._str_encode = 'func (this *' + self._str_class_name + ') Encode() []byte {\n'
+        self._str_encode = 'func (this *' + self._class_name + ') Encode() []byte {\n'
         self._str_encode += '\t' + 'pack := packet.NewWriteBuff(64)\n\n'
         for mess_field in self._proto['mess_fields']:
             field_op = mess_field['field_op']
@@ -172,11 +169,11 @@ class ProtoGolang(object):
         if self._mess_name.startswith('Msg'):
             self._str_encode += '\n\treturn pack.ReadBytes()\n}\n'
         else:
-            self._str_encode += '\n\treturn pack.Encode(' + util_proto.proto_name_msg(self._mess_name) + ')\n}\n'
+            self._str_encode += '\n\treturn pack.Encode(uint16(' + self._packet_id + '))\n}\n'
 
     def _set_proto_decode(self):
-        self._str_decode = 'func ' + self._str_class_name + 'Decode(pack *packet.Packet) *' + self._str_class_name + ' {\n'
-        self._str_decode += '\t' + self._str_class_name_var + ' := &' + self._str_class_name + '{}\n\n'
+        self._str_decode = 'func ' + self._class_name + 'Decode(pack *packet.Packet) *' + self._class_name + ' {\n'
+        self._str_decode += '\t' + self._class_name_var + ' := &' + self._class_name + '{}\n\n'
         for mess_field in self._proto['mess_fields']:
             field_op = mess_field['field_op']
             field_type = mess_field['field_type']
@@ -187,31 +184,23 @@ class ProtoGolang(object):
             field_name_count = field_name_mem + 'Count'
             if 'required' == field_op:
                 if field_type.startswith('Msg'):
-                    self._str_decode += '\t' + self._str_class_name_var + '.' + field_name_mem + ' = ' + field_type + 'Decode(pack)\n'
+                    self._str_decode += '\t' + self._class_name_var + '.' + field_name_mem + ' = ' + field_type + 'Decode(pack)\n'
                 else:
-                    self._str_decode += '\t' + self._str_class_name_var + '.' + field_name_mem + ' = pack.Read' + field_type_func + '()\n'
+                    self._str_decode += '\t' + self._class_name_var + '.' + field_name_mem + ' = pack.Read' + field_type_func + '()\n'
             elif 'repeated' == field_op:
                 self._str_decode += '\t' + field_name_count + ' := pack.ReadUint16()\n'
                 self._str_decode += '\tfor ;' + field_name_count + ' > 0; ' + field_name_count + '-- {\n'
                 if field_type.startswith('Msg'):
-                    self._str_decode += '\t\t' + self._str_class_name_var + '.' + field_name_mem + ' = append(' + self._str_class_name_var + '.' + field_name_mem + ', ' + field_type + 'Decode(pack))\n'
+                    self._str_decode += '\t\t' + self._class_name_var + '.' + field_name_mem + ' = append(' + self._class_name_var + '.' + field_name_mem + ', ' + field_type + 'Decode(pack))\n'
                 else:
-                    self._str_decode += '\t\t' + self._str_class_name_var + '.' + field_name_mem + ' = append(' + self._str_class_name_var + '.' + field_name_mem + ', ' + 'pack.Read' + field_type_func + '())\n'
+                    self._str_decode += '\t\t' + self._class_name_var + '.' + field_name_mem + ' = append(' + self._class_name_var + '.' + field_name_mem + ', ' + 'pack.Read' + field_type_func + '())\n'
                 self._str_decode += '\t}\n'
             elif 'optional' == field_op:
                 self._str_decode += '\t' + field_name_flag + ' := pack.ReadUint8()\n'
                 self._str_decode += '\tif ' + field_name_flag + ' == 1 {\n'
                 if field_type.startswith('Msg'):
-                    self._str_decode += '\t\t' + self._str_class_name_var + '.' + field_name_mem + ' = ' + field_type + 'Decode(pack)\n'
+                    self._str_decode += '\t\t' + self._class_name_var + '.' + field_name_mem + ' = ' + field_type + 'Decode(pack)\n'
                 else:
-                    self._str_decode += '\t\t' + self._str_class_name_var + '.' + field_name_mem + ' = pack.Read' + field_type_func + '()\n'
+                    self._str_decode += '\t\t' + self._class_name_var + '.' + field_name_mem + ' = pack.Read' + field_type_func + '()\n'
                 self._str_decode += '\t}\n'
-        self._str_decode += '\treturn ' + self._str_class_name_var + '\n}\n'
-
-    def parse(self):
-        file_name = self._code_path + util.camel_to_underline(self._mess_name) + '.go'
-
-        str_content = self._str_head + '\n' + self._str_type_struct + '\n' + self._str_encode + '\n' + self._str_decode + '\n'
-
-        with open(file_name, 'w+') as fd:
-            fd.write(str_content[:-1])
+        self._str_decode += '\treturn ' + self._class_name_var + '\n}\n'

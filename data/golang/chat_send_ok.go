@@ -19,7 +19,7 @@ func (this *ChatSendOk) Encode() []byte {
 	pack.WriteString(this.Uname)
 	pack.WriteString(this.Content)
 
-	return pack.Encode(P_CHAT_SEND_OK)
+	return pack.Encode(uint16(1520))
 }
 
 func ChatSendOkDecode(pack *packet.Packet) *ChatSendOk {

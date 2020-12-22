@@ -13,7 +13,7 @@ func (this *ChatGm) Encode() []byte {
 
 	pack.WriteString(this.Content)
 
-	return pack.Encode(P_CHAT_GM)
+	return pack.Encode(uint16(1530))
 }
 
 func ChatGmDecode(pack *packet.Packet) *ChatGm {

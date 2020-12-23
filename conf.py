@@ -9,7 +9,11 @@ data_dir    = os.path.join(os.path.dirname(__file__), './data/')
 data_proto  = data_dir + 'proto/'
 
 
-# typescript cocos creator相关配置
+# golang
+golang_package_name = 'proto'           # 协议文件包名
+golang_import_packages = ['packet']     # 导入包
+
+# typescript cocos creator
 ts_cc_extra_packages = 'import Packet from "@mi/mod/Packet"'    # 额外引入的包
 
 

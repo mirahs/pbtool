@@ -20,6 +20,16 @@ func (this *ChatSend) Encode() []byte {
 	return pack.Encode(uint16(1510))
 }
 
+func (this *ChatSend) EncodeMsg() []byte {
+	pack := packet.NewWriteBuff(64)
+
+	pack.WriteUint8(this.Channel)
+	pack.WriteUint32(this.DestUid)
+	pack.WriteString(this.Content)
+
+	return pack.ReadBytes()
+}
+
 func ChatSendDecode(pack *packet.Packet) *ChatSend {
 	chatSend := &ChatSend{}
 

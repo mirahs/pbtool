@@ -67,19 +67,10 @@ def trans_mess_type(proto):
     return proto
 
 
-# 可选类型判断语句
-def get_check_option(field_name, field_type):
-    if not lan_types.get(field_type):
-        return field_name + ' != nil'
-    else:
-        if field_type == 'string':
-            return field_name + ' != ""'
-        else:
-            return field_name + ' != 0'
-
-
 class ProtoGolang(object):
     def __init__(self, code_path, proto):
+        self._reverse_lan_types = dict()
+
         self._code_path = code_path
         self._proto = trans_mess_type(proto)
 
@@ -88,7 +79,7 @@ class ProtoGolang(object):
         self._set_class_name()
         self._set_packet_id()
 
-        self._set_proto_head()
+        self._set_head()
         self._set_type_struct()
         self._set_proto_encode()
         self._set_proto_decode()
@@ -107,7 +98,7 @@ class ProtoGolang(object):
     def _set_packet_id(self):
         self._packet_id = self._proto['mess_id']
 
-    def _set_proto_head(self):
+    def _set_head(self):
         self._str_head = 'package proto\n\nimport (\n\t"packet"\n)\n'
 
     def _set_type_struct(self):
@@ -133,43 +124,15 @@ class ProtoGolang(object):
         self._str_type_struct += '}\n'
 
     def _set_proto_encode(self):
-        self._str_encode = 'func (this *' + self._class_name + ') Encode() []byte {\n'
-        self._str_encode += '\t' + 'pack := packet.NewWriteBuff(64)\n\n'
-        for mess_field in self._proto['mess_fields']:
-            field_op = mess_field['field_op']
-            field_type = mess_field['field_type']
-            field_type_func = field_type[:1].upper() + field_type[1:]
-            field_name_var = util.underline_to_camel(mess_field['field_name'])
-            field_name_mem = field_name_var
-            field_name_count = field_name_mem + 'Count'
-            if 'required' == field_op:
-                if field_type.startswith('Msg'):
-                    self._str_encode += '\t' + 'pack.WriteBytes(this.' + field_name_mem + '.Encode())\n'
-                else:
-                    self._str_encode += '\t' + 'pack.Write' + field_type_func + '(this.' + field_name_mem + ')\n'
-            elif 'repeated' == field_op:
-                self._str_encode += '\t' + field_name_count + ' := uint16(len(this.' + field_name_mem + '))\n'
-                self._str_encode += '\t' + 'pack.WriteUint16(' + field_name_count + ')\n'
-                self._str_encode += '\tfor i := uint16(0); i < ' + field_name_count + '; i++ {\n'
-                if field_type.startswith('Msg'):
-                    self._str_encode += '\t\t' + 'pack.WriteBytes(this.' + field_name_mem + '[i].Encode())\n'
-                else:
-                    self._str_encode += '\t\t' + 'pack.Write' + field_type_func + '(this.' + field_name_mem + '[i])\n'
-                self._str_encode += '\t}\n'
-            elif 'optional' == field_op:
-                self._str_encode += '\tif this.' + get_check_option(field_name_var, field_type) + ' {\n'
-                self._str_encode += '\t\t' + 'pack.WriteUint8(1)\n'
-                if field_type.startswith('Msg'):
-                    self._str_encode += '\t\t' + 'pack.WriteBytes(this.' + field_name_mem + '.Encode())\n'
-                else:
-                    self._str_encode += '\t\t' + 'pack.Write' + field_type_func + '(this.' + field_name_mem + ')\n'
-                self._str_encode += '\t} else {\n\t\t' + 'pack.WriteUint8(0)\n'
-                self._str_encode += '\t}\n'
+        _str_encode_common = self._get_proto_encode_common()
 
-        if self._mess_name.startswith('Msg'):
-            self._str_encode += '\n\treturn pack.ReadBytes()\n}\n'
-        else:
-            self._str_encode += '\n\treturn pack.Encode(uint16(' + self._packet_id + '))\n}\n'
+        self._str_encode = 'func (this *' + self._class_name + ') Encode() []byte {\n'
+        self._str_encode += _str_encode_common
+        self._str_encode += '\n\treturn pack.Encode(uint16(' + self._packet_id + '))\n}\n'
+
+        self._str_encode += '\nfunc (this *' + self._class_name + ') EncodeMsg() []byte {\n'
+        self._str_encode += _str_encode_common
+        self._str_encode += '\n\treturn pack.ReadBytes()\n}\n'
 
     def _set_proto_decode(self):
         self._str_decode = 'func ' + self._class_name + 'Decode(pack *packet.Packet) *' + self._class_name + ' {\n'
@@ -204,3 +167,54 @@ class ProtoGolang(object):
                     self._str_decode += '\t\t' + self._class_name_var + '.' + field_name_mem + ' = pack.Read' + field_type_func + '()\n'
                 self._str_decode += '\t}\n'
         self._str_decode += '\treturn ' + self._class_name_var + '\n}\n'
+
+    def _get_proto_encode_common(self):
+        _str_encode_common = '\t' + 'pack := packet.NewWriteBuff(64)\n\n'
+
+        for mess_field in self._proto['mess_fields']:
+            field_op = mess_field['field_op']
+            field_type = mess_field['field_type']
+            field_type_func = field_type[:1].upper() + field_type[1:]
+            field_name_var = util.underline_to_camel(mess_field['field_name'])
+            field_name_mem = field_name_var
+            field_name_count = field_name_mem + 'Count'
+
+            if 'required' == field_op:
+                if field_type.startswith('Msg'):
+                    _str_encode_common += '\t' + 'pack.WriteBytes(this.' + field_name_mem + '.EncodeMsg())\n'
+                else:
+                    _str_encode_common += '\t' + 'pack.Write' + field_type_func + '(this.' + field_name_mem + ')\n'
+            elif 'repeated' == field_op:
+                _str_encode_common += '\t' + field_name_count + ' := uint16(len(this.' + field_name_mem + '))\n'
+                _str_encode_common += '\t' + 'pack.WriteUint16(' + field_name_count + ')\n'
+                _str_encode_common += '\tfor i := uint16(0); i < ' + field_name_count + '; i++ {\n'
+                if field_type.startswith('Msg'):
+                    _str_encode_common += '\t\t' + 'pack.WriteBytes(this.' + field_name_mem + '[i].EncodeMsg())\n'
+                else:
+                    _str_encode_common += '\t\t' + 'pack.Write' + field_type_func + '(this.' + field_name_mem + '[i])\n'
+                _str_encode_common += '\t}\n'
+            elif 'optional' == field_op:
+                _str_encode_common += '\tif this.' + self._get_check_option(field_name_var, field_type) + ' {\n'
+                _str_encode_common += '\t\t' + 'pack.WriteUint8(1)\n'
+                if field_type.startswith('Msg'):
+                    _str_encode_common += '\t\t' + 'pack.WriteBytes(this.' + field_name_mem + '.EncodeMsg())\n'
+                else:
+                    _str_encode_common += '\t\t' + 'pack.Write' + field_type_func + '(this.' + field_name_mem + ')\n'
+                _str_encode_common += '\t} else {\n\t\t' + 'pack.WriteUint8(0)\n'
+                _str_encode_common += '\t}\n'
+
+        return _str_encode_common
+
+    # 可选类型判断语句
+    def _get_check_option(self, field_name, field_type):
+        if len(self._reverse_lan_types) <= 0:
+            for key, value in lan_types.items():
+                self._reverse_lan_types[value] = key
+
+        if not self._reverse_lan_types.get(field_type):
+            return field_name + ' != nil'
+        else:
+            if field_type == 'string':
+                return field_name + ' != ""'
+            else:
+                return field_name + ' != 0'

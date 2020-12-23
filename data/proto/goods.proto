@@ -1,0 +1,12 @@
+//聊天: 3001 - 3999
+
+message GoodsItem(3010) //物品数据
+{
+	required	u32			id				//物品ID
+	required	u16			num				//物品数量
+}
+
+message GoodsList(3020) //物品列表
+{
+	repeated	GoodsItem	goods			//物品列表
+}

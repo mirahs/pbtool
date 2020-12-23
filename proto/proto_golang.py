@@ -112,12 +112,12 @@ class ProtoGolang(object):
             field_name_var_ljust = field_name_var.ljust(25, chr(32))
 
             if 'repeated' == field_op:
-                if field_type.startswith('Msg'):
+                if self._isCustomType(field_type):
                     self._str_type_struct += '\t' + field_name_var_ljust + '[]*' + field_type + '\n'
                 else:
                     self._str_type_struct += '\t' + field_name_var_ljust + '[]' + field_type + '\n'
             else:
-                if field_type.startswith('Msg'):
+                if self._isCustomType(field_type):
                     self._str_type_struct += '\t' + field_name_var_ljust + '*' + field_type + '\n'
                 else:
                     self._str_type_struct += '\t' + field_name_var_ljust + field_type + '\n'
@@ -146,14 +146,14 @@ class ProtoGolang(object):
             field_name_flag = field_name_mem + 'Flag'
             field_name_count = field_name_mem + 'Count'
             if 'required' == field_op:
-                if field_type.startswith('Msg'):
+                if self._isCustomType(field_type):
                     self._str_decode += '\t' + self._class_name_var + '.' + field_name_mem + ' = ' + field_type + 'Decode(pack)\n'
                 else:
                     self._str_decode += '\t' + self._class_name_var + '.' + field_name_mem + ' = pack.Read' + field_type_func + '()\n'
             elif 'repeated' == field_op:
                 self._str_decode += '\t' + field_name_count + ' := pack.ReadUint16()\n'
                 self._str_decode += '\tfor ;' + field_name_count + ' > 0; ' + field_name_count + '-- {\n'
-                if field_type.startswith('Msg'):
+                if self._isCustomType(field_type):
                     self._str_decode += '\t\t' + self._class_name_var + '.' + field_name_mem + ' = append(' + self._class_name_var + '.' + field_name_mem + ', ' + field_type + 'Decode(pack))\n'
                 else:
                     self._str_decode += '\t\t' + self._class_name_var + '.' + field_name_mem + ' = append(' + self._class_name_var + '.' + field_name_mem + ', ' + 'pack.Read' + field_type_func + '())\n'
@@ -161,7 +161,7 @@ class ProtoGolang(object):
             elif 'optional' == field_op:
                 self._str_decode += '\t' + field_name_flag + ' := pack.ReadUint8()\n'
                 self._str_decode += '\tif ' + field_name_flag + ' == 1 {\n'
-                if field_type.startswith('Msg'):
+                if self._isCustomType(field_type):
                     self._str_decode += '\t\t' + self._class_name_var + '.' + field_name_mem + ' = ' + field_type + 'Decode(pack)\n'
                 else:
                     self._str_decode += '\t\t' + self._class_name_var + '.' + field_name_mem + ' = pack.Read' + field_type_func + '()\n'
@@ -180,7 +180,7 @@ class ProtoGolang(object):
             field_name_count = field_name_mem + 'Count'
 
             if 'required' == field_op:
-                if field_type.startswith('Msg'):
+                if self._isCustomType(field_type):
                     _str_encode_common += '\t' + 'pack.WriteBytes(this.' + field_name_mem + '.EncodeMsg())\n'
                 else:
                     _str_encode_common += '\t' + 'pack.Write' + field_type_func + '(this.' + field_name_mem + ')\n'
@@ -188,7 +188,7 @@ class ProtoGolang(object):
                 _str_encode_common += '\t' + field_name_count + ' := uint16(len(this.' + field_name_mem + '))\n'
                 _str_encode_common += '\t' + 'pack.WriteUint16(' + field_name_count + ')\n'
                 _str_encode_common += '\tfor i := uint16(0); i < ' + field_name_count + '; i++ {\n'
-                if field_type.startswith('Msg'):
+                if self._isCustomType(field_type):
                     _str_encode_common += '\t\t' + 'pack.WriteBytes(this.' + field_name_mem + '[i].EncodeMsg())\n'
                 else:
                     _str_encode_common += '\t\t' + 'pack.Write' + field_type_func + '(this.' + field_name_mem + '[i])\n'
@@ -196,7 +196,7 @@ class ProtoGolang(object):
             elif 'optional' == field_op:
                 _str_encode_common += '\tif this.' + self._get_check_option(field_name_var, field_type) + ' {\n'
                 _str_encode_common += '\t\t' + 'pack.WriteUint8(1)\n'
-                if field_type.startswith('Msg'):
+                if self._isCustomType(field_type):
                     _str_encode_common += '\t\t' + 'pack.WriteBytes(this.' + field_name_mem + '.EncodeMsg())\n'
                 else:
                     _str_encode_common += '\t\t' + 'pack.Write' + field_type_func + '(this.' + field_name_mem + ')\n'
@@ -207,10 +207,7 @@ class ProtoGolang(object):
 
     # 可选类型判断语句
     def _get_check_option(self, field_name, field_type):
-        if len(self._reverse_lan_types) <= 0:
-            for key, value in lan_types.items():
-                self._reverse_lan_types[value] = key
-
+        self._reverse_types()
         if not self._reverse_lan_types.get(field_type):
             return field_name + ' != nil'
         else:
@@ -218,3 +215,12 @@ class ProtoGolang(object):
                 return field_name + ' != ""'
             else:
                 return field_name + ' != 0'
+
+    def _isCustomType(self, field_type):
+        self._reverse_types()
+        return not self._reverse_lan_types.get(field_type)
+
+    def _reverse_types(self):
+        if len(self._reverse_lan_types) <= 0:
+            for key, value in lan_types.items():
+                self._reverse_lan_types[value] = key

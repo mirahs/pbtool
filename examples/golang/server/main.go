@@ -12,6 +12,8 @@ import (
 
 
 func main() {
+	simpleTest()
+
 	listener, err := net.Listen("tcp", ":8888")
 	checkError(err)
 	defer listener.Close()
@@ -24,6 +26,34 @@ func main() {
 		}
 		go handleClient(conn)
 	}
+}
+
+
+func simpleTest() {
+	chatSend := &proto.ChatSend{}
+	chatSend.Channel = 1
+	chatSend.Content = "Hello, World!"
+
+	buff := chatSend.EncodeMsg()
+	chatSend2 := proto.ChatSendDecode(packet.NewReadBuff(buff))
+	fmt.Println(chatSend2)
+
+	chatSend2.Channel = 3
+	chatSend2.DestUid = 10086
+
+	buff2 := chatSend2.EncodeMsg()
+	chatSend3 := proto.ChatSendDecode(packet.NewReadBuff(buff2))
+	fmt.Println(chatSend3)
+
+	roleLoginOk := proto.RoleLoginOk{}
+	roleLoginOk.Uname = "golang"
+	goodsItem := []*proto.GoodsItem{{Id: 11, Num: 110}, {Id: 22, Num: 220}}
+	roleLoginOk.GoodsItem = goodsItem
+
+	buff3 := roleLoginOk.EncodeMsg()
+	roleLoginOk2 := proto.RoleLoginOkDecode(packet.NewReadBuff(buff3))
+	fmt.Println(roleLoginOk2.Uname)
+	fmt.Println(roleLoginOk2.GoodsItem[0], roleLoginOk2.GoodsItem[1])
 }
 
 

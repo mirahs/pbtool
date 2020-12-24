@@ -14,14 +14,12 @@ golang_package_name = 'proto'           # 协议文件包名
 golang_import_packages = ['packet']     # 导入包
 
 # typescript cocos creator
-ts_cc_extra_packages = 'import Packet from "@mi/mod/Packet"'    # 额外引入的包
+typescript_cc_import_packages = 'import Packet from "@mi/mod/Packet"'    # 额外引入的包
 
 
 '''
 需要导出协议文件的语言选项
-现支持:
-    golang
-    typescript_cc
+现支持: golang
 
 配置格式:
     lang:       需要导出的语言

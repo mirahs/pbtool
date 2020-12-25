@@ -19,7 +19,7 @@ typescript_cc_import_packages = 'import Packet from "@mi/mod/Packet"'    # 额�
 
 '''
 需要导出协议文件的语言选项
-现支持: golang
+现支持: golang,typescript_cc
 
 配置格式:
     lang:       需要导出的语言
@@ -30,5 +30,9 @@ langs_proto = [
     {
         'lang':     'golang',
         'code':     'golang',
+    },
+    {
+        'lang':     'typescript_cc',
+        'code':     'typescript.cc',
     },
 ]

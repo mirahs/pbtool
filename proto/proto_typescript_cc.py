@@ -1,77 +1,81 @@
 #!/usr/bin/env python
 # coding:utf-8
-from sys import path
-path.append(r'../')
-
-from util import util
-
 import conf
+from util import util, util_proto
 
-
+# 类型映射
 lan_types = {
-    'u8':       ('byte', 'number'),
-    'i8':       ('sbyte', 'number'),
-    'u16':      ('ushort', 'number'),
-    'i16':      ('short', 'number'),
-    'u32':      ('uint', 'number'),
-    'i32':      ('int', 'number'),
-    'u64':      ('ulong', 'Long'),
-    'i64':      ('long', 'Long'),
-    'f32':      ('float', 'number'),
-    'f64':      ('double', 'number'),
-    'string':   ('string', 'string'),
+    'u8': ('byte', 'number'),
+    'i8': ('sbyte', 'number'),
+    'u16': ('ushort', 'number'),
+    'i16': ('short', 'number'),
+    'u32': ('uint', 'number'),
+    'i32': ('int', 'number'),
+    'u64': ('ulong', 'Long'),
+    'i64': ('long', 'Long'),
+    'f32': ('float', 'number'),
+    'f64': ('double', 'number'),
+    'string': ('string', 'string'),
 }
 
 
-# 类型转换
-def trans_mess_type(mess_body):
-    for idx in xrange(len(mess_body['mess_fields'])):
-        mess_field = mess_body['mess_fields'][idx]
-        if mess_field['field_op'] == 'required':
-            if mess_field['field_type'] in lan_types:
-                mess_field['field_type'] = lan_types[mess_field['field_type']]
-        if mess_field['field_op'] == 'optional':
-            if mess_field['field_type'] in lan_types:
-                mess_field['field_type'] = lan_types[mess_field['field_type']]
-        if mess_field['field_op'] == 'repeated':
-            if mess_field['field_type'] in lan_types:
-                mess_field['field_type'] = lan_types[mess_field['field_type']]
+# 解析入口
+def parse(code_path, common_path, protos, _tmp_protos_file):
+    name_ids = list()
+    for proto in protos:
+        name_id = dict()
+        name_id['mess_name'] = proto['mess_name']
+        name_id['mess_id']  = proto['mess_id']
+        name_id['mess_note'] = proto['mess_note']
+        name_ids.append(name_id)
 
-        mess_body['mess_fields'][idx] = mess_field
+        #ProtoTypeScript(code_path, proto).parse()
 
-    return mess_body
+    protocol_const(code_path, name_ids)
 
 
+# 协议常量
 def protocol_const(code_path, mess_name_ids):
     file_name = code_path + 'Msg.ts'
 
     _str_msg_head = 'export const enum Msg {\n'
-    _str_msg_end = '\n}\n'
+    _str_msg_end = '}\n'
     _str_msg = ''
+
     for mess_name_id in mess_name_ids:
         mess_name = mess_name_id['mess_name']
-        if mess_name.startswith('S'):
-            mess_id = mess_name_id['mess_id']
-            mess_note = mess_name_id['mess_note']
-            _str_msg += '\t/**' + mess_note + '*/\n\t' + (util.javascript_proto_name_msg(mess_name)).ljust(30, chr(32)) + '= ' + str(mess_id) + ',\n'
+        mess_id = mess_name_id['mess_id']
+        mess_note = mess_name_id['mess_note']
 
-    _str_msg = _str_msg_head + _str_msg[:-1] + _str_msg_end
+        _str_msg += '\t/**' + mess_note + '*/\n\t' + (util_proto.proto_name_msg2(mess_name)).ljust(30, chr(32)) + '= ' + str(mess_id) + ',\n'
+
+    _str_msg = _str_msg_head + _str_msg + _str_msg_end
     with open(file_name, 'w+') as fd:
         fd.write(_str_msg)
 
 
+# 类型转换
+def trans_mess_type(proto):
+    for idx in xrange(len(proto['mess_fields'])):
+        mess_field = proto['mess_fields'][idx]
+
+        if mess_field['field_type'] in lan_types:
+            mess_field['field_type'] = lan_types[mess_field['field_type']]
+
+        proto['mess_fields'][idx] = mess_field
+
+    return proto
+
+
 class ProtoTypeScript(object):
     def __init__(self, code_path, proto):
-        proto_tmp = trans_mess_type(proto)
+        self._proto = trans_mess_type(proto)
 
-        self._proto 			= proto_tmp
-
-        self._code_path			= code_path
-        self._mess_name 		= self._proto['mess_name']
+        self._code_path = code_path
+        self._mess_name = self._proto['mess_name']
 
         self._set_class_name()
         self._set_packet_id()
-        self._set_filename()
         self._set_head()
         self._set_end()
         self._set_priv_var()
@@ -80,15 +84,18 @@ class ProtoTypeScript(object):
         self._set_set_get()
         self._set_get_buffer()
 
+    def parse(self):
+        file_name = self._code_path + self._str_class_name + '.ts'
+        content = self._str_head + '\n\n' + self._str_priv_var + '\n\n' + self._str_encode + '\n\n' + self._str_get_buffer + '\n\n' + self._str_decode + '\n\n' + self._str_set_get[:-1] + self._str_end
+        with open(file_name, 'w+') as fd:
+            fd.write(content)
+
     def _set_class_name(self):
-        self._str_msg_name 	= util.python_proto_name_msg(self._mess_name)
-        self._str_class_name= util.python_class_name(self._mess_name)
+        self._str_msg_name = util.python_proto_name_msg(self._mess_name)
+        self._str_class_name = util.python_class_name(self._mess_name)
 
     def _set_packet_id(self):
         self._packet_id = self._proto['mess_id']
-
-    def _set_filename(self):
-        self._filename = self._code_path + self._str_class_name + '.ts'
 
     def _set_head(self):
         self._str_head = ''
@@ -112,15 +119,15 @@ class ProtoTypeScript(object):
     def _set_priv_var(self):
         self._str_priv_var = 'export default class ' + self._str_class_name + '\n{\n'
         for mess_field in self._proto['mess_fields']:
-            field_op 		= mess_field['field_op']
-            field_type 		= mess_field['field_type']
+            field_op = mess_field['field_op']
+            field_type = mess_field['field_type']
             if not isinstance(field_type, basestring):
                 field_type_fun = field_type[0].capitalize()
                 field_type = field_type[1]
             field_type_big = field_type.capitalize()
-            field_name 		= mess_field['field_name']
+            field_name = mess_field['field_name']
             field_name_flag = field_name + '_flag'
-            field_name_m	= '_' + field_name
+            field_name_m = '_' + field_name
             if field_op == 'repeated':
                 self._str_priv_var += '\tprivate ' + field_name_m + ': ' + field_type + '[] = [];\n'
             elif field_op == 'optional':
@@ -132,16 +139,16 @@ class ProtoTypeScript(object):
     def _set_encode(self):
         self._str_encode = '\tpublic Encode(): Packet {\n\t\tlet packet: Packet = new Packet();\n'
         for mess_field in self._proto['mess_fields']:
-            field_op 		= mess_field['field_op']
-            field_type 		= mess_field['field_type']
+            field_op = mess_field['field_op']
+            field_type = mess_field['field_type']
             if not isinstance(field_type, basestring):
                 field_type_fun = field_type[0].capitalize()
                 field_type = field_type[1]
             field_type_big = field_type.capitalize()
-            field_name 		= mess_field['field_name']
-            field_name_flag	= field_name + '_flag'
-            field_name_m 	= 'this._' + field_name
-            field_name_count= field_name + '_count'
+            field_name = mess_field['field_name']
+            field_name_flag = field_name + '_flag'
+            field_name_m = 'this._' + field_name
+            field_name_count = field_name + '_count'
             if field_op == 'repeated':
                 self._str_encode += '\t\tlet ' + field_name_count + ': number = ' + field_name_m + '.length;\n'
                 self._str_encode += '\t\tpacket.WriteUshort(' + field_name_count + ');\n'
@@ -171,16 +178,16 @@ class ProtoTypeScript(object):
         self._str_decode = '\tconstructor(packet?: Packet) {\n'
         self._str_decode += '\t\tif (packet) {\n'
         for mess_field in self._proto['mess_fields']:
-            field_op 		= mess_field['field_op']
-            field_type 		= mess_field['field_type']
+            field_op = mess_field['field_op']
+            field_type = mess_field['field_type']
             if not isinstance(field_type, basestring):
                 field_type_fun = field_type[0].capitalize()
                 field_type = field_type[1]
             field_type_big = field_type.capitalize()
-            field_name 		= mess_field['field_name']
-            field_name_m 	= 'this._' + field_name
+            field_name = mess_field['field_name']
+            field_name_m = 'this._' + field_name
             field_name_flag = field_name + '_flag'
-            field_name_count= field_name + '_count'
+            field_name_count = field_name + '_count'
             if field_op == 'repeated':
                 self._str_decode += '\t\t\t' + field_name_m + ' = [];\n'
                 self._str_decode += '\t\t\tlet ' + field_name_count + ': number = packet.ReadUshort();\n'
@@ -207,17 +214,17 @@ class ProtoTypeScript(object):
         self._str_decode += '\t}\n'
 
     def _set_set_get(self):
-        self._str_set_get	= ''
+        self._str_set_get = ''
         for mess_field in self._proto['mess_fields']:
-            field_op 		= mess_field['field_op']
-            field_type 		= mess_field['field_type']
+            field_op = mess_field['field_op']
+            field_type = mess_field['field_type']
             if not isinstance(field_type, basestring):
                 field_type_fun = field_type[0].capitalize()
                 field_type = field_type[1]
             field_type_big = field_type.capitalize()
-            field_name 		= mess_field['field_name']
+            field_name = mess_field['field_name']
             field_name_flag = field_name + '_flag'
-            field_name_m 	= 'this._' + field_name
+            field_name_m = 'this._' + field_name
             if field_op == 'repeated':
                 self._str_set_get += '\tpublic get ' + field_name + '(): ' + field_type + '[] {return ' + field_name_m + '; }\n'
                 self._str_set_get += '\tpublic set ' + field_name + '(value: ' + field_type + '[])' + ' { ' + field_name_m + ' = value; }\n'
@@ -230,38 +237,3 @@ class ProtoTypeScript(object):
 
     def _set_get_buffer(self):
         self._str_get_buffer = '\tpublic GetBuffer(): ByteBuffer\n\t{\n\t\treturn this.Encode().GetBuffer();\n\t}\n'
-
-    def _do_msg(self):
-        _tmp_conn = ''
-        content = self._str_head + '\n' + self._str_priv_var + '\n\n' + self._str_encode + '\n' + _tmp_conn + '\n' + self._str_decode + '\n' + self._str_get_buffer + '\n\n' + self._str_set_get[:-1] + self._str_end
-
-        with open(self._filename, 'w+') as fd:
-            fd.write(content)
-
-    def do_client(self):
-        if self._mess_name.startswith('C'):
-            content = self._str_head + '\n' + self._str_priv_var + '\n\n' + self._str_encode + '\n\n' + self._str_set_get[:-1] + self._str_end
-
-            with open(self._filename, 'w+') as fd:
-                fd.write(content)
-        elif self._mess_name.startswith('S'):
-            content = self._str_head + '\n' + self._str_priv_var + '\n\n' + self._str_decode + '\n\n' + self._str_set_get[:-1] + self._str_end
-
-            with open(self._filename, 'w+') as fd:
-                fd.write(content)
-        else:
-            self._do_msg()
-
-    def do_server(self):
-        if self._mess_name.startswith('C'):
-            content = self._str_head + '\n\n' + self._str_priv_var + '\n\n' + self._str_decode + '\n\n' + self._str_set_get[:-1] + self._str_end
-
-            with open(self._filename, 'w+') as fd:
-                fd.write(content)
-        elif self._mess_name.startswith('S'):
-            content = self._str_head + '\n\n' + self._str_priv_var + '\n\n' + self._str_encode + '\n\n' + self._str_set_get[:-1] + self._str_end
-
-            with open(self._filename, 'w+') as fd:
-                fd.write(content)
-        else:
-            self._do_msg()

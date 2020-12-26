@@ -29,7 +29,7 @@ def parse(code_path, common_path, protos, _tmp_protos_file):
         name_id['mess_note'] = proto['mess_note']
         name_ids.append(name_id)
 
-        #ProtoTypeScript(code_path, proto).parse()
+        ProtoTypeScript(code_path, proto).parse()
 
     protocol_const(code_path, name_ids)
 
@@ -69,20 +69,22 @@ def trans_mess_type(proto):
 
 class ProtoTypeScript(object):
     def __init__(self, code_path, proto):
+        self._code_path = code_path
         self._proto = trans_mess_type(proto)
 
-        self._code_path = code_path
         self._mess_name = self._proto['mess_name']
 
         self._set_class_name()
         self._set_packet_id()
+
         self._set_head()
         self._set_end()
+
         self._set_priv_var()
         self._set_encode()
+        self._set_get_buffer()
         self._set_decode()
         self._set_set_get()
-        self._set_get_buffer()
 
     def parse(self):
         file_name = self._code_path + self._str_class_name + '.ts'
@@ -91,16 +93,14 @@ class ProtoTypeScript(object):
             fd.write(content)
 
     def _set_class_name(self):
-        self._str_msg_name = util.python_proto_name_msg(self._mess_name)
-        self._str_class_name = util.python_class_name(self._mess_name)
+        self._str_class_name = self._mess_name
 
     def _set_packet_id(self):
         self._packet_id = self._proto['mess_id']
 
     def _set_head(self):
         self._str_head = ''
-        for package in conf.ts_cc_extra_packages.split(','):
-            self._str_head += package + '\n'
+        self._str_head += conf.typescript_cc_import_packages + '\n'
 
         msg_types = []
         for mess_field in self._proto['mess_fields']:

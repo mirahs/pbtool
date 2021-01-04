@@ -17,17 +17,22 @@ export default class ChatSendOk {
 	}
 
 	public Encode(): Packet {
-		let packet: Packet = new Packet();
-		packet.WriteByte(this._channel);
-		packet.WriteUint(this._uid);
-		packet.WriteString(this._uname);
-		packet.WriteString(this._content);
+		const packet = this._encode();
 		packet.Encode(2020);
 		return packet;
 	}
 
 	public GetBuffer(): ByteBuffer {
-		return this.Encode().GetBuffer();
+		return this._encode().GetBuffer();
+	}
+
+	private _encode(): Packet {
+		let packet: Packet = new Packet();
+		packet.WriteByte(this._channel);
+		packet.WriteUint(this._uid);
+		packet.WriteString(this._uname);
+		packet.WriteString(this._content);
+		return packet;
 	}
 
 	public get channel(): number { return this._channel; }

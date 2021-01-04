@@ -16,6 +16,16 @@ export default class GoodsList {
 	}
 
 	public Encode(): Packet {
+		const packet = this._encode();
+		packet.Encode(3020);
+		return packet;
+	}
+
+	public GetBuffer(): ByteBuffer {
+		return this._encode().GetBuffer();
+	}
+
+	private _encode(): Packet {
 		let packet: Packet = new Packet();
 		let goods_count: number = this._goods.length;
 		packet.WriteUshort(goods_count);
@@ -23,12 +33,7 @@ export default class GoodsList {
 			let xxx: GoodsItem = this._goods[i];
 			packet.WriteBuffer(xxx.GetBuffer());
 		}
-		packet.Encode(3020);
 		return packet;
-	}
-
-	public GetBuffer(): ByteBuffer {
-		return this.Encode().GetBuffer();
 	}
 
 	public get goods(): GoodsItem[] {return this._goods; }

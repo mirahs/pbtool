@@ -18,6 +18,16 @@ export default class RoleLoginOk {
 	}
 
 	public Encode(): Packet {
+		const packet = this._encode();
+		packet.Encode(1010);
+		return packet;
+	}
+
+	public GetBuffer(): ByteBuffer {
+		return this._encode().GetBuffer();
+	}
+
+	private _encode(): Packet {
 		let packet: Packet = new Packet();
 		packet.WriteString(this._uname);
 		let goods_item_count: number = this._goods_item.length;
@@ -26,12 +36,7 @@ export default class RoleLoginOk {
 			let xxx: GoodsItem = this._goods_item[i];
 			packet.WriteBuffer(xxx.GetBuffer());
 		}
-		packet.Encode(1010);
 		return packet;
-	}
-
-	public GetBuffer(): ByteBuffer {
-		return this.Encode().GetBuffer();
 	}
 
 	public get uname(): string { return this._uname; }

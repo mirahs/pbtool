@@ -11,14 +11,19 @@ export default class ChatGm {
 	}
 
 	public Encode(): Packet {
-		let packet: Packet = new Packet();
-		packet.WriteString(this._content);
+		const packet = this._encode();
 		packet.Encode(2030);
 		return packet;
 	}
 
 	public GetBuffer(): ByteBuffer {
-		return this.Encode().GetBuffer();
+		return this._encode().GetBuffer();
+	}
+
+	private _encode(): Packet {
+		let packet: Packet = new Packet();
+		packet.WriteString(this._content);
+		return packet;
 	}
 
 	public get content(): string { return this._content; }

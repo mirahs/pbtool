@@ -19,6 +19,16 @@ export default class ChatSend {
 	}
 
 	public Encode(): Packet {
+		const packet = this._encode();
+		packet.Encode(2010);
+		return packet;
+	}
+
+	public GetBuffer(): ByteBuffer {
+		return this._encode().GetBuffer();
+	}
+
+	private _encode(): Packet {
 		let packet: Packet = new Packet();
 		packet.WriteByte(this._channel);
 		packet.WriteString(this._content);
@@ -26,12 +36,7 @@ export default class ChatSend {
 		if (this.dest_uid_flag == 1) {
 			packet.WriteUint(this._dest_uid);
 		}
-		packet.Encode(2010);
 		return packet;
-	}
-
-	public GetBuffer(): ByteBuffer {
-		return this.Encode().GetBuffer();
 	}
 
 	public get channel(): number { return this._channel; }

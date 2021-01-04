@@ -13,15 +13,20 @@ export default class GoodsItem {
 	}
 
 	public Encode(): Packet {
-		let packet: Packet = new Packet();
-		packet.WriteUint(this._id);
-		packet.WriteUshort(this._num);
+		const packet = this._encode();
 		packet.Encode(3010);
 		return packet;
 	}
 
 	public GetBuffer(): ByteBuffer {
-		return this.Encode().GetBuffer();
+		return this._encode().GetBuffer();
+	}
+
+	private _encode(): Packet {
+		let packet: Packet = new Packet();
+		packet.WriteUint(this._id);
+		packet.WriteUshort(this._num);
+		return packet;
 	}
 
 	public get id(): number { return this._id; }

@@ -83,13 +83,12 @@ class ProtoTypeScript(object):
 
         self._set_priv_var()
         self._set_encode()
-        self._set_get_buffer()
         self._set_decode()
         self._set_set_get()
 
     def parse(self):
         file_name = self._code_path + self._str_class_name + '.ts'
-        content = self._str_head + '\n\n' + self._str_priv_var + '\n' + self._str_decode + '\n' + self._str_encode + '\n' + self._str_get_buffer + '\n' + self._str_set_get[:-1] + self._str_end
+        content = self._str_head + '\n\n' + self._str_priv_var + '\n' + self._str_decode + '\n' + self._str_encode + '\n' + self._str_set_get[:-1] + self._str_end
         with open(file_name, 'w+') as fd:
             fd.write(content)
 
@@ -133,42 +132,15 @@ class ProtoTypeScript(object):
                 self._str_priv_var += '\tprivate ' + field_name_m + ': ' + field_type + ';\n'
 
     def _set_encode(self):
-        self._str_encode = '\tpublic Encode(): Packet {\n\t\tlet packet: Packet = new Packet();\n'
-        for mess_field in self._proto['mess_fields']:
-            field_op = mess_field['field_op']
-            field_type_ori = mess_field['field_type_ori']
-            field_type = mess_field['field_type']
-            if not isinstance(field_type, basestring):
-                field_type_fun = field_type[0].capitalize()
-                field_type = field_type[1]
-            field_name = mess_field['field_name']
-            field_name_flag = field_name + '_flag'
-            field_name_m = 'this._' + field_name
-            field_name_count = field_name + '_count'
-            if field_op == 'repeated':
-                self._str_encode += '\t\tlet ' + field_name_count + ': number = ' + field_name_m + '.length;\n'
-                self._str_encode += '\t\tpacket.WriteUshort(' + field_name_count + ');\n'
-                self._str_encode += '\t\tfor (let i: number = 0; i < ' + field_name_count + '; i++) {\n'
-                self._str_encode += '\t\t\tlet xxx: ' + field_type + ' = ' + field_name_m + '[i];\n'
-                if not lan_types.get(field_type_ori):
-                    self._str_encode += '\t\t\tpacket.WriteBuffer(xxx' + '.GetBuffer());\n\t\t}\n'
-                else:
-                    self._str_encode += '\t\t\tpacket.Write' + field_type_fun + '(xxx);\n\t\t}\n'
-            elif field_op == 'optional':
-                self._str_encode += '\t\tpacket.WriteByte(this.' + field_name_flag + ');\n'
-                self._str_encode += '\t\tif (this.' + field_name_flag + ' == 1) {\n'
-                if not lan_types.get(field_type_ori):
-                    self._str_encode += '\t\t\tpacket.WriteBuffer(' + field_name_m + '.GetBuffer());\n\t\t}\n'
-                else:
-                    self._str_encode += '\t\t\tpacket.Write' + field_type_fun + '(' + field_name_m + ');\n\t\t}\n'
-            else:
-                if not lan_types.get(field_type_ori):
-                    self._str_encode += '\t\tpacket.WriteBuffer(' + field_name_m + '.GetBuffer());\n'
-                else:
-                    self._str_encode += '\t\tpacket.Write' + field_type_fun + '(' + field_name_m + ');\n'
-        if not self._str_class_name.startswith('Msg'):
-            self._str_encode += '\t\tpacket.Encode(' + self._packet_id + ');\n'
+        self._get_proto_encode_common()
+
+        self._str_encode = '\tpublic Encode(): Packet {\n\t\tconst packet = this._encode();\n'
+        self._str_encode += '\t\tpacket.Encode(' + self._packet_id + ');\n'
         self._str_encode += '\t\treturn packet;\n\t}\n'
+
+        self._str_encode += '\n\tpublic GetBuffer(): ByteBuffer {\n\t\treturn this._encode().GetBuffer();\n\t}\n'
+
+        self._str_encode += '\n' + self._str_encode_common
 
     def _set_decode(self):
         self._str_decode = '\tconstructor(packet?: Packet) {\n'
@@ -228,5 +200,40 @@ class ProtoTypeScript(object):
                 self._str_set_get += '\tpublic get ' + field_name + '(): ' + field_type + ' { return ' + field_name_m + '; }\n'
                 self._str_set_get += '\tpublic set ' + field_name + '(value: ' + field_type + ')' + ' { ' + field_name_m + ' = value; }\n'
 
-    def _set_get_buffer(self):
-        self._str_get_buffer = '\tpublic GetBuffer(): ByteBuffer {\n\t\treturn this.Encode().GetBuffer();\n\t}\n'
+    def _get_proto_encode_common(self):
+        self._str_encode_common = '\tprivate _encode(): Packet {\n\t\tlet packet: Packet = new Packet();\n'
+
+        for mess_field in self._proto['mess_fields']:
+            field_op = mess_field['field_op']
+            field_type_ori = mess_field['field_type_ori']
+            field_type = mess_field['field_type']
+            if not isinstance(field_type, basestring):
+                field_type_fun = field_type[0].capitalize()
+                field_type = field_type[1]
+            field_name = mess_field['field_name']
+            field_name_flag = field_name + '_flag'
+            field_name_m = 'this._' + field_name
+            field_name_count = field_name + '_count'
+
+            if field_op == 'repeated':
+                self._str_encode_common += '\t\tlet ' + field_name_count + ': number = ' + field_name_m + '.length;\n'
+                self._str_encode_common += '\t\tpacket.WriteUshort(' + field_name_count + ');\n'
+                self._str_encode_common += '\t\tfor (let i: number = 0; i < ' + field_name_count + '; i++) {\n'
+                self._str_encode_common += '\t\t\tlet xxx: ' + field_type + ' = ' + field_name_m + '[i];\n'
+                if not lan_types.get(field_type_ori):
+                    self._str_encode_common += '\t\t\tpacket.WriteBuffer(xxx' + '.GetBuffer());\n\t\t}\n'
+                else:
+                    self._str_encode_common += '\t\t\tpacket.Write' + field_type_fun + '(xxx);\n\t\t}\n'
+            elif field_op == 'optional':
+                self._str_encode_common += '\t\tpacket.WriteByte(this.' + field_name_flag + ');\n'
+                self._str_encode_common += '\t\tif (this.' + field_name_flag + ' == 1) {\n'
+                if not lan_types.get(field_type_ori):
+                    self._str_encode_common += '\t\t\tpacket.WriteBuffer(' + field_name_m + '.GetBuffer());\n\t\t}\n'
+                else:
+                    self._str_encode_common += '\t\t\tpacket.Write' + field_type_fun + '(' + field_name_m + ');\n\t\t}\n'
+            else:
+                if not lan_types.get(field_type_ori):
+                    self._str_encode_common += '\t\tpacket.WriteBuffer(' + field_name_m + '.GetBuffer());\n'
+                else:
+                    self._str_encode_common += '\t\tpacket.Write' + field_type_fun + '(' + field_name_m + ');\n'
+        self._str_encode_common += '\t\treturn packet;\n\t}\n'

@@ -28,6 +28,11 @@ typescript_cc_import_packages = 'import Packet from "@mi/mod/Packet"'    # È¢ùÂ§
 '''
 langs_proto = [
     {
+        'lang':     'erlang',
+        'code':     'erlang',
+        'common':   'erlang.common',
+    },
+    {
         'lang':     'golang',
         'code':     'golang',
     },

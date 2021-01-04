@@ -1,11 +1,14 @@
-import Packet from "@mi/mod/Packet"
+import Packet from "@mi/mod/Packet";
 
 
-
-export default class ChatGm
-{
+export default class ChatGm {
 	private _content: string;
 
+	constructor(packet?: Packet) {
+		if (packet) {
+			this._content = packet.ReadString();
+		}
+	}
 
 	public Encode(): Packet {
 		let packet: Packet = new Packet();
@@ -14,19 +17,9 @@ export default class ChatGm
 		return packet;
 	}
 
-
-	public GetBuffer(): ByteBuffer
-	{
+	public GetBuffer(): ByteBuffer {
 		return this.Encode().GetBuffer();
 	}
-
-
-	constructor(packet?: Packet) {
-		if (packet) {
-			this._content = packet.ReadString();
-		}
-	}
-
 
 	public get content(): string { return this._content; }
 	public set content(value: string) { this._content = value; }

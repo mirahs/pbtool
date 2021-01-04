@@ -89,7 +89,7 @@ class ProtoTypeScript(object):
 
     def parse(self):
         file_name = self._code_path + self._str_class_name + '.ts'
-        content = self._str_head + '\n\n' + self._str_priv_var + '\n\n' + self._str_encode + '\n\n' + self._str_get_buffer + '\n\n' + self._str_decode + '\n\n' + self._str_set_get[:-1] + self._str_end
+        content = self._str_head + '\n\n' + self._str_priv_var + '\n' + self._str_decode + '\n' + self._str_encode + '\n' + self._str_get_buffer + '\n' + self._str_set_get[:-1] + self._str_end
         with open(file_name, 'w+') as fd:
             fd.write(content)
 
@@ -100,8 +100,7 @@ class ProtoTypeScript(object):
         self._packet_id = self._proto['mess_id']
 
     def _set_head(self):
-        self._str_head = ''
-        self._str_head += conf.typescript_cc_import_packages + '\n'
+        self._str_head = conf.typescript_cc_import_packages + ';\n'
 
         msg_types = []
         for mess_field in self._proto['mess_fields']:
@@ -110,15 +109,13 @@ class ProtoTypeScript(object):
                 msg_types.append(field_type)
 
         for msg_type in msg_types:
-            self._str_head += 'import ' + msg_type + ' from \'./' + msg_type + '\'\n'
-
-        self._str_head += '\n'
+            self._str_head += 'import ' + msg_type + ' from \'./' + msg_type + '\';\n'
 
     def _set_end(self):
         self._str_end = '\n}\n'
 
     def _set_priv_var(self):
-        self._str_priv_var = 'export default class ' + self._str_class_name + '\n{\n'
+        self._str_priv_var = 'export default class ' + self._str_class_name + ' {\n'
         for mess_field in self._proto['mess_fields']:
             field_op = mess_field['field_op']
             field_type = mess_field['field_type']
@@ -151,7 +148,7 @@ class ProtoTypeScript(object):
             if field_op == 'repeated':
                 self._str_encode += '\t\tlet ' + field_name_count + ': number = ' + field_name_m + '.length;\n'
                 self._str_encode += '\t\tpacket.WriteUshort(' + field_name_count + ');\n'
-                self._str_encode += '\t\tfor (var i: number = 0; i < ' + field_name_count + '; i++)\n\t\t{\n'
+                self._str_encode += '\t\tfor (let i: number = 0; i < ' + field_name_count + '; i++) {\n'
                 self._str_encode += '\t\t\tlet xxx: ' + field_type + ' = ' + field_name_m + '[i];\n'
                 if not lan_types.get(field_type_ori):
                     self._str_encode += '\t\t\tpacket.WriteBuffer(xxx' + '.GetBuffer());\n\t\t}\n'
@@ -159,7 +156,7 @@ class ProtoTypeScript(object):
                     self._str_encode += '\t\t\tpacket.Write' + field_type_fun + '(xxx);\n\t\t}\n'
             elif field_op == 'optional':
                 self._str_encode += '\t\tpacket.WriteByte(this.' + field_name_flag + ');\n'
-                self._str_encode += '\t\tif (this.' + field_name_flag + ' == 1)\n\t\t{\n'
+                self._str_encode += '\t\tif (this.' + field_name_flag + ' == 1) {\n'
                 if not lan_types.get(field_type_ori):
                     self._str_encode += '\t\t\tpacket.WriteBuffer(' + field_name_m + '.GetBuffer());\n\t\t}\n'
                 else:
@@ -190,15 +187,14 @@ class ProtoTypeScript(object):
             if field_op == 'repeated':
                 self._str_decode += '\t\t\t' + field_name_m + ' = [];\n'
                 self._str_decode += '\t\t\tlet ' + field_name_count + ': number = packet.ReadUshort();\n'
-                self._str_decode += '\t\t\tfor (var i: number = 0; i < ' + field_name_count + '; i++)\n\t\t\t{\n'
+                self._str_decode += '\t\t\tfor (let i: number = 0; i < ' + field_name_count + '; i++) {\n'
                 if not lan_types.get(field_type_ori):
                     self._str_decode += '\t\t\t\t' + field_name_m + '.push(new ' + field_type + '(packet));\n\t\t\t}\n'
                 else:
                     self._str_decode += '\t\t\t\t' + field_name_m + '.push(packet.Read' + field_type_fun + '());\n\t\t\t}\n'
             elif field_op == 'optional':
-                self._str_decode += '\t\t\tthis. ' + field_name_flag + ' = packet.ReadByte();\n'
-                self._str_decode += '\t\t\tif (this.' + field_name_flag + ' == 1)\n'
-                self._str_decode += '\t\t\t{\n'
+                self._str_decode += '\t\t\tthis.' + field_name_flag + ' = packet.ReadByte();\n'
+                self._str_decode += '\t\t\tif (this.' + field_name_flag + ' == 1) {\n'
                 if not lan_types.get(field_type_ori):
                     self._str_decode += '\t\t\t\t' + field_name_m + ' = new ' + field_type + '(packet);\n'
                 else:
@@ -233,4 +229,4 @@ class ProtoTypeScript(object):
                 self._str_set_get += '\tpublic set ' + field_name + '(value: ' + field_type + ')' + ' { ' + field_name_m + ' = value; }\n'
 
     def _set_get_buffer(self):
-        self._str_get_buffer = '\tpublic GetBuffer(): ByteBuffer\n\t{\n\t\treturn this.Encode().GetBuffer();\n\t}\n'
+        self._str_get_buffer = '\tpublic GetBuffer(): ByteBuffer {\n\t\treturn this.Encode().GetBuffer();\n\t}\n'

@@ -1,12 +1,16 @@
-import Packet from "@mi/mod/Packet"
+import Packet from "@mi/mod/Packet";
 
 
-
-export default class GoodsItem
-{
+export default class GoodsItem {
 	private _id: number;
 	private _num: number;
 
+	constructor(packet?: Packet) {
+		if (packet) {
+			this._id = packet.ReadUint();
+			this._num = packet.ReadUshort();
+		}
+	}
 
 	public Encode(): Packet {
 		let packet: Packet = new Packet();
@@ -16,20 +20,9 @@ export default class GoodsItem
 		return packet;
 	}
 
-
-	public GetBuffer(): ByteBuffer
-	{
+	public GetBuffer(): ByteBuffer {
 		return this.Encode().GetBuffer();
 	}
-
-
-	constructor(packet?: Packet) {
-		if (packet) {
-			this._id = packet.ReadUint();
-			this._num = packet.ReadUshort();
-		}
-	}
-
 
 	public get id(): number { return this._id; }
 	public set id(value: number) { this._id = value; }

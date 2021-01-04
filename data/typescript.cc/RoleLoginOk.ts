@@ -1,21 +1,28 @@
-import Packet from "@mi/mod/Packet"
-import GoodsItem from './GoodsItem'
+import Packet from "@mi/mod/Packet";
+import GoodsItem from './GoodsItem';
 
 
-
-export default class RoleLoginOk
-{
+export default class RoleLoginOk {
 	private _uname: string;
 	private _goods_item: GoodsItem[] = [];
 
+	constructor(packet?: Packet) {
+		if (packet) {
+			this._uname = packet.ReadString();
+			this._goods_item = [];
+			let goods_item_count: number = packet.ReadUshort();
+			for (let i: number = 0; i < goods_item_count; i++) {
+				this._goods_item.push(new GoodsItem(packet));
+			}
+		}
+	}
 
 	public Encode(): Packet {
 		let packet: Packet = new Packet();
 		packet.WriteString(this._uname);
 		let goods_item_count: number = this._goods_item.length;
 		packet.WriteUshort(goods_item_count);
-		for (var i: number = 0; i < goods_item_count; i++)
-		{
+		for (let i: number = 0; i < goods_item_count; i++) {
 			let xxx: GoodsItem = this._goods_item[i];
 			packet.WriteBuffer(xxx.GetBuffer());
 		}
@@ -23,25 +30,9 @@ export default class RoleLoginOk
 		return packet;
 	}
 
-
-	public GetBuffer(): ByteBuffer
-	{
+	public GetBuffer(): ByteBuffer {
 		return this.Encode().GetBuffer();
 	}
-
-
-	constructor(packet?: Packet) {
-		if (packet) {
-			this._uname = packet.ReadString();
-			this._goods_item = [];
-			let goods_item_count: number = packet.ReadUshort();
-			for (var i: number = 0; i < goods_item_count; i++)
-			{
-				this._goods_item.push(new GoodsItem(packet));
-			}
-		}
-	}
-
 
 	public get uname(): string { return this._uname; }
 	public set uname(value: string) { this._uname = value; }

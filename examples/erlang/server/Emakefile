@@ -1,0 +1,4 @@
+{
+	["src/*", "src/*/*"],
+	[{outdir, "./ebin"}, {i, "include"}]
+}.

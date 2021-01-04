@@ -59,6 +59,7 @@ def trans_mess_type(proto):
     for idx in xrange(len(proto['mess_fields'])):
         mess_field = proto['mess_fields'][idx]
 
+        mess_field['field_type_ori'] = mess_field['field_type']
         if mess_field['field_type'] in lan_types:
             mess_field['field_type'] = lan_types[mess_field['field_type']]
 
@@ -105,7 +106,7 @@ class ProtoTypeScript(object):
         msg_types = []
         for mess_field in self._proto['mess_fields']:
             field_type = mess_field['field_type']
-            if isinstance(field_type, basestring) and field_type not in msg_types and field_type.startswith('Msg'):
+            if isinstance(field_type, basestring) and field_type not in msg_types:
                 msg_types.append(field_type)
 
         for msg_type in msg_types:
@@ -122,9 +123,7 @@ class ProtoTypeScript(object):
             field_op = mess_field['field_op']
             field_type = mess_field['field_type']
             if not isinstance(field_type, basestring):
-                field_type_fun = field_type[0].capitalize()
                 field_type = field_type[1]
-            field_type_big = field_type.capitalize()
             field_name = mess_field['field_name']
             field_name_flag = field_name + '_flag'
             field_name_m = '_' + field_name
@@ -140,11 +139,11 @@ class ProtoTypeScript(object):
         self._str_encode = '\tpublic Encode(): Packet {\n\t\tlet packet: Packet = new Packet();\n'
         for mess_field in self._proto['mess_fields']:
             field_op = mess_field['field_op']
+            field_type_ori = mess_field['field_type_ori']
             field_type = mess_field['field_type']
             if not isinstance(field_type, basestring):
                 field_type_fun = field_type[0].capitalize()
                 field_type = field_type[1]
-            field_type_big = field_type.capitalize()
             field_name = mess_field['field_name']
             field_name_flag = field_name + '_flag'
             field_name_m = 'this._' + field_name
@@ -154,19 +153,19 @@ class ProtoTypeScript(object):
                 self._str_encode += '\t\tpacket.WriteUshort(' + field_name_count + ');\n'
                 self._str_encode += '\t\tfor (var i: number = 0; i < ' + field_name_count + '; i++)\n\t\t{\n'
                 self._str_encode += '\t\t\tlet xxx: ' + field_type + ' = ' + field_name_m + '[i];\n'
-                if field_type.startswith('Msg'):
+                if not lan_types.get(field_type_ori):
                     self._str_encode += '\t\t\tpacket.WriteBuffer(xxx' + '.GetBuffer());\n\t\t}\n'
                 else:
                     self._str_encode += '\t\t\tpacket.Write' + field_type_fun + '(xxx);\n\t\t}\n'
             elif field_op == 'optional':
                 self._str_encode += '\t\tpacket.WriteByte(this.' + field_name_flag + ');\n'
                 self._str_encode += '\t\tif (this.' + field_name_flag + ' == 1)\n\t\t{\n'
-                if field_type.startswith('M'):
+                if not lan_types.get(field_type_ori):
                     self._str_encode += '\t\t\tpacket.WriteBuffer(' + field_name_m + '.GetBuffer());\n\t\t}\n'
                 else:
                     self._str_encode += '\t\t\tpacket.Write' + field_type_fun + '(' + field_name_m + ');\n\t\t}\n'
             else:
-                if field_type.startswith('M'):
+                if not lan_types.get(field_type_ori):
                     self._str_encode += '\t\tpacket.WriteBuffer(' + field_name_m + '.GetBuffer());\n'
                 else:
                     self._str_encode += '\t\tpacket.Write' + field_type_fun + '(' + field_name_m + ');\n'
@@ -179,11 +178,11 @@ class ProtoTypeScript(object):
         self._str_decode += '\t\tif (packet) {\n'
         for mess_field in self._proto['mess_fields']:
             field_op = mess_field['field_op']
+            field_type_ori = mess_field['field_type_ori']
             field_type = mess_field['field_type']
             if not isinstance(field_type, basestring):
                 field_type_fun = field_type[0].capitalize()
                 field_type = field_type[1]
-            field_type_big = field_type.capitalize()
             field_name = mess_field['field_name']
             field_name_m = 'this._' + field_name
             field_name_flag = field_name + '_flag'
@@ -192,7 +191,7 @@ class ProtoTypeScript(object):
                 self._str_decode += '\t\t\t' + field_name_m + ' = [];\n'
                 self._str_decode += '\t\t\tlet ' + field_name_count + ': number = packet.ReadUshort();\n'
                 self._str_decode += '\t\t\tfor (var i: number = 0; i < ' + field_name_count + '; i++)\n\t\t\t{\n'
-                if field_type.startswith('Msg'):
+                if not lan_types.get(field_type_ori):
                     self._str_decode += '\t\t\t\t' + field_name_m + '.push(new ' + field_type + '(packet));\n\t\t\t}\n'
                 else:
                     self._str_decode += '\t\t\t\t' + field_name_m + '.push(packet.Read' + field_type_fun + '());\n\t\t\t}\n'
@@ -200,13 +199,13 @@ class ProtoTypeScript(object):
                 self._str_decode += '\t\t\tthis. ' + field_name_flag + ' = packet.ReadByte();\n'
                 self._str_decode += '\t\t\tif (this.' + field_name_flag + ' == 1)\n'
                 self._str_decode += '\t\t\t{\n'
-                if field_type.startswith('M'):
+                if not lan_types.get(field_type_ori):
                     self._str_decode += '\t\t\t\t' + field_name_m + ' = new ' + field_type + '(packet);\n'
                 else:
                     self._str_decode += '\t\t\t\t' + field_name_m + ' = ' + 'packet.Read' + field_type_fun + '();\n'
                 self._str_decode += '\t\t\t}\n'
             else:
-                if field_type.startswith('M'):
+                if not lan_types.get(field_type_ori):
                     self._str_decode += '\t\t\t' + field_name_m + ' = new ' + field_type + '(packet);\n'
                 else:
                     self._str_decode += '\t\t\t' + field_name_m + ' = packet.Read' + field_type_fun + '();\n'
@@ -219,9 +218,7 @@ class ProtoTypeScript(object):
             field_op = mess_field['field_op']
             field_type = mess_field['field_type']
             if not isinstance(field_type, basestring):
-                field_type_fun = field_type[0].capitalize()
                 field_type = field_type[1]
-            field_type_big = field_type.capitalize()
             field_name = mess_field['field_name']
             field_name_flag = field_name + '_flag'
             field_name_m = 'this._' + field_name

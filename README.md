@@ -11,3 +11,4 @@
 
 ## 支持语言
 * [golang](examples/golang)
+* typescript([CocosCreatorTs](examples/CocosCreatorTs))

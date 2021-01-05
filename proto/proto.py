@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # coding:utf-8
+import os
 import string
 import re
 import fileinput
@@ -67,6 +68,7 @@ def parse(filename):
 			if m:
 				_is_begin_mess = True
 
+				_mess_body['mess_file']		= os.path.basename(filename).split('.')[0]
 				_mess_body['mess_name']     = string.strip(m.group(1))          # 协议名称
 				_mess_body['mess_id']       = string.strip(m.group(2))          # 协议id
 

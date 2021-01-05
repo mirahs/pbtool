@@ -7,7 +7,7 @@
 pack(1010 ,{Uname,GoodsItem}) ->
 	Bin1 = ?E(string, Uname),
 	FunGoodsItem = fun(FGoodsItem, {CountAcc, BinAcc}) ->
-			FBin = ?E(GoodsItem, FGoodsItem),
+			FBin = pb_goods:pack_msg(3010, FGoodsItem),
 			{CountAcc + 1, <<BinAcc/binary,FBin/binary>>}
 	end,
 	{CountGoodsItem, BinGoodsItem} = lists:foldl(FunGoodsItem, {0, <<>>}, GoodsItem),
@@ -24,7 +24,7 @@ pack(_Cmd, _Data) ->
 msg(1010 ,{Uname,GoodsItem}) ->
 	Bin1 = ?E(string, Uname),
 	FunGoodsItem = fun(FGoodsItem, {CountAcc, BinAcc}) ->
-			FBin = ?E(GoodsItem, FGoodsItem),
+			FBin = pb_goods:pack_msg(3010, FGoodsItem),
 			{CountAcc + 1, <<BinAcc/binary,FBin/binary>>}
 	end,
 	{CountGoodsItem, BinGoodsItem} = lists:foldl(FunGoodsItem, {0, <<>>}, GoodsItem),
@@ -42,7 +42,7 @@ unpack(1010, _Bin0) ->
 	{Uname, _Bin1} = ?D(string, _Bin0),
 	{GoodsItemCount, _Bin2} = ?D(u16, _Bin1),
 	FunGoodsItem = fun(_, {GoodsItemAcc, _BinGoodsItemAcc}) ->
-				{FunGoodsItem, _BinGoodsItemAcc2} = ?D(GoodsItem, _BinGoodsItemAcc),
+				{FunGoodsItem, _BinGoodsItemAcc2} = pb_goods:unpack_msg(3010, _BinGoodsItemAcc),
 				{[FunGoodsItem|GoodsItemAcc], _BinGoodsItemAcc2}
 			end,
 	{GoodsItemTmp, _Bin3} = lists:foldl(FunGoodsItem, {[], _Bin2}, lists:duplicate(GoodsItemCount, 0)),

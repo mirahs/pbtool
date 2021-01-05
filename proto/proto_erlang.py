@@ -4,10 +4,19 @@ import conf
 from util import util
 
 
+# 类型列表
+lan_types   = ['u8', 'i8', 'u16', 'i16', 'u32', 'i32', 'u64', 'i64', 'f32', 'f64', 'string']
+
+# 协议名及对应协议映射
+mess_protos = {}
+
+
 # 解析入口
 def parse(code_path, common_path, protos, file_protos):
     name_ids = list()
     for proto in protos:
+        mess_protos[proto['mess_name']] = proto
+
         name_id = dict()
         name_id['mess_name'] = proto['mess_name']
         name_id['mess_id'] = proto['mess_id']
@@ -160,9 +169,9 @@ class ProtoErlang(object):
             _field_var_name = util.underline_to_camel(field_name)
 
             if 'required' == field_op:
-                if field_type.startswith('Msg'):
-                    _str_tmp = 'Bin' + str(_idx_bin) + ' = pb_struct:pack_' + util.camel_to_underline(
-                        field_type) + '(' + _field_var_name + '),\n\t'
+                if field_type not in lan_types:
+                    msg_proto = mess_protos[field_type]
+                    _str_tmp = 'Bin' + str(_idx_bin) + ' = pb_' + msg_proto['mess_file']  + ':pack_msg(' + msg_proto['mess_id'] + ', ' + _field_var_name + '),\n\t'
                 else:
                     _str_tmp = 'Bin' + str(_idx_bin) + ' = ?E(' + field_type + ', ' + _field_var_name + '),\n\t'
 
@@ -173,9 +182,9 @@ class ProtoErlang(object):
 
                 _str_fun_name = 'Fun' + _field_var_name
                 _str_tmp += _str_fun_name + ' = fun(F' + _field_var_name + ', {CountAcc, BinAcc}) ->\n\t\t\t'
-                if field_type.startswith('Msg'):
-                    _str_tmp += 'FBin = pb_struct:pack_' + util.camel_to_underline(
-                        field_type) + '(F' + _field_var_name + '),\n\t\t\t'
+                if field_type not in lan_types:
+                    msg_proto = mess_protos[field_type]
+                    _str_tmp += 'FBin = ' + 'pb_' + msg_proto['mess_file']  + ':pack_msg(' + msg_proto['mess_id'] + ', F' + _field_var_name + '),\n\t\t\t'
                 else:
                     _str_tmp += 'FBin = ?E(' + field_type + ', F' + _field_var_name + '),\n\t\t\t'
 
@@ -198,9 +207,9 @@ class ProtoErlang(object):
                 _str_tmp += '?E(u8, 0);\n\t\t\t'
                 _str_tmp += '_ ->\n\t\t\t\t'
                 _str_tmp += 'Bin' + _field_var_name + 'Flag = ?E(u8, 1),\n\t\t\t\t'
-                if field_type.startswith('Msg'):
-                    _str_tmp += 'Bin' + _field_var_name + ' = pb_struct:pack_' + util.camel_to_underline(
-                        field_type) + '(' + _field_var_name + '),\n\t\t\t\t'
+                if field_type not in lan_types:
+                    msg_proto = mess_protos[field_type]
+                    _str_tmp += 'Bin' + _field_var_name + ' = pb_' + msg_proto['mess_file']  + ':pack_msg(' + msg_proto['mess_id'] + ', ' + _field_var_name + '),\n\t\t\t\t'
                 else:
                     _str_tmp += 'Bin' + _field_var_name + '= ?E(' + field_type + ', ' + _field_var_name + '),\n\t\t\t\t'
 
@@ -229,20 +238,16 @@ class ProtoErlang(object):
             _field_var_name = util.underline_to_camel(field_name)
 
             if 'required' == field_op:
-                if field_type.startswith('Msg'):
-                    _str_tmp = '{' + _field_var_name + ', _Bin' + str(
-                        _idx_bin) + '} = pb_struct:unpack_' + util.camel_to_underline(
-                        field_type) + '(_Bin' + str(_idx_bin_pre) + '),\n\t'
+                if field_type not in lan_types:
+                    msg_proto = mess_protos[field_type]
+                    _str_tmp = '{' + _field_var_name + ', _Bin' + str(_idx_bin) + '} = pb_' + msg_proto['mess_file'] + ':unpack_msg(' + msg_proto['mess_id'] + ', _Bin' + str(_idx_bin_pre) + '),\n\t'
                 else:
-                    _str_tmp = '{' + _field_var_name + ', _Bin' + str(
-                        _idx_bin) + '} = ?D(' + field_type + ', _Bin' + str(
-                        _idx_bin_pre) + '),\n\t'
+                    _str_tmp = '{' + _field_var_name + ', _Bin' + str(_idx_bin) + '} = ?D(' + field_type + ', _Bin' + str(_idx_bin_pre) + '),\n\t'
 
                 self._str_proto_decode += _str_tmp
 
             if 'repeated' == field_op:
-                _str_tmp = '{' + _field_var_name + 'Count, _Bin' + str(_idx_bin) + '} = ?D(u16' + ', _Bin' + str(
-                    _idx_bin_pre) + '),\n\t'
+                _str_tmp = '{' + _field_var_name + 'Count, _Bin' + str(_idx_bin) + '} = ?D(u16' + ', _Bin' + str(_idx_bin_pre) + '),\n\t'
 
                 _idx_bin_pre = _idx_bin
                 _idx_bin += 1
@@ -250,24 +255,21 @@ class ProtoErlang(object):
                 _str_fun_name = 'Fun' + _field_var_name
                 _str_tmp += _str_fun_name + ' = fun(_, {' + _field_var_name + 'Acc, _Bin' + _field_var_name + 'Acc}) ->\n\t\t\t\t'
                 _str_tmp += '{Fun' + _field_var_name + ', _Bin' + _field_var_name + 'Acc2} = '
-                if field_type.startswith('Msg'):
-                    _str_tmp += 'pb_struct:unpack_' + util.camel_to_underline(
-                        field_type) + '(_Bin' + _field_var_name + 'Acc),\n\t\t\t\t'
+                if field_type not in lan_types:
+                    msg_proto = mess_protos[field_type]
+                    _str_tmp += 'pb_' + msg_proto['mess_file'] + ':unpack_msg(' + msg_proto['mess_id'] + ', _Bin' + _field_var_name + 'Acc),\n\t\t\t\t'
                 else:
                     _str_tmp += '?D(' + field_type + ', _Bin' + _field_var_name + 'Acc),\n\t\t\t\t'
 
                 _str_tmp += '{[Fun' + _field_var_name + '|' + _field_var_name + 'Acc], _Bin' + _field_var_name + 'Acc2}\n\t\t\t'
                 _str_tmp += 'end,\n\t'
-                _str_tmp += '{' + _field_var_name + 'Tmp' + ', _Bin' + str(
-                    _idx_bin) + '} = lists:foldl(' + _str_fun_name + ', {[], _Bin' + str(
-                    _idx_bin_pre) + '}, lists:duplicate(' + _field_var_name + 'Count, 0)),\n\t'
+                _str_tmp += '{' + _field_var_name + 'Tmp' + ', _Bin' + str(_idx_bin) + '} = lists:foldl(' + _str_fun_name + ', {[], _Bin' + str(_idx_bin_pre) + '}, lists:duplicate(' + _field_var_name + 'Count, 0)),\n\t'
                 _str_tmp += _field_var_name + ' = lists:reverse(' + _field_var_name + 'Tmp),\n\t'
 
                 self._str_proto_decode += _str_tmp
 
             if 'optional' == field_op:
-                _str_tmp = '{' + _field_var_name + 'Flag, _Bin' + str(_idx_bin) + '} = ?D(u8' + ', _Bin' + str(
-                    _idx_bin_pre) + '),\n\t'
+                _str_tmp = '{' + _field_var_name + 'Flag, _Bin' + str(_idx_bin) + '} = ?D(u8' + ', _Bin' + str(_idx_bin_pre) + '),\n\t'
 
                 _idx_bin_pre = _idx_bin
                 _idx_bin += 1
@@ -277,9 +279,9 @@ class ProtoErlang(object):
                 _str_tmp += '0 ->\n\t\t\t'
                 _str_tmp += '{undefined, _Bin' + str(_idx_bin_pre) + '};\n\t\t'
                 _str_tmp += '1 ->\n\t\t\t'
-                if field_type.startswith('Msg'):
-                    _str_tmp += 'pb_struct:unpack_' + util.camel_to_underline(field_type) + '(_Bin' + str(
-                        _idx_bin_pre) + ')\n\t'
+                if field_type not in lan_types:
+                    msg_proto = mess_protos[field_type]
+                    _str_tmp += 'pb_' + msg_proto['mess_file'] + ':unpack_msg(' + msg_proto['mess_id'] + ', _Bin' + str(_idx_bin_pre) + ')\n\t'
                 else:
                     _str_tmp += '?D(' + field_type + ', _Bin' + str(_idx_bin_pre) + ')\n\t'
 

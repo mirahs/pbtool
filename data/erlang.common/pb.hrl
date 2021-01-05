@@ -1,0 +1,6 @@
+-define(p_chat_send,                    2010). % 发送聊天信息
+-define(p_chat_send_ok,                 2020). % 聊天信息返回
+-define(p_chat_gm,                      2030). % GM命令
+-define(p_goods_item,                   3010). % 物品数据
+-define(p_goods_list,                   3020). % 物品列表
+-define(p_role_login_ok,                1010). % 登录成功

@@ -14,7 +14,7 @@ golang_package_name = 'proto'           # 协议文件包名
 golang_import_packages = ['packet']     # 导入包
 
 # typescript cocos creator
-typescript_cc_import_packages = 'import Packet from "@mi/mod/Packet"'    # 额外引入的包
+typescript_cc_import_packages = 'import Packet from \'../net/Packet\''    # 额外引入的包
 
 
 '''

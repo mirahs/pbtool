@@ -20,7 +20,7 @@ lan_types = {
 
 
 # 解析入口
-def parse(code_path, common_path, protos, _tmp_protos_file):
+def parse(code_path, common_path, protos, file_protos):
     name_ids = list()
     for proto in protos:
         name_id = dict()

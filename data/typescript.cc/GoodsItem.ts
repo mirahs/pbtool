@@ -1,4 +1,4 @@
-import Packet from "@mi/mod/Packet";
+import Packet from '../net/Packet';
 
 
 export default class GoodsItem {

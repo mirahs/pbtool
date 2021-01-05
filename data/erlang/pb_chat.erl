@@ -41,6 +41,41 @@ pack(_Cmd, _Data) ->
 
 
 %% 发送聊天信息
+msg(2010 ,{Channel,Content,DestUid}) ->
+	Bin1 = ?E(u8, Channel),
+	Bin2 = ?E(string, Content),
+	Bin3 = 
+		case DestUid of
+			undefined ->
+				?E(u8, 0);
+			_ ->
+				BinDestUidFlag = ?E(u8, 1),
+				BinDestUid= ?E(u32, DestUid),
+				<<BinDestUidFlag/binary,BinDestUid/binary>>
+		end,
+	BinData = <<Bin1/binary,Bin2/binary,Bin3/binary>>,
+	{ok, BinData};
+
+%% 聊天信息返回
+msg(2020 ,{Channel,Uid,Uname,Content}) ->
+	Bin1 = ?E(u8, Channel),
+	Bin2 = ?E(u32, Uid),
+	Bin3 = ?E(string, Uname),
+	Bin4 = ?E(string, Content),
+	BinData = <<Bin1/binary,Bin2/binary,Bin3/binary,Bin4/binary>>,
+	{ok, BinData};
+
+%% GM命令
+msg(2030 ,{Content}) ->
+	Bin1 = ?E(string, Content),
+	BinData = <<Bin1/binary>>,
+	{ok, BinData};
+
+msg(_Cmd, _Data) -> 
+	{error, {unknown_command, _Data}}.
+
+
+%% 发送聊天信息
 unpack(2010, _Bin0) ->
 	{Channel, _Bin1} = ?D(u8, _Bin0),
 	{Content, _Bin2} = ?D(string, _Bin1),

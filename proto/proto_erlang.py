@@ -61,6 +61,11 @@ def parse_protos(code_path, file_protos):
         _str_protos += _str_unknown_pack
 
         for proto in protos:
+            _str_proto = ProtoErlang(proto).do_msg()
+            _str_protos += _str_proto + ';\n\n'
+        _str_protos += _str_unknown_msg
+
+        for proto in protos:
             _str_proto = ProtoErlang(proto).do_unpack()
             _str_protos += _str_proto + ';\n\n'
         _str_protos += _str_unknown_unpack
@@ -78,10 +83,24 @@ class ProtoErlang(object):
         self._mess_note = self._proto['mess_note']
 
         self._str_mess_note = '%% ' + self._mess_note + '\n'
+
         self._set_decode()
         self._set_encode()
         self._set_proto_encode()
         self._set_proto_decode()
+
+    def do_pack(self):
+        str_msg = 'BinData = ' + self._str_bin_encode + ',\n\t'
+        str_msg += '{ok, ?MSG(' + str(self._mess_id) + ', BinData)}'
+        return self._str_mess_note + 'pack(' + self._mess_id + ' ,' + self._str_decode + ') ->\n\t' + self._str_proto_encode + str_msg
+
+    def do_msg(self):
+        str_msg = 'BinData = ' + self._str_bin_encode + ',\n\t'
+        str_msg += '{ok, BinData}'
+        return self._str_mess_note + 'msg(' + self._mess_id + ' ,' + self._str_decode + ') ->\n\t' + self._str_proto_encode + str_msg
+
+    def do_unpack(self):
+        return self._str_mess_note + 'unpack(' + self._mess_id + ', _Bin0) ->\n\t' + self._str_proto_decode + '{ok, ' + self._str_decode + '}'
 
     def _set_decode(self):
         if 'proto_specs' in self._proto and 'record' in self._proto['proto_specs']:
@@ -267,20 +286,3 @@ class ProtoErlang(object):
                 self._str_proto_decode += _str_tmp
 
         self._str_return_bin = 'Bin' + str(_idx_bin)
-
-    def do_pack(self):
-        if self._mess_name.startswith('Msg'):
-            str_msg = self._str_bin_encode + ''
-            return self._str_mess_note + 'pack_' + util.camel_to_underline(
-                self._mess_name) + '(' + self._str_decode + ') ->\n\t' + self._str_proto_encode + str_msg
-        else:
-            str_msg = 'BinData = ' + self._str_bin_encode + ',\n\t'
-            str_msg += '{ok, ?MSG(' + str(self._mess_id) + ', BinData)}'
-            return self._str_mess_note + 'pack(' + self._mess_id + ' ,' + self._str_decode + ') ->\n\t' + self._str_proto_encode + str_msg
-
-    def do_unpack(self):
-        if self._mess_name.startswith('Msg'):
-            return self._str_mess_note + 'unpack_' + util.camel_to_underline(
-                self._mess_name) + '(_Bin0) ->\n\t' + self._str_proto_decode + '{' + self._str_decode + ', _' + self._str_return_bin + '}'
-        else:
-            return self._str_mess_note + 'unpack(' + self._mess_id + ', _Bin0) ->\n\t' + self._str_proto_decode + '{ok, ' + self._str_decode + '}'

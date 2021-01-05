@@ -1,8 +1,6 @@
 -module(pb_chat).
 
--include("common.hrl").
-
--compile(export_all).
+-export([pack/2,msg/2,unpack/2]).
 
 
 %% 发送聊天信息

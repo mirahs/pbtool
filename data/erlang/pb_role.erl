@@ -1,8 +1,6 @@
 -module(pb_role).
 
--include("common.hrl").
-
--compile(export_all).
+-export([pack/2,msg/2,unpack/2]).
 
 
 %% 登录成功

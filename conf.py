@@ -9,6 +9,9 @@ data_dir    = os.path.join(os.path.dirname(__file__), './data/')
 data_proto  = data_dir + 'proto/'
 
 
+# erlang
+erlang_includes = []    # 头文件列表
+
 # golang
 golang_package_name = 'proto'           # 协议文件包名
 golang_import_packages = ['packet']     # 导入包

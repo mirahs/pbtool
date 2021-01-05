@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # coding:utf-8
+import conf
 from util import util
 
 
@@ -47,11 +48,11 @@ def parse_protos(code_path, file_protos):
         _file_name = code_path + 'pb_' + filename + '.erl'
 
         _str_include = ''
-        includes = file_protos[filename]['includes']
-        if includes:
-            for include in includes:
-                _str_include += '\n-include("' + include + '.hrl").'
-        _str_protos = '-module(pb_' + filename + ').\n\n-include("common.hrl").' + _str_include + '\n\n-compile(export_all).\n\n\n'
+        includes = conf.erlang_includes + file_protos[filename]['includes']
+        for include in includes:
+            _str_include += '\n-include("' + include + '.hrl").'
+
+        _str_protos = '-module(pb_' + filename + ').' + _str_include + '\n\n-export([pack/2,msg/2,unpack/2]).\n\n\n'
 
         protos = file_protos[filename]['protos']
 

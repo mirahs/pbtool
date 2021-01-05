@@ -4,7 +4,6 @@ import conf
 import os
 import copy
 
-
 from proto import proto
 
 
@@ -21,14 +20,14 @@ for dirpath, dirnames, filenames in os.walk(conf.data_proto):
 
 for lang in conf.langs_proto:
     _lang = lang['lang']
-    _code_path = conf.data_dir + lang['code'] + '/'
+    _code_path = lang['code'] + '/'
     if not os.path.exists(_code_path):
         print _code_path + ' 目录不存在'
         continue
 
     _common_path = ''
     if 'common' in lang:
-        _common_path = conf.data_dir + lang['common'] + '/'
+        _common_path = lang['common'] + '/'
         if not os.path.exists(_common_path):
             print _common_path + ' 目录不存在'
             continue

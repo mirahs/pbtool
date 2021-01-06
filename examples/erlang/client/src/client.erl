@@ -1,26 +1,30 @@
 %% -*- coding: latin-1 -*-
 -module(client).
 
--include("common.hrl").
+-export([
+	start/0
+]).
 
--compile(export_all).
+-include("common.hrl").
+-include("pb.hrl").
 
 -define(DEBUG(F), debug(F, [], ?MODULE, ?LINE)).
 -define(DEBUG(F, A), debug(F, A, ?MODULE, ?LINE)).
 
 
+%%%===================================================================
+%%% API
+%%%===================================================================
+
 start() ->
 	{ok, Socket}   = gen_tcp:connect(?HOST, ?PORT, [binary, {packet,0},{active,true}]),
+	?DEBUG("服务端连接"),
 	send(Socket),
 	recv(Socket).
 
-send(Socket) ->
-	{ok, BinMsg} = pack(?c_test_x_x, {123, 1234, 12345, [123, 123], 233}),
 
-	MsgRoleBase = {111, <<"mirahs">>},
-	{ok, BinTestSend} = pack(?c_test_send, {123, MsgRoleBase, [1.23,12.3,123.4], 111, MsgRoleBase}),
-	{ok, BinTestJs} = pack(?c_test_js, {999999999, -999999999}),
-	pb_msg:send(Socket, <<BinMsg/binary,BinTestSend/binary,BinTestJs/binary>>).
+send(Socket) ->
+	send(Socket, pack(?p_role_login, {<<"admin">>, <<"admin">>})).
 
 
 recv(Socket) ->
@@ -29,73 +33,68 @@ recv(Socket) ->
 recv(Socket, Bin) ->
 	receive
 		{tcp, Socket, BinRecv} ->
-			Bin2 = work(Socket, <<Bin/binary,BinRecv/binary>>),
+			Bin2 = work(Socket, <<Bin/binary, BinRecv/binary>>),
 			recv(Socket, Bin2);
 		{tcp_closed, Socket} ->
+			?DEBUG("服务端断开"),
 			gen_tcp:close(Socket);
-		_ ->
+        {inet_reply, _Socket, ok} ->
+            recv(Socket, Bin);
+		_Other ->
+			?DEBUG("服务端接收未知消息:~p", [_Other]),
 			recv(Socket, Bin)
 	end.
 
 
-%% ----------------------------------------------------
-%% 内部函数
-%% ----------------------------------------------------
+%%%===================================================================
+%%% 路由处理
+%%%===================================================================
 
 %% 解包
 work(Socket, <<Len:16/big-integer-unsigned, BinData:Len/binary, BinAcc/binary>>) ->
-	<<PacketId:16/big-integer-unsigned, BinData2/binary>> = BinData,
-	?DEBUG("收到消息PacketId:~w", [PacketId]),
-	routing(PacketId, BinData2, Socket),
-	work(Socket, BinAcc);
+    <<PacketId:16/big-integer-unsigned, BinData2/binary>> = BinData,
+    routing(PacketId, BinData2, Socket),
+    work(Socket, BinAcc);
 work(_Socket, BinAcc) ->
-	BinAcc.
+    BinAcc.
 
 %% 路由处理
 routing(PacketId, BinData, Socket) ->
-	case module(PacketId) of
-		{ok, Proto} ->?DEBUG("xxxxx PacketPd:~w, Proto:~p, BinData:~w", [PacketId, Proto, BinData]),
-			case Proto:unpack(PacketId, BinData) of
-				{ok, Data} ->?DEBUG("xxxxx"),
-					rpc(PacketId, Data, Socket);
-				{error, _} ->?DEBUG("xxxxx"),
-					?DEBUG("unknown_command:~w", [PacketId])
-			end;
-		{error, _} ->?DEBUG("xxxxx"),
-			?DEBUG("no routing module:~w", [PacketId])
-	end.
+    case module(PacketId) of
+        {ok, Proto} ->
+            ?DEBUG("routing PacketId:~w, Proto:~p, BinData:~w", [PacketId, Proto, BinData]),
+            case Proto:unpack(PacketId, BinData) of
+                {ok, Data} -> rpc(PacketId, Data, Socket);
+                {error, _Error} -> ?DEBUG("PacketId:~w unpack 错误:~p", [PacketId, _Error])
+            end;
+        {error, _Error} -> ?DEBUG("PacketId:~w 路由 错误:~p", [PacketId, _Error])
+    end.
 
 
 %% rpc处理
-rpc(?s_test_x_x, Data, _Socket) ->?DEBUG("xxxxx"),
-	?DEBUG("c_test_x_x Data:~p~n", [Data]);
-rpc(?s_test_send_ok, Data, _Socket) ->?DEBUG("xxxxx"),
-	?DEBUG("s_test_send_ok Data:~p~n", [Data]);
-rpc(?s_test_js_ok, Data, _Socket) ->?DEBUG("xxxxx"),
-	?DEBUG("s_test_js_ok Data:~p~n", [Data]);
-rpc(PacketId, Data, _Socket) ->?DEBUG("xxxxx"),
-	?DEBUG("Unknow PacketId:~w Data:~w~n", [PacketId, Data]).
+rpc(?p_role_login_ok, Data, _Socket) ->
+    ?DEBUG("p_role_login_ok Data:~p~n", [Data]);
+rpc(?p_goods_item, Data, _Socket) ->
+    ?DEBUG("p_goods_item Data:~p~n", [Data]);
+rpc(PacketId, Data, _Socket) ->
+    ?DEBUG("Unknow PacketId:~w Data:~w~n", [PacketId, Data]).
 
-%% 发送消息给客户端
+%% 发送消息
 send(Socket, {ok, Bin}) ->
-	pb_msg:send(Socket, Bin);
-send(Socket, Bin) when is_binary(Bin) ->
-	pb_msg:send(Socket, Bin);
-send(_Socket, _Err) ->
-	?DEBUG("_Err:~p~n", [_Err]).
+    pb:send(Socket, Bin);
+send(Socket, Bin) ->
+    pb:send(Socket, Bin).
 
 
-%% ----------------------------------------------------
-%% 工具函数
-%% ----------------------------------------------------
+%%%===================================================================
+%%% Internal functions
+%%%===================================================================
 
-module(Cmd) -> code(Cmd div 100).
+module(Cmd) -> code(Cmd div 1000).
 
-%% 游戏服务器协议映射
-code(10) -> {ok, pb_role};
-code(15) -> {ok, pb_chat};
-code(20) -> {ok, pb_scene};
-code(400) -> {ok, pb_test};
+%% 协议映射
+code(1) -> {ok, pb_role};
+code(2) -> {ok, pb_goods};
 
 %% 未知编号
 code(Code) -> {error, Code}.
@@ -105,7 +104,7 @@ pack(Cmd, Data) ->
         {ok, Proto} ->
             case catch Proto:pack(Cmd, Data) of
                 {ok, Bin} -> {ok, Bin};
-                _Err -> 
+                _Err ->
                     ?DEBUG("打包数据出错[Cmd:~w][Data:~w][Reason:~w]", [Cmd, Data, _Err]),
                     {error, "打包数据时发生异常"}
             end;

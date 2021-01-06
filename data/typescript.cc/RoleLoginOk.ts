@@ -3,11 +3,13 @@ import GoodsItem from './GoodsItem';
 
 
 export default class RoleLoginOk {
+	private _uid: number;
 	private _uname: string;
 	private _goods_item: GoodsItem[] = [];
 
 	constructor(packet?: Packet) {
 		if (packet) {
+			this._uid = packet.ReadUint();
 			this._uname = packet.ReadString();
 			this._goods_item = [];
 			let goods_item_count: number = packet.ReadUshort();
@@ -19,7 +21,7 @@ export default class RoleLoginOk {
 
 	public Encode(): Packet {
 		const packet = this._encode();
-		packet.Encode(1010);
+		packet.Encode(1020);
 		return packet;
 	}
 
@@ -29,6 +31,7 @@ export default class RoleLoginOk {
 
 	private _encode(): Packet {
 		let packet: Packet = new Packet();
+		packet.WriteUint(this._uid);
 		packet.WriteString(this._uname);
 		let goods_item_count: number = this._goods_item.length;
 		packet.WriteUshort(goods_item_count);
@@ -39,6 +42,8 @@ export default class RoleLoginOk {
 		return packet;
 	}
 
+	public get uid(): number { return this._uid; }
+	public set uid(value: number) { this._uid = value; }
 	public get uname(): string { return this._uname; }
 	public set uname(value: string) { this._uname = value; }
 	public get goods_item(): GoodsItem[] {return this._goods_item; }

@@ -1,8 +1,13 @@
--module(pb_msg).
+-module(pb).
 
--include("common.hrl").
+-export([
+	msg/2
+	,send/2
+	,send_fast/2
 
--compile(export_all).
+	,encode/2
+	,decode/2
+]).
 
 
 %% 协议编码
@@ -12,25 +17,19 @@ msg(MsgId, BinData) ->
 	<<Len:16/big-integer-unsigned, MsgId:16/big-integer-unsigned, BinData/binary>>.
 
 %% 发送消息
-send(_Socket,<<>>) ->
-	true;
-send(Socket, BinMsg) when is_port(Socket) ->
+send(_Socket, <<>>) -> true;
+send(Socket, BinMsg) ->
 	case send_fast(Socket, BinMsg) of
-		ok ->
-			true;
-		{error, _Reason} ->
-			false
+		ok -> true;
+		{error, _Reason} -> false
 	end.
 
 send_fast(Socket, BinMsg) ->
 	try erlang:port_command(Socket, BinMsg, [force,nosuspend]) of
-		true ->
-			ok;
-		false ->
-			{error, busy}
+		true -> ok;
+		false -> {error, busy}
 	catch
-		_:_Error ->
-			{error, einval}
+		_:_Error -> {error, einval}
 	end.
 
 

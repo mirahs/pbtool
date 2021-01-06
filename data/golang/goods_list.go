@@ -17,7 +17,7 @@ func (this *GoodsList) Encode() []byte {
 		pack.WriteBytes(this.Goods[i].EncodeMsg())
 	}
 
-	return pack.Encode(uint16(3020))
+	return pack.Encode(uint16(2020))
 }
 
 func (this *GoodsList) EncodeMsg() []byte {

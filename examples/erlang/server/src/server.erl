@@ -1,23 +1,35 @@
 %% -*- coding: latin-1 -*-
 -module(server).
 
--include("common.hrl").
+-export([
+    start/0
 
--compile(export_all).
+    ,recv/1
+]).
+
+-include("common.hrl").
+-include("pb.hrl").
 
 -define(DEBUG(F), debug(F, [], ?MODULE, ?LINE)).
 -define(DEBUG(F, A), debug(F, A, ?MODULE, ?LINE)).
 
 
+%%%===================================================================
+%%% API
+%%%===================================================================
+
 start() ->
 	{ok, ListenSocket} = gen_tcp:listen(?LISTEN_PORT, ?TCP_OPTIONS),
 	accept(ListenSocket).
 
+
 accept(ListenSocket) ->
-	{ok, Socket} = gen_tcp:accept(ListenSocket),?DEBUG("客户端连接"),
-	send(Socket, pack(?s_test_js_ok, {123456789, -123456789})),
+	{ok, Socket} = gen_tcp:accept(ListenSocket),
+
+    ?DEBUG("客户端连接"),
 	Pid = spawn(?MODULE, recv, [Socket]),
 	gen_tcp:controlling_process(Socket, Pid),
+
 	accept(ListenSocket).
 
 recv(Socket) ->
@@ -26,23 +38,26 @@ recv(Socket) ->
 recv(Socket, Bin) ->
 	receive
 		{tcp, Socket, BinRecv} ->
-			Bin2 = work(Socket, <<Bin/binary,BinRecv/binary>>),
+			Bin2 = work(Socket, <<Bin/binary, BinRecv/binary>>),
 			recv(Socket, Bin2);
-		{tcp_closed, Socket} ->?DEBUG("客户端断开"),
+		{tcp_closed, Socket} ->
+            ?DEBUG("客户端断开"),
 			gen_tcp:close(Socket);
-		_ ->
+        {inet_reply, _Socket, ok} ->
+            recv(Socket, Bin);
+		_Other ->
+            ?DEBUG("客户端接收未知消息:~p", [_Other]),
 			recv(Socket, Bin)
 	end.
 
 
-%% ----------------------------------------------------
-%% 内部函数
-%% ----------------------------------------------------
+%%%===================================================================
+%%% 路由处理
+%%%===================================================================
 
 %% 解包
 work(Socket, <<Len:16/big-integer-unsigned, BinData:Len/binary, BinAcc/binary>>) ->
 	<<PacketId:16/big-integer-unsigned, BinData2/binary>> = BinData,
-	%?DEBUG("收到消息PacketId:~w", [PacketId]),
 	routing(PacketId, BinData2, Socket),
 	work(Socket, BinAcc);
 work(_Socket, BinAcc) ->
@@ -51,54 +66,41 @@ work(_Socket, BinAcc) ->
 %% 路由处理
 routing(PacketId, BinData, Socket) ->
 	case module(PacketId) of
-		{ok, Proto} ->?DEBUG("xxxxx PacketPd:~w, Proto:~p, BinData:~w", [PacketId, Proto, BinData]),
+		{ok, Proto} ->
+            ?DEBUG("routing PacketId:~w, Proto:~p, BinData:~w", [PacketId, Proto, BinData]),
 			case Proto:unpack(PacketId, BinData) of
-				{ok, Data} ->?DEBUG("xxxxx"),
-					rpc(PacketId, Data, Socket);
-				{error, _} ->?DEBUG("xxxxx"),
-					?DEBUG("unknown_command:~w", [PacketId])
+				{ok, Data} -> rpc(PacketId, Data, Socket);
+				{error, _Error} -> ?DEBUG("PacketId:~w unpack 错误:~p", [PacketId, _Error])
 			end;
-		{error, _} ->?DEBUG("xxxxx"),
-			?DEBUG("no routing module:~w", [PacketId])
+		{error, _Error} -> ?DEBUG("PacketId:~w 路由 错误:~p", [PacketId, _Error])
 	end.
 
 
 %% rpc处理
-rpc(?c_test_x_x, Data, Socket) ->?DEBUG("xxxxx"),
-	?DEBUG("c_test_x_x Data:~p~n", [Data]),
-    %send(pack(?s_test_x_x, Data)),
-    {ok, Bin} = pack(?s_test_x_x, Data),
-     send(Socket, <<Bin/binary, Bin/binary>>);
-rpc(?c_test_send, Data, Socket) ->?DEBUG("xxxxx"),
-	?DEBUG("c_test_send Data:~p~n", [Data]),
-	{ok, Bin} = pack(?s_test_send_ok, Data),
-    send(Socket, <<Bin/binary, Bin/binary>>);
-rpc(?c_test_js, Data, Socket) ->?DEBUG("xxxxx"),
-	?DEBUG("P_C_TEST_JS Data:~p~n", [Data]),
-    send(Socket, pack(?s_test_js_ok, Data));
-rpc(PacketId, Data, _Socket) ->?DEBUG("xxxxx"),
+rpc(?p_role_login, Data, Socket) ->
+	?DEBUG("p_role_login Data:~p~n", [Data]),
+    {ok, Bin1} = pack(?p_role_login_ok, {10086, <<"erlang">>, [{100, 11}, {200, 22}]}),
+    {ok, Bin2} = pack(?p_goods_item, {300, 33}),
+    send(Socket, [Bin1, Bin2]);
+rpc(PacketId, Data, _Socket) ->
 	?DEBUG("Unknow PacketId:~w Data:~w~n", [PacketId, Data]).
 
-%% 发送消息给客户端
+%% 发送消息
 send(Socket, {ok, Bin}) ->
-	pb_msg:send(Socket, Bin);
-send(Socket, Bin) when is_binary(Bin) ->
-	pb_msg:send(Socket, Bin);
-send(_Socket, _Err) ->
-	?DEBUG("_Err:~p~n", [_Err]).
+	pb:send(Socket, Bin);
+send(Socket, Bin) ->
+	pb:send(Socket, Bin).
 
 
-%% ----------------------------------------------------
-%% 工具函数
-%% ----------------------------------------------------
+%%%===================================================================
+%%% Internal functions
+%%%===================================================================
 
-module(Cmd) -> code(Cmd div 100).
+module(Cmd) -> code(Cmd div 1000).
 
-%% 游戏服务器协议映射
-code(10) -> {ok, pb_role};
-code(15) -> {ok, pb_chat};
-code(20) -> {ok, pb_scene};
-code(400) -> {ok, pb_test};
+%% 协议映射
+code(1) -> {ok, pb_role};
+code(2) -> {ok, pb_goods};
 
 %% 未知编号
 code(Code) -> {error, Code}.
@@ -109,11 +111,11 @@ pack(Cmd, Data) ->
             case catch Proto:pack(Cmd, Data) of
                 {ok, Bin} -> {ok, Bin};
                 _Err -> 
-                    %?DEBUG("打包数据出错[Cmd:~w][Data:~w][Reason:~w]", [Cmd, Data, _Err]),
+                    ?DEBUG("打包数据出错[Cmd:~w][Data:~w][Reason:~w]", [Cmd, Data, _Err]),
                     {error, "打包数据时发生异常"}
             end;
         {error, _Code} ->
-            %?DEBUG("模块影射失败[~w]:~w", [Cmd, Data]),
+            ?DEBUG("模块影射失败[~w]:~w", [Cmd, Data]),
             {error, "打包数据时发生异常"}
     end.
 

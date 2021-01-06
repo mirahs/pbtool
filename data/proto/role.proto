@@ -1,7 +1,14 @@
 //角色: 1001 - 1999
 
-message RoleLoginOk(1010) //登录成功
+message RoleLogin(1010) //请求登录
 {
+	required	string		account			//账号
+	required	string		password		//密码
+}
+
+message RoleLoginOk(1020) //登录成功
+{
+	required	u32			uid				//玩家ID
     required    string      uname           //玩家名字
     repeated    GoodsItem   goods_item      //物品列表
 }

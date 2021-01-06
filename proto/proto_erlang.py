@@ -111,8 +111,7 @@ class ProtoErlang(object):
         return self._str_mess_note + 'pack(' + self._mess_id + ' ,' + self._str_decode + ') ->\n\t' + self._str_proto_encode + str_msg
 
     def do_pack_msg(self):
-        str_msg = 'BinData = ' + self._str_bin_encode + ',\n\t'
-        str_msg += '{ok, BinData}'
+        str_msg = self._str_bin_encode
         return self._str_mess_note + 'pack_msg(' + self._mess_id + ' ,' + self._str_decode + ') ->\n\t' + self._str_proto_encode + str_msg
 
     def do_unpack(self):

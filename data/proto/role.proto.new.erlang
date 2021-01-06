@@ -1,4 +1,4 @@
-//角色: 1001 - 1500
+//角色: 1001 - 1999
 include:role,map
 
 message CRoleLogin(1010) //角色登录
@@ -46,4 +46,5 @@ message SRoleLoginOk(1050) //[record:role]登录成功
 
 message SRoleLoginOkNoRole(1060) //登录成功(无角色)
 {
+
 }

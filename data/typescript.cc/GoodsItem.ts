@@ -14,7 +14,7 @@ export default class GoodsItem {
 
 	public Encode(): Packet {
 		const packet = this._encode();
-		packet.Encode(3010);
+		packet.Encode(2010);
 		return packet;
 	}
 

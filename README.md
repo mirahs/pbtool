@@ -10,5 +10,6 @@
 * python 2.7.x
 
 ## 支持语言
+* [erlang](examples/erlang)
 * [golang](examples/golang)
-* typescript([CocosCreatorTs](examples/CocosCreatorTs))
+* typescript([CocosCreator](examples/CocosCreatorTs))

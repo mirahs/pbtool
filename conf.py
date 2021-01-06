@@ -23,7 +23,7 @@ typescript_cc_import_packages = 'import Packet from \'../net/Packet\''    # 额�
 
 '''
 需要导出协议文件的语言选项
-现支持: golang,typescript_cc
+现支持: erlang,golang,typescript_cc
 
 配置格式:
     lang:       需要导出的语言

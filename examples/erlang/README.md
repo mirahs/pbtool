@@ -1,9 +1,7 @@
-## 依赖环境
+## 依赖
 * [erlang](http://www.erlang.org/downloads/21.1/)
 
-## 目录说明
+## 目录
 * wsserver websocket服务端
 * server 服务端
 * client 客户端
-
-目录下start.sh脚本 "export PATH=/d/apps/erl10.1/bin:${PATH}" 修改erlang安装路径，windows使用werl，linux使用erl，双击运行

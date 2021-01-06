@@ -1,6 +1,6 @@
 -module(pb_role).
 
--export([pack/2,msg/2,unpack/2]).
+-export([pack/2,pack_msg/2,unpack/2,unpack_msg/2]).
 
 
 %% 登录成功
@@ -21,7 +21,7 @@ pack(_Cmd, _Data) ->
 
 
 %% 登录成功
-msg(1010 ,{Uname,GoodsItem}) ->
+pack_msg(1010 ,{Uname,GoodsItem}) ->
 	Bin1 = ?E(string, Uname),
 	FunGoodsItem = fun(FGoodsItem, {CountAcc, BinAcc}) ->
 			FBin = pb_goods:pack_msg(3010, FGoodsItem),
@@ -33,7 +33,7 @@ msg(1010 ,{Uname,GoodsItem}) ->
 	BinData = <<Bin1/binary,Bin2/binary,Bin3/binary>>,
 	{ok, BinData};
 
-msg(_Cmd, _Data) -> 
+pack_msg(_Cmd, _Data) -> 
 	{error, {unknown_command, _Data}}.
 
 
@@ -50,4 +50,19 @@ unpack(1010, _Bin0) ->
 	{ok, {Uname,GoodsItem}};
 
 unpack(_Cmd, _Bin) -> 
+	{error, {unknown_command, _Bin}}.
+
+%% 登录成功
+unpack_msg(1010, _Bin0) ->
+	{Uname, _Bin1} = ?D(string, _Bin0),
+	{GoodsItemCount, _Bin2} = ?D(u16, _Bin1),
+	FunGoodsItem = fun(_, {GoodsItemAcc, _BinGoodsItemAcc}) ->
+				{FunGoodsItem, _BinGoodsItemAcc2} = pb_goods:unpack_msg(3010, _BinGoodsItemAcc),
+				{[FunGoodsItem|GoodsItemAcc], _BinGoodsItemAcc2}
+			end,
+	{GoodsItemTmp, _Bin3} = lists:foldl(FunGoodsItem, {[], _Bin2}, lists:duplicate(GoodsItemCount, 0)),
+	GoodsItem = lists:reverse(GoodsItemTmp),
+	{{Uname,GoodsItem},_Bin3};
+
+unpack_msg(_Cmd, _Bin) -> 
 	{error, {unknown_command, _Bin}}.

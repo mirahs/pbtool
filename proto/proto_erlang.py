@@ -50,8 +50,9 @@ def protocol_const(common_path, mess_name_ids):
 # 协议
 def parse_protos(code_path, file_protos):
     _str_unknown_pack = 'pack(_Cmd, _Data) -> \n\t{error, {unknown_command, _Data}}.\n\n\n'
-    _str_unknown_msg = 'msg(_Cmd, _Data) -> \n\t{error, {unknown_command, _Data}}.\n\n\n'
+    _str_unknown_pack_msg = 'pack_msg(_Cmd, _Data) -> \n\t{error, {unknown_command, _Data}}.\n\n\n'
     _str_unknown_unpack = 'unpack(_Cmd, _Bin) -> \n\t{error, {unknown_command, _Bin}}.\n\n'
+    _str_unknown_unpack_msg = 'unpack_msg(_Cmd, _Bin) -> \n\t{error, {unknown_command, _Bin}}.\n\n'
 
     for filename in file_protos:
         _file_name = code_path + 'pb_' + filename + '.erl'
@@ -61,7 +62,7 @@ def parse_protos(code_path, file_protos):
         for include in includes:
             _str_include += '\n-include("' + include + '.hrl").'
 
-        _str_protos = '-module(pb_' + filename + ').' + _str_include + '\n\n-export([pack/2,msg/2,unpack/2]).\n\n\n'
+        _str_protos = '-module(pb_' + filename + ').' + _str_include + '\n\n-export([pack/2,pack_msg/2,unpack/2,unpack_msg/2]).\n\n\n'
 
         protos = file_protos[filename]['protos']
 
@@ -71,14 +72,19 @@ def parse_protos(code_path, file_protos):
         _str_protos += _str_unknown_pack
 
         for proto in protos:
-            _str_proto = ProtoErlang(proto).do_msg()
+            _str_proto = ProtoErlang(proto).do_pack_msg()
             _str_protos += _str_proto + ';\n\n'
-        _str_protos += _str_unknown_msg
+        _str_protos += _str_unknown_pack_msg
 
         for proto in protos:
             _str_proto = ProtoErlang(proto).do_unpack()
             _str_protos += _str_proto + ';\n\n'
         _str_protos += _str_unknown_unpack
+
+        for proto in protos:
+            _str_proto = ProtoErlang(proto).do_unpack_msg()
+            _str_protos += _str_proto + ';\n\n'
+        _str_protos += _str_unknown_unpack_msg
 
         with open(_file_name, 'w+') as fd:
             fd.write(_str_protos[:-1])
@@ -104,13 +110,16 @@ class ProtoErlang(object):
         str_msg += '{ok, ?MSG(' + str(self._mess_id) + ', BinData)}'
         return self._str_mess_note + 'pack(' + self._mess_id + ' ,' + self._str_decode + ') ->\n\t' + self._str_proto_encode + str_msg
 
-    def do_msg(self):
+    def do_pack_msg(self):
         str_msg = 'BinData = ' + self._str_bin_encode + ',\n\t'
         str_msg += '{ok, BinData}'
-        return self._str_mess_note + 'msg(' + self._mess_id + ' ,' + self._str_decode + ') ->\n\t' + self._str_proto_encode + str_msg
+        return self._str_mess_note + 'pack_msg(' + self._mess_id + ' ,' + self._str_decode + ') ->\n\t' + self._str_proto_encode + str_msg
 
     def do_unpack(self):
         return self._str_mess_note + 'unpack(' + self._mess_id + ', _Bin0) ->\n\t' + self._str_proto_decode + '{ok, ' + self._str_decode + '}'
+
+    def do_unpack_msg(self):
+        return self._str_mess_note + 'unpack_msg(' + self._mess_id + ', _Bin0) ->\n\t' + self._str_proto_decode + '{' + self._str_decode + ',' + self._str_return_bin + '}'
 
     def _set_decode(self):
         if 'proto_specs' in self._proto and 'record' in self._proto['proto_specs']:
@@ -288,4 +297,4 @@ class ProtoErlang(object):
                 _str_tmp += 'end,\n\t'
                 self._str_proto_decode += _str_tmp
 
-        self._str_return_bin = 'Bin' + str(_idx_bin)
+        self._str_return_bin = '_Bin' + str(_idx_bin)

@@ -1,7 +1,6 @@
-
 interface Handler {
-    caller: any;
     method: Function;
+    caller: any;
 }
 
 interface QueueData {

@@ -1,12 +1,13 @@
 import EventMgr from "../EventMgr";
 import Packet from "./Packet";
 
-const ByteBuffer = require("bytebuffer")
+const ByteBuffer = require("bytebuffer");
 
 
+// 协议回调
 interface Handler {
-    caller: any;
     method: Function;
+    caller: any;
 }
 
 
@@ -22,7 +23,6 @@ export default class NetMgr {
 
     private static _inst: NetMgr = null;
     public static get inst(): NetMgr { return this._inst || (this._inst = new NetMgr()); }
-
 
     // Event事件
     public static readonly event = {
@@ -42,34 +42,43 @@ export default class NetMgr {
     }
 
 
-    public on(packetId: number, caller: any, method: Function): void {
+    // 协议回调注册
+    public on(packetId: number, method: Function, caller?: any): void {
         if (this._handlers[packetId]) {
             const handlers = this._handlers[packetId];
-            const handler: Handler = { caller: caller, method: method };
+            const handler: Handler = { method: method, caller: caller };
             handlers.push(handler);
         } else {
             const handlers: Handler[] = [];
-            const handler: Handler = { caller: caller, method: method };
+            const handler: Handler = { method: method, caller: caller };
             handlers.push(handler);
             this._handlers[packetId] = handlers;
         }
     }
 
-    public off(packetId: number, caller: any, method: Function): void {
-        if (this._handlers[packetId]) {
-            const handlers: Handler[] = this._handlers[packetId];
-            for (let i = handlers.length - 1; i >= 0; i--) {
-                let handler: Handler = handlers[i];
-                if (handler.caller == caller && handler.method == method) {
-                    handlers.splice(i, 1);
-                }
+    // 协议回调删除
+    public off(packetId: number, method: Function, caller?: any): void {
+        if (!this._handlers[packetId]) {
+            console.error('packetId[' + packetId + ']没有注册');
+            return;
+        }
+
+        const handlers: Handler[] = this._handlers[packetId];
+        for (let i = handlers.length - 1; i >= 0; i--) {
+            let handler: Handler = handlers[i];
+            if (handler.method == method && handler.caller == caller) {
+                handlers.splice(i, 1);
             }
-        } else {
-            console.log('packetId: ' + packetId + ' 没有注册');
         }
     }
 
-    public clear(caller: any): void {
+    // 协议回调清除 caller 为空清除所有, 不为空清除对应 caller 回调
+    public clear(caller?: any): void {
+        if (!caller) {
+            this._handlers = {};
+            return;
+        }
+
         for (let packetId in this._handlers) {
             const handlers: Handler[] = this._handlers[packetId];
             for (let i = handlers.length - 1; i >= 0; i--) {
@@ -95,22 +104,25 @@ export default class NetMgr {
         this._socket.onerror = (ev: ErrorEvent) => { this.errorHandler(ev); };
     }
 
+    // 断开链接
     public disConnect(): void {
         if (this._socket != null && this._socket.readyState != WebSocket.CLOSING) {
             this._socket.close();
         }
     }
 
+    // 发送消息
     public send(packet: Packet): void {
-        if (this.isConnect) {
-            const bf = packet.Buffer();
-            this._socket.send(bf);
-            //console.log('send packetId:' + packet.packetId);
-        } else {
-            console.log('网络没链接或断开');
+        if (!this.isConnect) {
+            console.error('网络没链接或断开');
+            return;
         }
+
+        const bf = packet.Buffer();
+        this._socket.send(bf);
     }
 
+    // 是否链接服务器
     public get isConnect(): boolean {
         return this._socket != null && this._socket.readyState == WebSocket.OPEN;
     }

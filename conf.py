@@ -11,7 +11,6 @@ data_proto  = data_dir + 'proto/'
 
 # erlang
 erlang_packet_mod = 'pb'    # 编码解码模块
-erlang_includes = []        # 头文件列表
 
 # golang
 golang_package_name = 'proto'           # 协议文件包名

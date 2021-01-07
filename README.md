@@ -7,7 +7,8 @@
 [JetBrains PyCharm](https://www.jetbrains.com/?from=pbtool)
 
 ## 依赖
-* python 2.7.x
+* [python 2.7.x](https://www.python.org/)
+* [Git for Windows(非必要，运行示例程序才需要)](https://gitforwindows.org/)
 
 ## 支持语言
 * [erlang](examples/erlang)

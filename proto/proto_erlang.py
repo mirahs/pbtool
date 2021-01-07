@@ -58,8 +58,7 @@ def parse_protos(code_path, file_protos):
         _file_name = code_path + 'pb_' + filename + '.erl'
 
         _str_include = ''
-        includes = conf.erlang_includes + file_protos[filename]['includes']
-        for include in includes:
+        for include in file_protos[filename]['includes']:
             _str_include += '\n-include("' + include + '.hrl").'
 
         _str_protos = '-module(pb_' + filename + ').' + _str_include + '\n\n-export([pack/2,pack_msg/2,unpack/2,unpack_msg/2]).\n\n\n'

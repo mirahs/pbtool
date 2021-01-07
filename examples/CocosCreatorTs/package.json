@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@types/bytebuffer": "^5.0.37",
+    "bytebuffer": "^5.0.1"
+  }
+}

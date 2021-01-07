@@ -6,17 +6,17 @@
 -export([start/2]).
 -export([stop/1]).
 
+-include("common.hrl").
+
 
 %% API.
 start(_Type, _Args) ->
 	Dispatch = cowboy_router:compile([
 		{'_', [
-			{"/", cowboy_static, {priv_file, websocket, "index.html"}},
-			{"/websocket", ws_handler, []},
-			{"/static/[...]", cowboy_static, {priv_dir, websocket, "static"}}
+			{"/websocket", ws_handler, []}
 		]}
 	]),
-	{ok, _} = cowboy:start_clear(http, [{port, 8080}], #{
+	{ok, _} = cowboy:start_clear(http, [{port, ?PORT}], #{
 		env => #{dispatch => Dispatch}
 	}),
 	game_sup:start_link().

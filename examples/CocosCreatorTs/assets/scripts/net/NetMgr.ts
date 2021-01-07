@@ -18,9 +18,6 @@ export default class NetMgr {
 
     private _handlers: { [packetId: number]: Handler[] } = {};
 
-    private _bufferLen: number = 0;
-    private _buffer: ByteBuffer = null;
-
     private static _inst: NetMgr = null;
     public static get inst(): NetMgr { return this._inst || (this._inst = new NetMgr()); }
 
@@ -32,14 +29,6 @@ export default class NetMgr {
         NetReconnect: 4,        //网络重连
         NetError: 5,            //网络错误
     };
-
-
-    constructor() {
-        this._handlers = {};
-
-        this._bufferLen = 0;
-        this._buffer = new ByteBuffer();
-    }
 
 
     // 协议回调注册
@@ -59,7 +48,7 @@ export default class NetMgr {
     // 协议回调删除
     public off(packetId: number, method: Function, caller?: any): void {
         if (!this._handlers[packetId]) {
-            console.error('packetId[' + packetId + ']没有注册');
+            console.error('off packetId[' + packetId + ']没有注册');
             return;
         }
 
@@ -92,7 +81,7 @@ export default class NetMgr {
     }
 
 
-    public connect(host: string = '', port: number = 0): void {
+    public connect(host: string, port: number): void {
         this._host = host;
         this._port = port;
         this._socket = new WebSocket("ws://" + this._host + ":" + this._port + '/websocket');
@@ -145,47 +134,41 @@ export default class NetMgr {
     }
 
 
+    // websocket 是没有粘包的, 但业务包会压缩, 所以会粘在一起
     private processRecive(data: ArrayBuffer): void {
-        //console.log('data:', data);
-        this._bufferLen += data.byteLength;
-        //console.log('this._bufferLen:', this._bufferLen)
-        this._buffer.append(data);
-        //console.log('this._buffer:', this._buffer)
-        // 2个字节表示包体长度
-        while (this._bufferLen >= 2) {
+        let bb = new ByteBuffer();
+        bb.append(data);
+        while (bb.buffer.byteLength > 2) {
             // 包体长度
-            const bodyLen = this._buffer.readUint16(0);
-            //console.log('bodyLen:', bodyLen)
-            // 1个完整包(包括2个字节表示包体长度)
-            if (this._bufferLen >= 2 + bodyLen) {
+            const bodyLen = bb.readUint16(0);
+            if (bb.buffer.byteLength >= 2 + bodyLen) {
                 // 包体
-                const bodyBuffer = this._buffer.copy(2, 2 + bodyLen)
-
+                const bodyBuffer = bb.copy(2, 2 + bodyLen); // 2个参数都是 pos
                 // 删除1个完整包
-                this._buffer = this._buffer.copy(2 + bodyLen, this._bufferLen)
-                // 减去1个完整包长度
-                this._bufferLen = this._bufferLen - (2 + bodyLen)
-                this._buffer = this._bufferLen == 0 ? new ByteBuffer() : this._buffer
-
+                bb = bb.copy(2 + bodyLen, bb.buffer.byteLength); // 2个参数都是 pos
                 // 派发协议
                 this.dispatch(bodyBuffer);
+            } else {
+                console.error("processRecive 错误 bb.buffer.byteLength：%d,bodyLen:%d", bb.buffer.byteLength, bodyLen);
+                break;
             }
         }
     }
 
     private dispatch(bodyBuffer: ByteBuffer = null): void {
-        const packetId = bodyBuffer.readUint16(0)
-        //console.log('packetId:', packetId)
+        const packetId = bodyBuffer.readUint16(0);
+        //console.log('packetId:', packetId);
+        if (!this._handlers[packetId]) {
+            console.error('dispatch packetId:' + packetId + ' 没有注册');
+            return;
+        }
+        
         const packetBuffer = bodyBuffer.slice(2)
-        if (this._handlers[packetId]) {
-            const handlers = this._handlers[packetId];
-            for (let i = 0; i < handlers.length; i++) {
-                const packet = new Packet(packetBuffer);
-                const handler: Handler = handlers[i];
-                handler.method.apply(handler.caller, [packetId, packet]);
-            }
-        } else {
-            console.log('packetId: ' + packetId + ' 没有注册');
+        const handlers = this._handlers[packetId];
+        for (let i = 0; i < handlers.length; i++) {
+            const packet = new Packet(packetBuffer);
+            const handler: Handler = handlers[i];
+            handler.method.apply(handler.caller, [packetId, packet]);
         }
     }
 }

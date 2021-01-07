@@ -10,9 +10,6 @@
 -include("common.hrl").
 -include("pb.hrl").
 
--define(DEBUG(F), debug(F, [], ?MODULE, ?LINE)).
--define(DEBUG(F, A), debug(F, A, ?MODULE, ?LINE)).
-
 
 %%%===================================================================
 %%% API
@@ -85,12 +82,6 @@ rpc(?p_role_login, Data, Socket) ->
 rpc(PacketId, Data, _Socket) ->
 	?DEBUG("Unknow PacketId:~w Data:~w~n", [PacketId, Data]).
 
-%% 发送消息
-send(Socket, {ok, Bin}) ->
-	pb:send(Socket, Bin);
-send(Socket, Bin) ->
-	pb:send(Socket, Bin).
-
 
 %%%===================================================================
 %%% Internal functions
@@ -119,15 +110,8 @@ pack(Cmd, Data) ->
             {error, "打包数据时发生异常"}
     end.
 
-debug(Format, Args, Mod, Line) ->
-    Msg = format("debug", Format, Args, Mod, Line),
-    io:format("~ts", [Msg]).
-
-%% 格式化日志信息
-format(T, F, A, Mod, Line) ->
-    {{Y, M, D}, {H, I, S}} = erlang:localtime(),
-    Date = lists:concat([Y, "/", M, "/", D, "_", H, ":", I, ":", S]),
-    case Line of
-        null -> erlang:iolist_to_binary(io_lib:format(lists:concat(["## ", T, " ~s ", F, "~n"]), [Date] ++ A));
-        _ -> erlang:iolist_to_binary(io_lib:format(lists:concat(["## ", T, " ~s [~w:~w] ", F, "~n"]), [Date, Mod, Line] ++ A))
-    end.
+%% 发送消息
+send(Socket, {ok, Bin}) ->
+	pb:send(Socket, Bin);
+send(Socket, Bin) ->
+	pb:send(Socket, Bin).

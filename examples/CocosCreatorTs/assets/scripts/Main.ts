@@ -12,10 +12,10 @@ const { ccclass } = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
     onLoad() {
-        EventMgr.inst.on(NetMgr.event.NetConnectSuccess, this, this.handleEvent);
+        EventMgr.inst.on(NetMgr.event.NetConnectSuccess, this.handleEvent, this);
 
-        NetMgr.inst.on(Msg.ROLE_LOGIN_OK, this, this.handleNet);
-        NetMgr.inst.on(Msg.GOODS_ITEM, this, this.handleNet);
+        NetMgr.inst.on(Msg.ROLE_LOGIN_OK, this.handleNet, this);
+        NetMgr.inst.on(Msg.GOODS_ITEM, this.handleNet, this);
     }
 
     start() {

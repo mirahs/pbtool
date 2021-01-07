@@ -1,0 +1,4 @@
+-define(p_goods_item,                   2010). % 物品数据
+-define(p_goods_list,                   2020). % 物品列表
+-define(p_role_login,                   1010). % 请求登录
+-define(p_role_login_ok,                1020). % 登录成功

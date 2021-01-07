@@ -1,14 +1,15 @@
 {application, game,
- [
-  {description, ""},
-  {vsn, "1"},
-  {registered, []},
-  {applications, [
-                  kernel,
-                  stdlib,
+    [
+        {description, ""},
+        {vsn, "1"},
+        {registered, []},
+        {applications, [
+            kernel,
+            stdlib,
 
-                  cowboy
-                 ]},
-  {mod, { game_app, []}},
-  {env, []}
- ]}.
+            cowboy
+        ]},
+        {mod, { game_app, []}},
+        {env, []}
+    ]
+}.

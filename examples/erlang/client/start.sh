@@ -6,4 +6,9 @@ mkdir -p ebin
 
 erl -noshell -s make all -s init stop
 
-werl -pa ebin -s client &
+if [ ${MSYSTEM} ]
+then
+	werl -pa ebin -s client &
+else
+	erl -pa ebin -s client
+fi

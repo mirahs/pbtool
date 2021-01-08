@@ -12,10 +12,10 @@ import (
 
 
 func main() {
-	simpleTest()
-
+	println("server start begin")
 	listener, err := net.Listen("tcp", ":8888")
 	checkError(err)
+	println("server start success")
 	defer listener.Close()
 
 	for {
@@ -24,36 +24,9 @@ func main() {
 			fmt.Fprintf(os.Stderr, "listener.Accept() error: %s", err)
 			continue
 		}
+		println("client connection")
 		go handleClient(conn)
 	}
-}
-
-
-func simpleTest() {
-	chatSend := &proto.ChatSend{}
-	chatSend.Channel = 1
-	chatSend.Content = "Hello, World!"
-
-	buff := chatSend.EncodeMsg()
-	chatSend2 := proto.ChatSendDecode(packet.NewReadBuff(buff))
-	fmt.Println(chatSend2)
-
-	chatSend2.Channel = 3
-	chatSend2.DestUid = 10086
-
-	buff2 := chatSend2.EncodeMsg()
-	chatSend3 := proto.ChatSendDecode(packet.NewReadBuff(buff2))
-	fmt.Println(chatSend3)
-
-	roleLoginOk := proto.RoleLoginOk{}
-	roleLoginOk.Uname = "golang"
-	goodsItem := []*proto.GoodsItem{{Id: 11, Num: 110}, {Id: 22, Num: 220}}
-	roleLoginOk.GoodsItem = goodsItem
-
-	buff3 := roleLoginOk.EncodeMsg()
-	roleLoginOk2 := proto.RoleLoginOkDecode(packet.NewReadBuff(buff3))
-	fmt.Println(roleLoginOk2.Uname)
-	fmt.Println(roleLoginOk2.GoodsItem[0], roleLoginOk2.GoodsItem[1])
 }
 
 
@@ -87,7 +60,7 @@ func handleClient(conn net.Conn) {
 					buffers = buffers[headLen+bodyLen:]
 					buffersLen -= int(bodyLen) + headLen
 
-					dispatch(bodyBuff)
+					dispatch(conn, bodyBuff)
 				} else {
 					break
 				}
@@ -98,29 +71,32 @@ func handleClient(conn net.Conn) {
 	}
 }
 
-func checkError(err error) {
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Fatal error: %s", err)
-		os.Exit(1)
-	}
-}
-
-func dispatch(bodyBuff []byte) {
+func dispatch(conn net.Conn, bodyBuff []byte) {
 	packetIdBuff := bodyBuff[:2]
 	packetId := packetutil.ReadU16(packetIdBuff)
 	println("packetId: ", packetId)
 	buf := bodyBuff[2:]
-	packet := packet.NewReadBuff(buf)
+	packetN := packet.NewReadBuff(buf)
 	switch packetId {
-	case proto.P_REQ_TEST_X_X:
-		reqTestXX := proto.ReqTestXXDecode(packet)
-		fmt.Println("reqTestXX:", reqTestXX)
-	case proto.P_REQ_TEST_SEND:
-		reqTestSend := proto.ReqTestSendDecode(packet)
-		fmt.Println("reqTestXX:", reqTestSend)
-		fmt.Println(reqTestSend.OpRoleBase.Uid)
-		fmt.Println(reqTestSend.OpRoleBase.Uname)
+	case proto.P_ROLE_LOGIN:
+		roleLogin := proto.RoleLoginDecode(packetN)
+		fmt.Println("roleLogin:", roleLogin)
+
+		goodsItems := []*proto.GoodsItem{{Id: 100, Num: 11}, {Id: 200, Num: 22}}
+		roleLoginOk := proto.RoleLoginOk{Uid: 10086, Uname: "erlang", GoodsItem: goodsItems}
+
+		goodsItem := proto.GoodsItem{Id: 300, Num: 33}
+
+		conn.Write(append(roleLoginOk.Encode(), goodsItem.Encode()...))
 	default:
 		fmt.Println("unknown packetId:", packetId)
+	}
+}
+
+
+func checkError(err error) {
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Fatal error:%s", err)
+		os.Exit(1)
 	}
 }

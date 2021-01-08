@@ -1,7 +1,7 @@
-## 依赖环境
+## 依赖
 * golang
 
-## 目录说明
-* wsserver websocket服务端
-* server 服务端
+## 目录
 * client 客户端
+* server 服务端
+* wsserver web socket 服务端

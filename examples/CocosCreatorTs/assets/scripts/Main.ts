@@ -19,7 +19,7 @@ export default class NewClass extends cc.Component {
     }
 
     protected start(): void {
-        NetMgr.inst.connect('127.0.0.1', 8888);
+        NetMgr.inst.connect('127.0.0.1', 8889);
     }
 
 

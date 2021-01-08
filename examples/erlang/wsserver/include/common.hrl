@@ -1,4 +1,4 @@
--define(PORT,	8888).
+-define(PORT,	8889).
 
 
 -define(DEBUG(Format),			logger:debug(Format, [], ?MODULE, ?LINE)).

@@ -1,6 +1,6 @@
 #!/bin/bash
 rm -f ./wsserver/server
-\cp ./../../data/data.code.golang.server/* ./wsserver/proto
-cd wsserver
+\cp ../../data/golang/* ./wsserver/proto/
+cd wsserver/
 go build server
 ./server

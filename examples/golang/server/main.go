@@ -53,7 +53,7 @@ func handleClient(conn net.Conn) {
 		buffersLen += readLen
 
 		for {
-			if buffersLen >= headLen + 2 {
+			if buffersLen > headLen {
 				bodyLen := int(packetutil.ReadU16(buffers))
 				if buffersLen >= headLen + bodyLen {
 					bodyBuff := buffers[headLen:bodyLen+headLen]

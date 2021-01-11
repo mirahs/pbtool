@@ -1,26 +1,39 @@
 package main
 
 import (
-	"golang.org/x/net/websocket"
 	"fmt"
+	"golang.org/x/net/websocket"
 	"io"
+	"net/http"
 	"os"
 	"packet"
 	packetutil "packet/util"
 	"server/proto"
-	"net/http"
 )
 
+
 type WSServer struct {
-    ListenAddr string
+	ListenAddr string
+}
+
+func (this *WSServer) start() error {
+	http.Handle("/websocket", websocket.Handler(this.handler))
+	fmt.Println("begin to listen")
+	err := http.ListenAndServe(this.ListenAddr, nil)
+	if err != nil {
+		fmt.Println("ListenAndServe:", err)
+		return err
+	}
+	fmt.Println("start end")
+	return nil
 }
 
 func (this *WSServer) handler(conn *websocket.Conn) {
 	defer conn.Close()
 
-    fmt.Printf("a new ws conn: %s->%s\n", conn.RemoteAddr().String(), conn.LocalAddr().String())
+	fmt.Printf("a new ws conn: %s->%s\n", conn.RemoteAddr().String(), conn.LocalAddr().String())
 
-    headLen := 2
+	headLen := 2
 	buffers := make([]byte, 51200)
 	buffersLen := 0
 	buffersTmp := make([]byte, 512)
@@ -40,14 +53,14 @@ func (this *WSServer) handler(conn *websocket.Conn) {
 		buffersLen += readLen
 
 		for {
-			if buffersLen >= headLen + 2 {
+			if buffersLen > headLen {
 				bodyLen := int(packetutil.ReadU16(buffers))
 				if buffersLen >= headLen + bodyLen {
 					bodyBuff := buffers[headLen:bodyLen+headLen]
 					buffers = buffers[headLen+bodyLen:]
 					buffersLen -= int(bodyLen) + headLen
 
-					dispatch(bodyBuff, conn)
+					dispatch(conn, bodyBuff)
 				} else {
 					break
 				}
@@ -57,67 +70,34 @@ func (this *WSServer) handler(conn *websocket.Conn) {
 		}
 	}
 }
-func (this *WSServer) start() error {
-    http.Handle("/websocket", websocket.Handler(this.handler))
-    fmt.Println("begin to listen")
-    err := http.ListenAndServe(this.ListenAddr, nil)
-    if err != nil {
-        fmt.Println("ListenAndServe:", err)
-        return err
-    }
-    fmt.Println("start end")
-    return nil
-}
+
 
 func main(){
-    wsServer := &WSServer{
-        ListenAddr : "127.0.0.1:8080",
-    }
-    wsServer.start()
-    fmt.Println("------end-------")
+	wsServer := &WSServer{
+		ListenAddr : "127.0.0.1:8889",
+	}
+	wsServer.start()
+	fmt.Println("------end-------")
 }
 
 
-func dispatch(bodyBuff []byte, conn *websocket.Conn) {
+func dispatch(conn *websocket.Conn, bodyBuff []byte) {
 	packetIdBuff := bodyBuff[:2]
 	packetId := packetutil.ReadU16(packetIdBuff)
 	println("packetId: ", packetId)
 	buf := bodyBuff[2:]
-	packet := packet.NewReadBuff(buf)
+	packetN := packet.NewReadBuff(buf)
 	switch packetId {
-	case proto.P_REQ_TEST_X_X:
-		reqTestXX := proto.ReqTestXXDecode(packet)
-		fmt.Println("reqTestXX:", reqTestXX)
+	case proto.P_ROLE_LOGIN:
+		roleLogin := proto.RoleLoginDecode(packetN)
+		fmt.Println("roleLogin:", roleLogin)
 
-		ackTestXX := proto.AckTestXX{}
-		ackTestXX.SetIdU8(10)
-		ackTestXX.SetIdU16(20)
-		ackTestXX.SetIdU32(30)
-		ackTestXX.SetOptionalIdU8(60)
+		goodsItems := []*proto.GoodsItem{{Id: 100, Num: 11}, {Id: 200, Num: 22}}
+		roleLoginOk := proto.RoleLoginOk{Uid: 10086, Uname: "erlang", GoodsItem: goodsItems}
 
-		//conn.Write(ackTestXX.Encode())
-		websocket.Message.Send(conn, ackTestXX.Encode())
-	case proto.P_REQ_TEST_SEND:
-		reqTestSend := proto.ReqTestSendDecode(packet)
-		fmt.Println("reqTestXX:", reqTestSend)
-		fmt.Println(reqTestSend.GetOpRoleBase().GetUid())
-		fmt.Println(reqTestSend.GetOpRoleBase().GetUname())
+		goodsItem := proto.GoodsItem{Id: 300, Num: 33}
 
-		ackTestSendOk := proto.AckTestSendOk{}
-		ackTestSendOk.SetIdU8(255)
-		idF32 := []float32{1.23, 1.24}
-		ackTestSendOk.SetIdF32(idF32)
-		ackTestSendOk.SetIdOpU8(222)
-		msgRoleBase := &proto.MsgRoleBase{}
-		msgRoleBase.SetUid(12306)
-		msgRoleBase.SetUname("mirahs 你好")
-		ackTestSendOk.SetRoleBase(msgRoleBase)
-		ackTestSendOk.SetOpRoleBase(msgRoleBase)
-
-		bytes := ackTestSendOk.Encode()
-		bytes = append(bytes, bytes...)
-		//conn.Write(bytes)
-		websocket.Message.Send(conn, bytes)
+		websocket.Message.Send(conn, append(roleLoginOk.Encode(), goodsItem.Encode()...))
 	default:
 		fmt.Println("unknown packetId:", packetId)
 	}

@@ -32,15 +32,15 @@ typescript_cc_import_packages = 'import Packet from \'../net/Packet\''    # È¢ùÂ
 langs_proto = [
     {
         'lang':     'erlang',
-        'code':     data_dir + 'erlang',
-        'common':   data_dir + 'erlang.common',
+        'code':     data_dir + 'erlang/',
+        'common':   data_dir + 'erlang.common/',
     },
     {
         'lang':     'golang',
-        'code':     data_dir + 'golang',
+        'code':     data_dir + 'golang/',
     },
     {
         'lang':     'typescript_cc',
-        'code':     data_dir + 'typescript.cc',
+        'code':     data_dir + 'typescript.cc/',
     },
 ]

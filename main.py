@@ -9,7 +9,9 @@ from proto import proto
 
 protos_all = []
 protos_file = {}
-for dirpath, dirnames, filenames in os.walk(conf.data_proto):
+
+_data_proto = conf.data_proto if conf.data_proto.endswith('/') else conf.data_proto + '/'
+for dirpath, dirnames, filenames in os.walk(_data_proto):
     for filetmp in filenames:
         filename = dirpath + filetmp
         if os.path.isfile(filename):
@@ -20,14 +22,14 @@ for dirpath, dirnames, filenames in os.walk(conf.data_proto):
 
 for lang in conf.langs_proto:
     _lang = lang['lang']
-    _code_path = lang['code'] + '/'
+    _code_path = lang['code'] if lang['code'].endswith('/') else lang['code'] + '/'
     if not os.path.exists(_code_path):
         print _code_path + ' 目录不存在'
         continue
 
     _common_path = ''
     if 'common' in lang:
-        _common_path = lang['common'] + '/'
+        _common_path = lang['common'] if lang['common'].endswith('/') else lang['common'] + '/'
         if not os.path.exists(_common_path):
             print _common_path + ' 目录不存在'
             continue

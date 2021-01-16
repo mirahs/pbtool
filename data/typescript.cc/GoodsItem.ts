@@ -2,8 +2,8 @@ import Packet from '../net/Packet';
 
 
 export default class GoodsItem {
-	private _id: number;
-	private _num: number;
+	private _id: number = 0;
+	private _num: number = 0;
 
 	constructor(packet?: Packet) {
 		if (packet) {

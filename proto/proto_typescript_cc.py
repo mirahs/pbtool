@@ -68,6 +68,17 @@ def trans_mess_type(proto):
     return proto
 
 
+# 变量默认值
+def field_default_value(field_type, field_type_ori):
+    if field_type_ori not in lan_types:
+        return 'null'
+    else:
+        if field_type == 'string':
+            return '""'
+        else:
+            return '0'
+
+
 class ProtoTypeScript(object):
     def __init__(self, code_path, proto):
         self._code_path = code_path
@@ -118,18 +129,21 @@ class ProtoTypeScript(object):
         for mess_field in self._proto['mess_fields']:
             field_op = mess_field['field_op']
             field_type = mess_field['field_type']
+            field_type_ori = mess_field['field_type_ori']
             if not isinstance(field_type, basestring):
                 field_type = field_type[1]
             field_name = mess_field['field_name']
             field_name_flag = field_name + '_flag'
             field_name_m = '_' + field_name
+
+            default_val = field_default_value(field_type, field_type_ori)
+            if field_op == 'optional':
+                self._str_priv_var += '\tprivate ' + field_name_flag + ': number = 0;\n'
+
             if field_op == 'repeated':
                 self._str_priv_var += '\tprivate ' + field_name_m + ': ' + field_type + '[] = [];\n'
-            elif field_op == 'optional':
-                self._str_priv_var += '\tprivate ' + field_name_flag + ': number = 0;\n'
-                self._str_priv_var += '\tprivate ' + field_name_m + ': ' + field_type + ';\n'
             else:
-                self._str_priv_var += '\tprivate ' + field_name_m + ': ' + field_type + ';\n'
+                self._str_priv_var += '\tprivate ' + field_name_m + ': ' + field_type + ' = ' + default_val + ';\n'
 
     def _set_encode(self):
         self._get_proto_encode_common()

@@ -2,8 +2,8 @@ import Packet from '../net/Packet';
 
 
 export default class RoleLogin {
-	private _account: string;
-	private _password: string;
+	private _account: string = "";
+	private _password: string = "";
 
 	constructor(packet?: Packet) {
 		if (packet) {

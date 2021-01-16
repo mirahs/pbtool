@@ -8,4 +8,4 @@ else
 	npm install -S @types/bytebuffer@5.0.37
 fi
 
-\cp ../../data/typescript.cc/* assets/scripts/proto/
+\cp ../../../data/typescript.cc/* assets/scripts/proto/

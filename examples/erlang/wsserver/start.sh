@@ -1,4 +1,6 @@
 #!/bin/bash
+export PATH=/d/apps/erl9.3/bin:${PATH}
+
 \cp ../../../data/erlang/* src/pb/
 \cp ../../../data/erlang.common/* include/
 

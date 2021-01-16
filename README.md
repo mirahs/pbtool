@@ -41,35 +41,30 @@ python main.py
 就会在 langs_proto 配置的每个 code 配置项的目录下面生成协议文件
 
 ## 协议描述文件
-每条协议都以 message 协议名(协议ID) 开头, 然后回车后以左大括号 { 加回车, 然后是具体的协议字段, 最后以右大括号 } 加回车结束  
-协议名以 C 开头代表客户端请求, S 开头代表服务端返回, Msg开头代表协议块  
+协议以 message 协议名(协议ID) 开头, 回车后以左大括号 { 加回车, 然后是具体的协议字段, 最后以右大括号 } 加回车结束  
+
 协议字段选项有3种格式: required repeated optional  
-* required		必填字段, 没填写为类型默认值
-* repeated		列表字段, 两个字节代表长度, 后面为列表数据
-* optional		可选字段, 一个字节标志, 1表示有数据, 后为具体数据, 0表示无数据  
+* required  必填字段
+* repeated  列表字段
+* optional  可选字段
 
 具体协议字段 字段选项 字段类型 字段名称: 如 required string uname  
-协议类型有: u8 i8 u16 i16 u32 i32 u64 i64 f32 f64 string Msg自定义  
+协议类型有: u8 i8 u16 i16 u32 i32 u64 i64 f32 f64 string 自定义  
 
-具体协议:  
+协议示例:  
 ```python
-message CTestXX(50000)
+message GoodsItem(2010) //物品数据
 {
-	required	u16 		id16
-	repeated	u8 			idu8s
-	optional 	MsgTestXX	msgxx
+	required	u32			id				//物品ID
+	required	u16			num				//物品数量
 }
 
-message STestXX(50000)
+message GoodsList(2020) //物品列表
 {
-	required	u16 		id16
-	repeated	u8 			idu8s
-	optional 	MsgTestXX	msgxx
-}
-
-message MsgTestXX(50000)
-{
-	required	string		uname
+	repeated	GoodsItem	goods			//物品列表
 }
 ```
-具体还是看支持语言的具体例子吧, 每个都写了socket服务端和客户端, 粘包也做了处理
+具体可以看[例子](examples), 里面有 socket 服务端和客户端以及 websocket
+
+## 联系方式
+* QQ: 643993254

@@ -13,7 +13,7 @@
 ## 支持语言
 * [erlang](examples/erlang)
 * [golang](examples/golang)
-* [typescript_cc](examples/CocosCreatorTs)(适用于 cocos creator)
+* [typescript_cc](examples/typescript/CocosCreator)(cocos creator)
 
 ## 使用方法
 修改 conf.py 文件  

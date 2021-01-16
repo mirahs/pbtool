@@ -8,7 +8,7 @@
 
 ## 依赖
 * [python 2.7.x](https://www.python.org/)
-* [Git for Windows](https://gitforwindows.org/)(非必要，运行示例程序才需要)
+* [Git for Windows](https://gitforwindows.org/)(运行示例程序需要)
 
 ## 支持语言
 * [erlang](examples/erlang)
@@ -49,10 +49,11 @@ python main.py
 * optional  可选字段
 
 具体协议字段 字段选项 字段类型 字段名称: 如 required string uname  
+
 协议类型有: u8 i8 u16 i16 u32 i32 u64 i64 f32 f64 string 自定义  
 
 协议示例:  
-```python
+```
 message GoodsItem(2010) //物品数据
 {
 	required	u32			id				//物品ID

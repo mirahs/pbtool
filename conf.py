@@ -15,6 +15,9 @@ as_extra_packages   = 'laya.utils.Byte'  # 额外引入的包，多个包空格�
 # typescript cocos creator相关配置
 ts_cc_extra_packages= 'import Packet from \'@mi/mod/Packet\''  # 额外引入的包，多个包空格分隔
 
+# typescript laya2 相关配置
+ts_laya2_extra_packages = 'import Packet from \'./Packet\''  # 额外引入的包
+
 
 '''
 需要导出协议文件的语言选项
@@ -43,6 +46,7 @@ ts_cc_extra_packages= 'import Packet from \'@mi/mod/Packet\''  # 额外引入的
     typescript_client
     typescript_cc_client
     actionscript_client
+    typescript_laya2_client
 
 配置格式:
     lang:       需要导出的语言
@@ -156,5 +160,9 @@ langs_proto = [
     {
         'lang':     'actionscript_client',
         'code':     'data.code.actionscript.client',
+    },
+    {
+        'lang':     'typescript_laya2_client',
+        'code':     'data.code.typescript.laya2.client',
     },
 ]

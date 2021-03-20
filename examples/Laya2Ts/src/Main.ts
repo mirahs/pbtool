@@ -1,4 +1,8 @@
 import GameConfig from "./GameConfig";
+
+import NetMgr from "./game/net/NetMgr";
+
+
 class Main {
 	constructor() {
 		//根据IDE设置初始化引擎		
@@ -31,7 +35,21 @@ class Main {
 	onConfigLoaded(): void {
 		//加载IDE指定的场景
 		GameConfig.startScene && Laya.Scene.open(GameConfig.startScene);
+
+
+		this.test();
+	}
+
+
+
+	private _netMgr: NetMgr = null;
+	
+
+	private test(): void {
+
 	}
 }
+
+
 //激活启动类
 new Main();

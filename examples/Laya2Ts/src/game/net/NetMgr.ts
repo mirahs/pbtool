@@ -156,9 +156,12 @@ export default class NetMgr {
         let _byte = new Laya.Byte(data);
         _byte.endian = Laya.Byte.BIG_ENDIAN;
         _byte.pos = 0;
+        //console.log('data.byteLength:', data.byteLength);
+        //console.log('_byte.length:', _byte.length);
         while (_byte.length > 2) {
             // 包体长度
             const bodyLen = _byte.getUint16();
+            //console.log('bodyLen:', bodyLen);
             if (_byte.length >= 2 + bodyLen) {
                 // 包体
                 const bodyBuffer = new Laya.Byte();
@@ -169,10 +172,13 @@ export default class NetMgr {
                 // 删除1个完整包
                 const _byteNew = new Laya.Byte();
                 _byteNew.endian = Laya.Byte.BIG_ENDIAN;
-                _byteNew.writeArrayBuffer(_byte.buffer, 2 + bodyLen, _byte.length);
+                //_byteNew.writeArrayBuffer(_byte.buffer, 2 + bodyLen, _byte.length - (2 + bodyLen));
+                _byteNew.writeArrayBuffer(_byte.buffer, 2 + bodyLen);
                 _byteNew.pos = 0;
 
                 _byte = _byteNew;
+                //console.log('_byteNew.length:', _byteNew.length);
+                //console.log('_byte.length:', _byte.length);
 
                 // 派发协议
                 this.dispatch(bodyBuffer);

@@ -460,7 +460,7 @@
                     bodyBuffer.pos = 0;
                     const _byteNew = new Laya.Byte();
                     _byteNew.endian = Laya.Byte.BIG_ENDIAN;
-                    _byteNew.writeArrayBuffer(_byte.buffer, 2 + bodyLen, _byte.length);
+                    _byteNew.writeArrayBuffer(_byte.buffer, 2 + bodyLen);
                     _byteNew.pos = 0;
                     _byte = _byteNew;
                     this.dispatch(bodyBuffer);

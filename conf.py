@@ -16,7 +16,7 @@ as_extra_packages   = 'laya.utils.Byte'  # 额外引入的包，多个包空格�
 ts_cc_extra_packages= 'import Packet from \'@mi/mod/Packet\''  # 额外引入的包，多个包空格分隔
 
 # typescript laya2 相关配置
-ts_laya2_extra_packages = 'import Packet from \'./Packet\''  # 额外引入的包
+ts_laya2_extra_packages = 'import Packet from \'../net/Packet\''  # 额外引入的包
 
 
 '''

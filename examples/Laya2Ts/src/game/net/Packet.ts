@@ -4,7 +4,7 @@ export default class Packet {
 	private _byte: Laya.Byte;
 
 
-	public Packet(buffer: ArrayBuffer = null): void {
+	constructor(buffer?: ArrayBuffer) {
 		this._byte = new Laya.Byte(buffer);
 		this._byte.pos = 0;
 		this._byte.endian = Laya.Byte.BIG_ENDIAN; //设置为大端；

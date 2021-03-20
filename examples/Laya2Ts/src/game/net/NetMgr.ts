@@ -135,34 +135,64 @@ export default class NetMgr {
 
     // websocket 是没有粘包的, 但业务包会压缩, 所以会粘在一起
     private processRecive(data: ArrayBuffer): void {
-        let bb = new ByteBuffer();
-        bb.append(data);
-        while (bb.buffer.byteLength > 2) {
+        // let bb = new ByteBuffer();
+        // bb.append(data);
+        // while (bb.buffer.byteLength > 2) {
+        //     // 包体长度
+        //     const bodyLen = bb.readUint16(0);
+        //     if (bb.buffer.byteLength >= 2 + bodyLen) {
+        //         // 包体
+        //         const bodyBuffer = bb.copy(2, 2 + bodyLen); // 2个参数都是 pos
+        //         // 删除1个完整包
+        //         bb = bb.copy(2 + bodyLen, bb.buffer.byteLength); // 2个参数都是 pos
+        //         // 派发协议
+        //         this.dispatch(bodyBuffer);
+        //     } else {
+        //         console.error("processRecive 错误 bb.buffer.byteLength：%d,bodyLen:%d", bb.buffer.byteLength, bodyLen);
+        //         break;
+        //     }
+        // }
+
+        let _byte = new Laya.Byte(data);
+        _byte.endian = Laya.Byte.BIG_ENDIAN;
+        _byte.pos = 0;
+        while (_byte.length > 2) {
             // 包体长度
-            const bodyLen = bb.readUint16(0);
-            if (bb.buffer.byteLength >= 2 + bodyLen) {
+            const bodyLen = _byte.getUint16();
+            if (_byte.length >= 2 + bodyLen) {
                 // 包体
-                const bodyBuffer = bb.copy(2, 2 + bodyLen); // 2个参数都是 pos
+                const bodyBuffer = new Laya.Byte();
+                bodyBuffer.endian = Laya.Byte.BIG_ENDIAN;
+                bodyBuffer.writeArrayBuffer(_byte.buffer, 2, 2 + bodyLen); // 2个参数都是 pos
+                bodyBuffer.pos = 0;
+
                 // 删除1个完整包
-                bb = bb.copy(2 + bodyLen, bb.buffer.byteLength); // 2个参数都是 pos
+                const _byteNew = new Laya.Byte();
+                _byteNew.endian = Laya.Byte.BIG_ENDIAN;
+                _byteNew.writeArrayBuffer(_byte.buffer, 2 + bodyLen, _byte.length);
+                _byteNew.pos = 0;
+
+                _byte = _byteNew;
+
                 // 派发协议
                 this.dispatch(bodyBuffer);
             } else {
-                console.error("processRecive 错误 bb.buffer.byteLength：%d,bodyLen:%d", bb.buffer.byteLength, bodyLen);
+                console.error("processRecive 错误 _byte.length：%d,bodyLen:%d", _byte.length, bodyLen);
                 break;
             }
         }
     }
 
-    private dispatch(bodyBuffer: ByteBuffer = null): void {
-        const packetId = bodyBuffer.readUint16(0);
+    private dispatch(_bodyByte: Laya.Byte = null): void {
+        const packetId = _bodyByte.getUint16();
         //console.log('packetId:', packetId);
+
         if (!this._handlers[packetId]) {
             console.error('dispatch packetId:' + packetId + ' 没有注册');
             return;
         }
-        
-        const packetBuffer = bodyBuffer.slice(2)
+
+        const packetBuffer = _bodyByte.buffer.slice(2);
         const handlers = this._handlers[packetId];
         for (let i = 0; i < handlers.length; i++) {
             const packet = new Packet(packetBuffer);

@@ -15,8 +15,8 @@ lan_types = {
     'i16':      ('short', 'number'),
     'u32':      ('uint', 'number'),
     'i32':      ('int', 'number'),
-    'u64':      ('ulong', 'Long'),
-    'i64':      ('long', 'Long'),
+    'u64':      ('ulong', 'number'),
+    'i64':      ('long', 'number'),
     'f32':      ('float', 'number'),
     'f64':      ('double', 'number'),
     'string':   ('string', 'string'),
@@ -229,7 +229,7 @@ class ProtoTypeScript(object):
                 self._str_set_get += '\tpublic set ' + field_name + '(value: ' + field_type + ')' + ' { ' + field_name_m + ' = value; }\n'
 
     def _set_get_buffer(self):
-        self._str_get_buffer = '\tpublic GetBuffer(): ByteBuffer\n\t{\n\t\treturn this.Encode().GetBuffer();\n\t}\n'
+        self._str_get_buffer = '\tpublic GetBuffer(): Laya.Byte\n\t{\n\t\treturn this.Encode().GetBuffer();\n\t}\n'
 
     def _do_msg(self):
         _tmp_conn = ''

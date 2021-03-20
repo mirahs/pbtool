@@ -305,7 +305,11 @@
             this.WriteUint(parseInt(str.substr(8, 8), 16));
         }
         WriteLong(v) {
-            this.WriteUlong(v);
+            const zeros = "00000000";
+            var str = v.toString(16);
+            str = zeros.substr(0, 16 - str.length) + str;
+            this.WriteInt(parseInt(str.substr(0, 8), 16));
+            this.WriteInt(parseInt(str.substr(8, 8), 16));
         }
         WriteFloat(v) {
             this._byte.writeFloat32(v);
@@ -343,7 +347,12 @@
             return Number(parseInt(str, 16).toString());
         }
         ReadLong() {
-            return this.ReadUlong();
+            const zeros = "00000000";
+            var s = this.ReadInt().toString(16);
+            var str = zeros.substr(0, 8 - s.length) + s;
+            s = this.ReadInt().toString(16);
+            str += zeros.substr(0, 8 - s.length) + s;
+            return Number(parseInt(str, 16).toString());
         }
         ReadFloat() {
             return this._byte.getFloat32();
@@ -456,7 +465,7 @@
                 if (_byte.length >= 2 + bodyLen) {
                     const bodyBuffer = new Laya.Byte();
                     bodyBuffer.endian = Laya.Byte.BIG_ENDIAN;
-                    bodyBuffer.writeArrayBuffer(_byte.buffer, 2, 2 + bodyLen);
+                    bodyBuffer.writeArrayBuffer(_byte.buffer, 2, bodyLen);
                     bodyBuffer.pos = 0;
                     const _byteNew = new Laya.Byte();
                     _byteNew.endian = Laya.Byte.BIG_ENDIAN;
@@ -686,7 +695,6 @@
 
     class Main {
         constructor() {
-            this._netMgr = null;
             if (window["Laya3D"])
                 Laya3D.init(GameConfig.width, GameConfig.height);
             else

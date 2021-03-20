@@ -2,7 +2,6 @@ import EventMgr from "../EventMgr";
 import Packet from "./Packet";
 
 
-
 // 协议回调
 interface Handler {
     method: Function;
@@ -135,39 +134,18 @@ export default class NetMgr {
 
     // websocket 是没有粘包的, 但业务包会压缩, 所以会粘在一起
     private processRecive(data: ArrayBuffer): void {
-        // let bb = new ByteBuffer();
-        // bb.append(data);
-        // while (bb.buffer.byteLength > 2) {
-        //     // 包体长度
-        //     const bodyLen = bb.readUint16(0);
-        //     if (bb.buffer.byteLength >= 2 + bodyLen) {
-        //         // 包体
-        //         const bodyBuffer = bb.copy(2, 2 + bodyLen); // 2个参数都是 pos
-        //         // 删除1个完整包
-        //         bb = bb.copy(2 + bodyLen, bb.buffer.byteLength); // 2个参数都是 pos
-        //         // 派发协议
-        //         this.dispatch(bodyBuffer);
-        //     } else {
-        //         console.error("processRecive 错误 bb.buffer.byteLength：%d,bodyLen:%d", bb.buffer.byteLength, bodyLen);
-        //         break;
-        //     }
-        // }
-
         let _byte = new Laya.Byte(data);
         _byte.endian = Laya.Byte.BIG_ENDIAN;
         _byte.pos = 0;
-        //console.log('data.byteLength:', data.byteLength);
-        //console.log('_byte.length:', _byte.length);
         while (_byte.length > 2) {
             // 包体长度
             const bodyLen = _byte.getUint16();
-            //console.log('bodyLen:', bodyLen);
             if (_byte.length >= 2 + bodyLen) {
                 // 包体
-                const bodyBuffer = new Laya.Byte();
-                bodyBuffer.endian = Laya.Byte.BIG_ENDIAN;
-                bodyBuffer.writeArrayBuffer(_byte.buffer, 2, 2 + bodyLen); // 2个参数都是 pos
-                bodyBuffer.pos = 0;
+                const _bodyByte = new Laya.Byte();
+                _bodyByte.endian = Laya.Byte.BIG_ENDIAN;
+                _bodyByte.writeArrayBuffer(_byte.buffer, 2, bodyLen);
+                _bodyByte.pos = 0;
 
                 // 删除1个完整包
                 const _byteNew = new Laya.Byte();
@@ -177,11 +155,9 @@ export default class NetMgr {
                 _byteNew.pos = 0;
 
                 _byte = _byteNew;
-                //console.log('_byteNew.length:', _byteNew.length);
-                //console.log('_byte.length:', _byte.length);
 
                 // 派发协议
-                this.dispatch(bodyBuffer);
+                this.dispatch(_bodyByte);
             } else {
                 console.error("processRecive 错误 _byte.length：%d,bodyLen:%d", _byte.length, bodyLen);
                 break;
@@ -189,7 +165,7 @@ export default class NetMgr {
         }
     }
 
-    private dispatch(_bodyByte: Laya.Byte = null): void {
+    private dispatch(_bodyByte: Laya.Byte): void {
         const packetId = _bodyByte.getUint16();
         //console.log('packetId:', packetId);
 

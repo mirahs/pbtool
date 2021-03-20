@@ -63,15 +63,19 @@ export default class Packet {
 	}
 
 	public WriteUlong(v: number): void {
-		const zeros: String = "00000000";
-		var str: String = v.toString(16);
+		const zeros: string = "00000000";
+		var str: string = v.toString(16);
 		str = zeros.substr(0, 16 - str.length) + str;
 		this.WriteUint(parseInt(str.substr(0, 8), 16));
 		this.WriteUint(parseInt(str.substr(8, 8), 16));
 	}
 
 	public WriteLong(v: number): void {
-		this.WriteUlong(v);
+		const zeros: string = "00000000";
+		var str: string = v.toString(16);
+		str = zeros.substr(0, 16 - str.length) + str;
+		this.WriteInt(parseInt(str.substr(0, 8), 16));
+		this.WriteInt(parseInt(str.substr(8, 8), 16));
 	}
 
 	public WriteFloat(v: number): void {
@@ -121,7 +125,12 @@ export default class Packet {
 	}
 
 	public ReadLong(): number {
-		return this.ReadUlong();
+		const zeros: string = "00000000";
+		var s: string = this.ReadInt().toString(16);
+		var str: string = zeros.substr(0, 8 - s.length) + s;
+		s = this.ReadInt().toString(16);
+		str += zeros.substr(0, 8 - s.length) + s;
+		return Number(parseInt(str, 16).toString());
 	}
 
 	public ReadFloat(): number {
@@ -133,31 +142,6 @@ export default class Packet {
 	}
 
 	public ReadString(): string {
-		// var len:int = this.ReadUshort();
-		// return this._byte.getUTFBytes(len);
 		return this._byte.getUTFString();
 	}
-
-	
-	// //Int64转换成ByteArray
-	// public writeInt64(bigInt: number): ArrayBuffer {
-	// 	const zeros: string = "00000000";
-	// 	var bytes: ArrayBuffer = new ArrayBuffer(0);
-	// 	var str: string = bigInt.toString(16);
-	// 	str = zeros.substr(0, 16 - str.length) + str;
-	// 	bytes.writeUnsignedInt(parseInt(str.substr(0, 8), 16));
-	// 	bytes.writeUnsignedInt(parseInt(str.substr(8, 8), 16));
-	// 	bytes.position = 0;
-	// 	return bytes;
-	// }
-
-	// //ByteArray转换成Int64
-	// public readInt64(bytes: ArrayBuffer): Number {
-	// 	const zeros: string = "00000000";
-	// 	var s: string = bytes.readUnsignedInt().toString(16);
-	// 	var str: string = zeros.substr(0, 8 - s.length) + s;
-	// 	s = bytes.readUnsignedInt().toString(16);
-	// 	str += zeros.substr(0, 8 - s.length) + s;
-	// 	return Number(parseInt(str, 16).toString());
-	// }
 }

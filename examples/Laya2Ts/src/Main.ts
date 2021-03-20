@@ -49,10 +49,6 @@ class Main {
 
 		this.test();
 	}
-
-
-
-	private _netMgr: NetMgr = null;
 	
 
 	private test(): void {

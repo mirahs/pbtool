@@ -1,13 +1,13 @@
 import EventMgr from "../EventMgr";
 import Packet from "./Packet";
 
-const ByteBuffer = require("bytebuffer");
+import ByteBuffer = require("bytebuffer");
 
 
 // 协议回调
 interface Handler {
-    method: Function;
     caller: any;
+    method: Function;
 }
 
 
@@ -32,30 +32,30 @@ export default class NetMgr {
 
 
     // 协议回调注册
-    public on(packetId: number, method: Function, caller?: any): void {
+    public on(packetId: number, caller: any, method: Function): void {
         if (this._handlers[packetId]) {
             const handlers = this._handlers[packetId];
-            const handler: Handler = { method: method, caller: caller };
+            const handler: Handler = { caller: caller, method: method };
             handlers.push(handler);
         } else {
             const handlers: Handler[] = [];
-            const handler: Handler = { method: method, caller: caller };
+            const handler: Handler = { caller: caller, method: method };
             handlers.push(handler);
             this._handlers[packetId] = handlers;
         }
     }
 
     // 协议回调删除
-    public off(packetId: number, method: Function, caller?: any): void {
+    public off(packetId: number, caller: any, method: Function): void {
         if (!this._handlers[packetId]) {
-            console.error('off packetId[' + packetId + ']没有注册');
+            console.error('packetId[' + packetId + ']没有注册');
             return;
         }
 
         const handlers: Handler[] = this._handlers[packetId];
         for (let i = handlers.length - 1; i >= 0; i--) {
-            let handler: Handler = handlers[i];
-            if (handler.method == method && handler.caller == caller) {
+            let handler = handlers[i];
+            if (handler.caller == caller && handler.method == method) {
                 handlers.splice(i, 1);
             }
         }
@@ -69,9 +69,9 @@ export default class NetMgr {
         }
 
         for (let packetId in this._handlers) {
-            const handlers: Handler[] = this._handlers[packetId];
+            const handlers = this._handlers[packetId];
             for (let i = handlers.length - 1; i >= 0; i--) {
-                let handler: Handler = handlers[i];
+                let handler = handlers[i];
                 if (handler.caller == caller) {
                     handlers.splice(i, 1);
                     break;
@@ -81,6 +81,7 @@ export default class NetMgr {
     }
 
 
+    // 链接 websocket 服务器
     public connect(host: string, port: number): void {
         this._host = host;
         this._port = port;
@@ -137,19 +138,22 @@ export default class NetMgr {
     // websocket 是没有粘包的, 但业务包会压缩, 所以会粘在一起
     private processRecive(data: ArrayBuffer): void {
         let bb = new ByteBuffer();
+        let bbLen = data.byteLength;
         bb.append(data);
-        while (bb.buffer.byteLength > 2) {
+
+        while (bbLen > 2) {
             // 包体长度
             const bodyLen = bb.readUint16(0);
-            if (bb.buffer.byteLength >= 2 + bodyLen) {
+            if (bbLen >= 2 + bodyLen) {
                 // 包体
                 const bodyBuffer = bb.copy(2, 2 + bodyLen); // 2个参数都是 pos
                 // 删除1个完整包
-                bb = bb.copy(2 + bodyLen, bb.buffer.byteLength); // 2个参数都是 pos
+                bb = bb.copy(2 + bodyLen, bbLen); // 2个参数都是 pos
+                bbLen -= 2 + bodyLen;
                 // 派发协议
                 this.dispatch(bodyBuffer);
             } else {
-                console.error("processRecive 错误 bb.buffer.byteLength：%d,bodyLen:%d", bb.buffer.byteLength, bodyLen);
+                console.error("processRecive 错误 bbLen：%d,bodyLen:%d", bbLen, bodyLen);
                 break;
             }
         }
@@ -167,7 +171,7 @@ export default class NetMgr {
         const handlers = this._handlers[packetId];
         for (let i = 0; i < handlers.length; i++) {
             const packet = new Packet(packetBuffer);
-            const handler: Handler = handlers[i];
+            const handler = handlers[i];
             handler.method.apply(handler.caller, [packetId, packet]);
         }
     }

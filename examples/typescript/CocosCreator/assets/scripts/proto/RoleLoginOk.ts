@@ -3,8 +3,8 @@ import GoodsItem from './GoodsItem';
 
 
 export default class RoleLoginOk {
-	private _uid: number;
-	private _uname: string;
+	private _uid: number = 0;
+	private _uname: string = "";
 	private _goods_item: GoodsItem[] = [];
 
 	constructor(packet?: Packet) {

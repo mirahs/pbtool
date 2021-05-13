@@ -1,4 +1,4 @@
-const ByteBuffer = require("bytebuffer")
+import ByteBuffer = require("bytebuffer");
 
 
 export default class Packet {

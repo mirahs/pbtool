@@ -2,8 +2,9 @@ import Packet from '../net/Packet';
 import GoodsItem from './GoodsItem';
 
 
+// 物品数据
 export default class GoodsList {
-	private _goods: GoodsItem[] = [];
+	private _goods: GoodsItem[] = []; //物品列表
 
 	constructor(packet?: Packet) {
 		if (packet) {

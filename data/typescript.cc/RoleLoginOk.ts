@@ -2,10 +2,11 @@ import Packet from '../net/Packet';
 import GoodsItem from './GoodsItem';
 
 
+// 物品数据
 export default class RoleLoginOk {
-	private _uid: number = 0;
-	private _uname: string = "";
-	private _goods_item: GoodsItem[] = [];
+	private _uid: number = 0; //玩家ID
+	private _uname: string = ""; //玩家名字
+	private _goods_item: GoodsItem[] = []; //物品列表
 
 	constructor(packet?: Packet) {
 		if (packet) {

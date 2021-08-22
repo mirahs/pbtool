@@ -1,9 +1,10 @@
 import Packet from '../net/Packet';
 
 
+// 物品数据
 export default class RoleLogin {
-	private _account: string = "";
-	private _password: string = "";
+	private _account: string = ""; //账号
+	private _password: string = ""; //密码
 
 	constructor(packet?: Packet) {
 		if (packet) {

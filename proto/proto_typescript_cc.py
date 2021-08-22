@@ -125,7 +125,8 @@ class ProtoTypeScript(object):
         self._str_end = '\n}\n'
 
     def _set_priv_var(self):
-        self._str_priv_var = 'export default class ' + self._str_class_name + ' {\n'
+        self._str_priv_var = '// 物品数据\n'
+        self._str_priv_var += 'export default class ' + self._str_class_name + ' {\n'
         for mess_field in self._proto['mess_fields']:
             field_op = mess_field['field_op']
             field_type = mess_field['field_type']
@@ -135,15 +136,18 @@ class ProtoTypeScript(object):
             field_name = mess_field['field_name']
             field_name_flag = field_name + '_flag'
             field_name_m = '_' + field_name
+            field_note = mess_field['field_note']
 
             default_val = field_default_value(field_type, field_type_ori)
             if field_op == 'optional':
-                self._str_priv_var += '\tprivate ' + field_name_flag + ': number = 0;\n'
+                self._str_priv_var += '\tprivate ' + field_name_flag + ': number = 0;'
 
             if field_op == 'repeated':
-                self._str_priv_var += '\tprivate ' + field_name_m + ': ' + field_type + '[] = [];\n'
+                self._str_priv_var += '\tprivate ' + field_name_m + ': ' + field_type + '[] = [];'
             else:
-                self._str_priv_var += '\tprivate ' + field_name_m + ': ' + field_type + ' = ' + default_val + ';\n'
+                self._str_priv_var += '\tprivate ' + field_name_m + ': ' + field_type + ' = ' + default_val + ';'
+
+            self._str_priv_var += ' //' + field_note + '\n'
 
     def _set_encode(self):
         self._get_proto_encode_common()

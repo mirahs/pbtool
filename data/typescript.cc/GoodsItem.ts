@@ -1,9 +1,10 @@
 import Packet from '../net/Packet';
 
 
+// 物品数据
 export default class GoodsItem {
-	private _id: number = 0;
-	private _num: number = 0;
+	private _id: number = 0; //物品ID
+	private _num: number = 0; //物品数量
 
 	constructor(packet?: Packet) {
 		if (packet) {

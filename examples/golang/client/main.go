@@ -1,89 +1,70 @@
 package main
 
 import (
-	"client/proto"
+	"client/pb"
+	"encoding/binary"
 	"fmt"
 	"io"
 	"net"
 	"os"
 	"packet"
-	packetutil "packet/util"
 )
 
 
 func main() {
 	println("client connect server begin")
+
 	conn, err := net.Dial("tcp", "127.0.0.1:8888")
 	checkError(err)
-	println("client connect server success")
 	defer conn.Close()
+	println("client connect server success")
 
-	roleLogin := proto.RoleLogin{Account: "admin", Password: "admin"}
-	conn.Write(roleLogin.Encode())
-
-
-	headLen := 2
-	buffers := make([]byte, 51200)
-	buffersLen := 0
-	buffersTmp := make([]byte, 512)
+	roleLogin := pb.RoleLogin{Account: "admin", Password: "admin"}
+	_, err = conn.Write(roleLogin.Encode())
+	checkError(err)
 
 	for {
-		readLen, err := conn.Read(buffersTmp)
-		if err != nil {
-			if err == io.EOF {
-				fmt.Fprintf(os.Stderr, "Server exit: %s\n", conn.RemoteAddr())
-			} else {
-				fmt.Fprintf(os.Stderr, "Read error: %s\n", err)
-			}
-			return
-		}
+		headData := make([]byte, 2)
+		_, err := io.ReadFull(conn, headData)
+		checkError(err)
 
-		copy(buffers[buffersLen:], buffersTmp[:readLen])
-		buffersLen += readLen
+		bodyLen := binary.BigEndian.Uint16(headData)
+		bodyData := make([]byte, bodyLen)
+		_, err = io.ReadFull(conn, bodyData)
+		checkError(err)
 
-		for {
-			if buffersLen > headLen {
-				bodyLen := int(packetutil.ReadU16(buffers))
-				if buffersLen >= headLen + bodyLen {
-					bodyBuff := buffers[headLen:bodyLen+headLen]
-					buffers = buffers[headLen+bodyLen:]
-					buffersLen -= int(bodyLen) + headLen
-
-					dispatch(bodyBuff)
-				} else {
-					break
-				}
-			} else {
-				break
-			}
-		}
+		dispatch(bodyData)
 	}
 }
 
 
-func dispatch(bodyBuff []byte) {
-	packetIdBuff := bodyBuff[:2]
-	packetId := packetutil.ReadU16(packetIdBuff)
-	buf := bodyBuff[2:]
-
+func dispatch(bodyData []byte) {
+	packetIdData := bodyData[:2]
+	packetId := binary.BigEndian.Uint16(packetIdData)
 	println("packetId:", packetId)
-	packetN := packet.NewReadBuff(buf)
+
+	packetData := bodyData[2:]
+	packetInst := packet.NewReadBuff(packetData)
+
 	switch packetId {
-	case proto.P_ROLE_LOGIN_OK:
-		roleLoginOk := proto.RoleLoginOkDecode(packetN)
+	case pb.P_ROLE_LOGIN_OK:
+		roleLoginOk := pb.RoleLoginOkDecode(packetInst)
 		fmt.Println("roleLoginOk:", roleLoginOk)
-	case proto.P_GOODS_ITEM:
-		goodsItem := proto.GoodsItemDecode(packetN)
+	case pb.P_GOODS_ITEM:
+		goodsItem := pb.GoodsItemDecode(packetInst)
 		fmt.Println("goodsItem:", goodsItem)
 	default:
 		fmt.Println("unknown packetId:", packetId)
 	}
 }
 
-
 func checkError(err error) {
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Fatal error:%s", err)
-		os.Exit(1)
+		if err == io.EOF {
+			fmt.Println("server exited")
+			os.Exit(1)
+		} else {
+			panic(err)
+		}
 	}
 }

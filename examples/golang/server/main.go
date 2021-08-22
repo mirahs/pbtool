@@ -1,30 +1,31 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
 	"io"
 	"net"
-	"os"
 	"packet"
-	packetutil "packet/util"
-	"server/proto"
+	"server/pb"
 )
 
 
 func main() {
 	println("server start begin")
+
 	listener, err := net.Listen("tcp", ":8888")
 	checkError(err)
-	println("server start success")
 	defer listener.Close()
+	println("server start success")
 
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "listener.Accept() error: %s", err)
+			fmt.Printf("listener.Accept() error: %s\n", err)
 			continue
 		}
 		println("client connection")
+
 		go handleClient(conn)
 	}
 }
@@ -33,59 +34,37 @@ func main() {
 func handleClient(conn net.Conn) {
 	defer conn.Close()
 
-	headLen := 2
-	buffers := make([]byte, 51200)
-	buffersLen := 0
-	buffersTmp := make([]byte, 512)
-
 	for {
-		readLen, err := conn.Read(buffersTmp)
-		if err != nil {
-			if err == io.EOF {
-				fmt.Fprintf(os.Stderr, "Client exit: %s\n", conn.RemoteAddr())
-			} else {
-				fmt.Fprintf(os.Stderr, "Read error: %s\n", err)
-			}
-			return
-		}
+		headData := make([]byte, 2)
+		_, err := io.ReadFull(conn, headData)
+		checkError(err)
 
-		copy(buffers[buffersLen:], buffersTmp[:readLen])
-		buffersLen += readLen
+		bodyLen := binary.BigEndian.Uint16(headData)
+		bodyData := make([]byte, bodyLen)
+		_, err = io.ReadFull(conn, bodyData)
+		checkError(err)
 
-		for {
-			if buffersLen > headLen {
-				bodyLen := int(packetutil.ReadU16(buffers))
-				if buffersLen >= headLen + bodyLen {
-					bodyBuff := buffers[headLen:bodyLen+headLen]
-					buffers = buffers[headLen+bodyLen:]
-					buffersLen -= int(bodyLen) + headLen
-
-					dispatch(conn, bodyBuff)
-				} else {
-					break
-				}
-			} else {
-				break
-			}
-		}
+		dispatch(conn, bodyData)
 	}
 }
 
-func dispatch(conn net.Conn, bodyBuff []byte) {
-	packetIdBuff := bodyBuff[:2]
-	packetId := packetutil.ReadU16(packetIdBuff)
-	println("packetId: ", packetId)
-	buf := bodyBuff[2:]
-	packetN := packet.NewReadBuff(buf)
+func dispatch(conn net.Conn, bodyData []byte) {
+	packetIdData := bodyData[:2]
+	packetId := binary.BigEndian.Uint16(packetIdData)
+	println("packetId:", packetId)
+
+	packetData := bodyData[2:]
+	packetInst := packet.NewReadBuff(packetData)
+
 	switch packetId {
-	case proto.P_ROLE_LOGIN:
-		roleLogin := proto.RoleLoginDecode(packetN)
+	case pb.P_ROLE_LOGIN:
+		roleLogin := pb.RoleLoginDecode(packetInst)
 		fmt.Println("roleLogin:", roleLogin)
 
-		goodsItems := []*proto.GoodsItem{{Id: 100, Num: 11}, {Id: 200, Num: 22}}
-		roleLoginOk := proto.RoleLoginOk{Uid: 10086, Uname: "erlang", GoodsItem: goodsItems}
+		goodsItems := []*pb.GoodsItem{{Id: 100, Num: 11}, {Id: 200, Num: 22}}
+		roleLoginOk := pb.RoleLoginOk{Uid: 10086, Uname: "erlang", GoodsItem: goodsItems}
 
-		goodsItem := proto.GoodsItem{Id: 300, Num: 33}
+		goodsItem := pb.GoodsItem{Id: 300, Num: 33}
 
 		conn.Write(append(roleLoginOk.Encode(), goodsItem.Encode()...))
 	default:
@@ -96,7 +75,6 @@ func dispatch(conn net.Conn, bodyBuff []byte) {
 
 func checkError(err error) {
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Fatal error:%s", err)
-		os.Exit(1)
+		panic(err)
 	}
 }

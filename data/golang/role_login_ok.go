@@ -4,10 +4,11 @@ import (
 	"packet"
 )
 
+// 登录成功
 type RoleLoginOk struct {
-	Uid                      uint32
-	Uname                    string
-	GoodsItem                []*GoodsItem
+	Uid                      uint32 //玩家ID
+	Uname                    string //玩家名字
+	GoodsItem                []*GoodsItem //物品列表
 }
 
 func (this *RoleLoginOk) Encode() []byte {

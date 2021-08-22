@@ -107,25 +107,29 @@ class ProtoGolang(object):
         self._str_head += ')\n'
 
     def _set_type_struct(self):
-        self._str_type_struct = 'type ' + self._class_name + ' struct {\n'
+        self._str_type_struct = '// ' + self._proto['mess_note'] + '\n'
+        self._str_type_struct += 'type ' + self._class_name + ' struct {\n'
         for mess_field in self._proto['mess_fields']:
             field_op = mess_field['field_op']
             field_type = mess_field['field_type']
             field_name = mess_field['field_name']
+            field_note = mess_field['field_note']
 
             field_name_var = util.underline_to_camel(field_name)
             field_name_var_ljust = field_name_var.ljust(25, chr(32))
 
             if 'repeated' == field_op:
                 if self._is_custom_type(field_type):
-                    self._str_type_struct += '\t' + field_name_var_ljust + '[]*' + field_type + '\n'
+                    self._str_type_struct += '\t' + field_name_var_ljust + '[]*' + field_type
                 else:
-                    self._str_type_struct += '\t' + field_name_var_ljust + '[]' + field_type + '\n'
+                    self._str_type_struct += '\t' + field_name_var_ljust + '[]' + field_type
             else:
                 if self._is_custom_type(field_type):
-                    self._str_type_struct += '\t' + field_name_var_ljust + '*' + field_type + '\n'
+                    self._str_type_struct += '\t' + field_name_var_ljust + '*' + field_type
                 else:
-                    self._str_type_struct += '\t' + field_name_var_ljust + field_type + '\n'
+                    self._str_type_struct += '\t' + field_name_var_ljust + field_type
+
+            self._str_type_struct += ' //' + field_note + '\n'
         self._str_type_struct += '}\n'
 
     def _set_proto_encode(self):

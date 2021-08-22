@@ -4,9 +4,10 @@ import (
 	"packet"
 )
 
+// 请求登录
 type RoleLogin struct {
-	Account                  string
-	Password                 string
+	Account                  string //账号
+	Password                 string //密码
 }
 
 func (this *RoleLogin) Encode() []byte {

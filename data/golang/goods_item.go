@@ -4,9 +4,10 @@ import (
 	"packet"
 )
 
+// 物品数据
 type GoodsItem struct {
-	Id                       uint32
-	Num                      uint16
+	Id                       uint32 //物品ID
+	Num                      uint16 //物品数量
 }
 
 func (this *GoodsItem) Encode() []byte {

@@ -4,8 +4,9 @@ import (
 	"packet"
 )
 
+// 物品列表
 type GoodsList struct {
-	Goods                    []*GoodsItem
+	Goods                    []*GoodsItem //物品列表
 }
 
 func (this *GoodsList) Encode() []byte {

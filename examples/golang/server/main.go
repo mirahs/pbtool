@@ -14,7 +14,9 @@ func main() {
 	println("server start begin")
 
 	listener, err := net.Listen("tcp", ":8888")
-	checkError(err)
+	if err != nil {
+		panic(err)
+	}
 	defer listener.Close()
 	println("server start success")
 
@@ -37,12 +39,18 @@ func handleClient(conn net.Conn) {
 	for {
 		headData := make([]byte, 2)
 		_, err := io.ReadFull(conn, headData)
-		checkError(err)
+		if err != nil {
+			fmt.Println("client error:", err)
+			return
+		}
 
 		bodyLen := binary.BigEndian.Uint16(headData)
 		bodyData := make([]byte, bodyLen)
 		_, err = io.ReadFull(conn, bodyData)
-		checkError(err)
+		if err != nil {
+			fmt.Println("client error:", err)
+			return
+		}
 
 		dispatch(conn, bodyData)
 	}
@@ -57,7 +65,7 @@ func dispatch(conn net.Conn, bodyData []byte) {
 	packetInst := packet.NewReadBuff(packetData)
 
 	switch packetId {
-	case pb.P_ROLE_LOGIN:
+	case pb.PRoleLogin:
 		roleLogin := pb.RoleLoginDecode(packetInst)
 		fmt.Println("roleLogin:", roleLogin)
 
@@ -69,12 +77,5 @@ func dispatch(conn net.Conn, bodyData []byte) {
 		conn.Write(append(roleLoginOk.Encode(), goodsItem.Encode()...))
 	default:
 		fmt.Println("unknown packetId:", packetId)
-	}
-}
-
-
-func checkError(err error) {
-	if err != nil {
-		panic(err)
 	}
 }

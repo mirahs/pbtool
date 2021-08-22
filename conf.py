@@ -13,7 +13,7 @@ data_proto  = data_dir + 'proto/'
 erlang_packet_mod = 'pb'    # 编码解码模块
 
 # golang
-golang_package_name = 'proto'           # 协议文件包名
+golang_package_name = 'pb'              # 协议文件包名
 golang_import_packages = ['packet']     # 导入包
 
 # typescript cocos creator

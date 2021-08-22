@@ -39,7 +39,7 @@ def parse(code_path, common_path, protos, file_protos):
 def protocol_const(code_path, mess_name_ids):
     file_name = code_path + 'msg.go'
 
-    _str_msg_head = 'package proto\n\nconst (\n'
+    _str_msg_head = 'package ' + conf.golang_package_name + '\n\nconst (\n'
     _str_msg_end = ')\n'
     _str_msg = ''
 

@@ -47,10 +47,10 @@ func dispatch(bodyData []byte) {
 	packetInst := packet.NewReadBuff(packetData)
 
 	switch packetId {
-	case pb.P_ROLE_LOGIN_OK:
+	case pb.PRoleLoginOk:
 		roleLoginOk := pb.RoleLoginOkDecode(packetInst)
 		fmt.Println("roleLoginOk:", roleLoginOk)
-	case pb.P_GOODS_ITEM:
+	case pb.PGoodsItem:
 		goodsItem := pb.GoodsItemDecode(packetInst)
 		fmt.Println("goodsItem:", goodsItem)
 	default:

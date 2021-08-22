@@ -7,7 +7,7 @@ import (
 	"io"
 	"net/http"
 	"packet"
-	"server/proto"
+	"server/pb"
 )
 
 
@@ -70,14 +70,14 @@ func dispatch(conn *websocket.Conn, bodyData []byte) {
 	packetInst := packet.NewReadBuff(packetData)
 
 	switch packetId {
-	case proto.P_ROLE_LOGIN:
-		roleLogin := proto.RoleLoginDecode(packetInst)
+	case pb.PRoleLogin:
+		roleLogin := pb.RoleLoginDecode(packetInst)
 		fmt.Println("roleLogin:", roleLogin)
 
-		goodsItems := []*proto.GoodsItem{{Id: 100, Num: 11}, {Id: 200, Num: 22}}
-		roleLoginOk := proto.RoleLoginOk{Uid: 10086, Uname: "erlang", GoodsItem: goodsItems}
+		goodsItems := []*pb.GoodsItem{{Id: 100, Num: 11}, {Id: 200, Num: 22}}
+		roleLoginOk := pb.RoleLoginOk{Uid: 10086, Uname: "erlang", GoodsItem: goodsItems}
 
-		goodsItem := proto.GoodsItem{Id: 300, Num: 33}
+		goodsItem := pb.GoodsItem{Id: 300, Num: 33}
 
 		websocket.Message.Send(conn, append(roleLoginOk.Encode(), goodsItem.Encode()...))
 	default:

@@ -7,9 +7,9 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
-# 协议名常量 AccountLogin -> P_ACCOUNT_LOGIN
+# 协议名常量 AccountLogin -> PAccountLogin
 def proto_name_msg(mess_name):
-    return 'P_' + util.camel_to_underline(mess_name).upper()
+    return 'P' + mess_name
 
 
 # 协议名常量 AccountLogin -> ACCOUNT_LOGIN
